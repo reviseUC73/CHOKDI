@@ -60,3 +60,11 @@ This project is licensed under the MIT License.
 This project was inspired by the need to efficiently manage car insurance customer data.
 We appreciate the open-source community and the contributors of various libraries used in this project.
 
+
+
+---
+Happy coding!
+
+For questions or support, please contact [setthanan50@gmail.com](mailto:setthanan50@gmail.com).
+
+This version of the README provides instructions for running your application using Docker Compose, as per the GitHub repository you provided. Ensure that you customize any environment variables and other settings as per your actual project configuration.
