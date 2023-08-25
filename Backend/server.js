@@ -32,7 +32,7 @@ db.connect((err) => {
 // Create Routes
 app.post("/create", async (req, res) => {
   const {
-    CustomerID,
+    
     CustomerName,
     CustomerAddress,
     Brand,
@@ -52,12 +52,13 @@ app.post("/create", async (req, res) => {
 
     PolicyValue,
     Remark,
+    Mail,
   } = req.body;
   try {
     db.query(
-      "INSERT INTO CustomerInsurance ( CustomerID ,CustomerName ,CustomerAddress , Brand , Model, EngineCapacity ,VehicleNumber ,VehicleManufactureYear ,VehicleBody,VehicleType ,VehicleCode ,InsuranceCompany ,CoverageType ,CoverageStartDate ,CoverageEndDate ,PolicyValue,Remark ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )",
+      "INSERT INTO CustomerInsurance ( CustomerName ,CustomerAddress , Brand , Model, EngineCapacity ,VehicleNumber ,VehicleManufactureYear ,VehicleBody,VehicleType ,VehicleCode ,InsuranceCompany ,CoverageType ,CoverageStartDate ,CoverageEndDate ,PolicyValue,Remark,Mail ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )",
       [
-        CustomerID,
+        
         CustomerName,
         CustomerAddress,
         Brand,
@@ -77,6 +78,7 @@ app.post("/create", async (req, res) => {
 
         PolicyValue,
         Remark,
+        Mail,
       ],
       (err, result, fields) => {
         if (err) {
@@ -121,8 +123,8 @@ app.get("/read", (req, res) => {
 });
 
 // Update data in the database
-app.post("/edit/:CustomerID", async (req, res) => {
-  const CustomerInsurance = req.params.CustomerID;
+app.post("/edit/:VehicleNumber", async (req, res) => {
+  const CustomerInsurance = req.params.VehicleNumber;
   const {
     CustomerName,
     CustomerAddress,
@@ -130,7 +132,7 @@ app.post("/edit/:CustomerID", async (req, res) => {
     Model,
     EngineCapacity,
 
-    VehicleNumber,
+    
     VehicleManufactureYear,
     VehicleBody,
     VehicleType,
@@ -143,11 +145,12 @@ app.post("/edit/:CustomerID", async (req, res) => {
 
     PolicyValue,
     Remark,
+    Mail,
   } = req.body;
 
   try {
     db.query(
-      "UPDATE CustomerInsurance SET  CustomerName = ?, CustomerAddress = ?, Brand = ?, Model = ?, EngineCapacity = ?, VehicleNumber = ? ,VehicleManufactureYear = ?,VehicleBody = ?,VehicleType = ? ,VehicleCode = ?  ,InsuranceCompany = ?  ,CoverageType = ? ,CoverageStartDate  = ? ,CoverageEndDate = ?  ,PolicyValue = ? ,Remark = ? WHERE CustomerID = ?",
+      "UPDATE CustomerInsurance SET  CustomerName = ?, CustomerAddress = ?, Brand = ?, Model = ?, EngineCapacity = ? ,VehicleManufactureYear = ?,VehicleBody = ?,VehicleType = ? ,VehicleCode = ?  ,InsuranceCompany = ?  ,CoverageType = ? ,CoverageStartDate  = ? ,CoverageEndDate = ?  ,PolicyValue = ? ,Remark = ? , Mail = ? WHERE VehicleNumber = ?",
       [
         CustomerName,
         CustomerAddress,
@@ -155,7 +158,7 @@ app.post("/edit/:CustomerID", async (req, res) => {
         Model,
         EngineCapacity,
 
-        VehicleNumber,
+        
         VehicleManufactureYear,
         VehicleBody,
         VehicleType,
@@ -168,6 +171,7 @@ app.post("/edit/:CustomerID", async (req, res) => {
 
         PolicyValue,
         Remark,
+        Mail,
         CustomerInsurance,
       ],
       (err, result) => {
@@ -188,13 +192,13 @@ app.post("/edit/:CustomerID", async (req, res) => {
 });
 
 // Delete data
-app.delete("/delete/:CustomerID", (req, res) => {
-  const CustomerID = req.params.CustomerID;
+app.delete("/delete/:VehicleNumber", (req, res) => {
+  const VehicleNumber = req.params.VehicleNumber;
 
   try {
     db.query(
-      "DELETE FROM CustomerInsurance WHERE CustomerID = ?",
-      [CustomerID],
+      "DELETE FROM CustomerInsurance WHERE VehicleNumber = ?",
+      [VehicleNumber],
       (err, result) => {
         if (err) {
           console.log("Error deleting from database", err);
