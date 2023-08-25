@@ -40,9 +40,9 @@ function TableData({ result }) {
   //   "&:last-child": { backgroundColor: "red" },
   // };
   const [expandedRow, setExpandedRow] = useState(null);
-  const handleExpandRow = (CustomerID) => {
+  const handleExpandRow = (VehicleNumber) => {
     // console.log(AccountID);
-    setExpandedRow(expandedRow === CustomerID ? null : CustomerID);
+    setExpandedRow(expandedRow === VehicleNumber ? null : VehicleNumber);
   };
 
   const tableCellStyle = {
@@ -83,13 +83,18 @@ function TableData({ result }) {
                 // onClick={() => handleSort("AccountID")}
                 style={tableCellStyleHead}
               ></TableCell>
-              <TableCell
+              {/* <TableCell
                 id="col_main"
-                // onClick={() => handleSort("AccountID")}
                 style={tableCellStyleHead}
               >
-                {/* CustomerID */}
                 CUSTOMERID
+              </TableCell> */}
+              <TableCell
+                id="col_main"
+                // onClick={() => handleSort("CompanyName")}
+                style={tableCellStyleHead}
+              >
+                VehicleNumber
               </TableCell>
               <TableCell
                 id="col_main"
@@ -97,13 +102,6 @@ function TableData({ result }) {
                 style={tableCellStyleHead}
               >
                 CustomerName
-              </TableCell>
-              <TableCell
-                id="col_main"
-                // onClick={() => handleSort("CompanyName")}
-                style={tableCellStyleHead}
-              >
-                VehicleNumber
               </TableCell>
               <TableCell
                 id="col_main"
@@ -132,7 +130,6 @@ function TableData({ result }) {
                 style={tableCellStyleHead}
               >
                 CoverageEndDate
-      
               </TableCell>
               {/* <TableCell
                 id="col_main"
@@ -145,7 +142,7 @@ function TableData({ result }) {
 
           <TableBody>
             {result.map((row, index) => (
-              <React.Fragment key={row.CustomerID}>
+              <React.Fragment key={row.VehicleNumber}>
                 <TableRow
                   style={{
                     backgroundColor: index % 2 === 0 ? "#F7FAFF" : "white",
@@ -155,22 +152,23 @@ function TableData({ result }) {
                     <IconButton
                       aria-label="expand row"
                       size="small"
-                      onClick={() => handleExpandRow(row.CustomerID)}
+                      onClick={() => handleExpandRow(row.VehicleNumber)}
                     >
-                      {expandedRow === row.CustomerID ? (
+                      {expandedRow === row.VehicleNumber ? (
                         <KeyboardArrowUpIcon />
                       ) : (
                         <KeyboardArrowDownIcon />
                       )}
                     </IconButton>
                   </TableCell>
-                  <TableCell style={tableCellStyle}>{row.CustomerID}</TableCell>
-                  <TableCell style={tableCellStyle}>
-                    {row.CustomerName}
-                  </TableCell>
+                  {/* <TableCell style={tableCellStyle}>{row.CustomerID}</TableCell> */}
                   <TableCell style={tableCellStyle}>
                     {row.VehicleNumber}
                   </TableCell>
+                  <TableCell style={tableCellStyle}>
+                    {row.CustomerName}
+                  </TableCell>
+
                   <TableCell style={tableCellStyle}>
                     {row.InsuranceCompany}
                   </TableCell>
@@ -193,16 +191,16 @@ function TableData({ result }) {
 
                 <TableRow>
                   <TableCell
-                    style={{ paddingBottom: 0, paddingTop: 0 ,padding : "0rem"}}
-                    colSpan={10}
+                    style={{ paddingBottom: 0, paddingTop: 0, padding: "0rem" }}
+                    colSpan={11}
                   >
                     <Collapse
                       style={{
                         backgroundColor: index % 2 === 0 ? "#F7FAFF" : "white",
-                        margin : "0rem",
-                        padding : "0rem"
+                        margin: "0rem",
+                        padding: "0rem",
                       }}
-                      in={expandedRow === row.CustomerID}
+                      in={expandedRow === row.VehicleNumber}
                       timeout="auto"
                       unmountOnExit
                     >
@@ -253,10 +251,10 @@ function TableData({ result }) {
 
                               <TableRow>
                                 <TableCell style={tableCellStyle}>
-                                  EngineCapacity
+                                  EngineCapacity (CC.)
                                 </TableCell>
                                 <TableCell style={tableCellStyle}>
-                                  {row.EngineCapacity}
+                                  {row.EngineCapacity} CC.
                                 </TableCell>
                               </TableRow>
 
@@ -311,6 +309,14 @@ function TableData({ result }) {
                                 </TableCell>
                                 <TableCell style={tableCellStyle}>
                                   {row.Remark}
+                                </TableCell>
+                              </TableRow>
+                              <TableRow>
+                                <TableCell style={tableCellStyle}>
+                                  Mail
+                                </TableCell>
+                                <TableCell style={tableCellStyle}>
+                                  {row.Mail}
                                 </TableCell>
                               </TableRow>
                             </TableBody>
