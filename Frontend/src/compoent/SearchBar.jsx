@@ -25,7 +25,7 @@ function SearchBar({ setResult }) {
     const filteredData = data.filter(
       (val_item) =>
         val_item.VehicleNumber.toLowerCase().includes(keySearch) ||
-        // val_item.CustomerID.toLowerCase().includes(keySearch) ||
+
         val_item.InsuranceCompany.toLowerCase().includes(keySearch) ||
         val_item.CustomerName.toLowerCase().includes(keySearch)
 

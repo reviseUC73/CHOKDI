@@ -8,6 +8,7 @@ import Select from "@mui/material/Select";
 
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import moment from "moment";
 
 import "./Table.css";
 
@@ -71,6 +72,13 @@ function TableData({ result }) {
     textOverflow: "ellipsis",
     borderStyle: "border-box",
   };
+  function calculateDaysRemaining(targetDateString) {
+    const currentDate = moment();
+    const targetDate = moment(targetDateString);
+
+    const daysRemaining = targetDate.diff(currentDate, "days");
+    return daysRemaining;
+  }
   return (
     <div id="overflowX">
       <TableContainer component={Paper}>
@@ -179,10 +187,16 @@ function TableData({ result }) {
 
                   <TableCell style={tableCellStyle}>
                     {/* <Status_icon account_status={Boolean(row.Remark)} /> */}
-                    {row.CoverageStartDate}
+                    {/* {moment.utc('2019-11-03T05:00:00.000Z').format('LL')} */}
+                    {moment(row.CoverageStartDate).utc().format("ll")}
+                    {/* {moment().format()} */}
+
+                    {/* {row.CoverageStartDate} */}
                   </TableCell>
                   <TableCell style={tableCellStyle}>
-                    {row.CoverageEndDate}
+                    {moment(row.CoverageEndDate).utc().format("ll")}
+                    {/* () */}
+                    {/* {calculateDaysRemaining('2024-08-30') } days remaining */}
                   </TableCell>
                   {/* <TableCell style={tableCellStyle}>
                     {row.Remark}
@@ -317,6 +331,16 @@ function TableData({ result }) {
                                 </TableCell>
                                 <TableCell style={tableCellStyle}>
                                   {row.Mail}
+                                </TableCell>
+                              </TableRow>
+
+                              <TableRow>
+                                <TableCell style={tableCellStyle}>
+                                DayRemaining
+                                </TableCell>
+                                <TableCell style={tableCellStyle}>
+                                {calculateDaysRemaining(row.CoverageEndDate) } days 
+                                  
                                 </TableCell>
                               </TableRow>
                             </TableBody>
