@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  mysql-chokdi:
+    image: mysql
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - /Users/reviseuc73/Desktop/Project/Chokdi/CustomerInsurance.sql:/docker-entrypoint-initdb.d/CustomerInsurance.sql
+      
+    ports:
+      - "3406:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-p1234"
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    restart: always
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin-container-compose-chokdi
+    depends_on:
+      - mysql-chokdi
+    links:
+      - mysql-chokdi:db
+    ports:
+      - "8082:80"
+    restart: always
+
+volumes:
+  mysql_data:

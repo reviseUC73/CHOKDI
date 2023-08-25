@@ -1,0 +1,15 @@
+#root {
+  margin: 0;
+}
+
+.content {
+  position: absolute;
+  left: 10%;
+  right: 0.3rem;
+  padding: 15px;
+  z-index: -1;
+  height: 100%;
+  
+  overflow-x: hidden;
+
+}
