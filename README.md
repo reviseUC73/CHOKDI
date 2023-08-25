@@ -38,9 +38,10 @@ Welcome to the Car Insurance Customer Data Management web application! This appl
 
 
     ```bash
-   docker-compose up -d 
+   docker-compose up -d
+    ```
 
-   Access the application in your browser at http://localhost:3000```
+5. Access the application in your browser at http://localhost:4100
 ## Environment Variables
 Make sure to set up the required environment variables in your .env file. You can find the necessary variables in the .env.example file provided in the project.
 
