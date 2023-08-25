@@ -4,12 +4,42 @@
 
 .content {
   position: absolute;
-  left: 10%;
+  left: 0%;
   right: 0.3rem;
-  padding: 15px;
+  padding-top: 15px;
   z-index: -1;
   height: 100%;
-  
+  padding-left: 60px;
   overflow-x: hidden;
+  margin-left: 6%;
+  padding-right: 10px;
+}
+@media screen and (max-width: 900px) {
+  .content {
+    margin-left: 7%;
+  }
+}
 
+@media screen and (max-width: 770px) {
+  .content {
+    margin-left: 7.7%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .content {
+    margin-left: 8%;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .content {
+    /* margin-left: 8.4%; */
+  }
+}
+
+@media screen and (max-width: 200px) {
+  .content {
+    /* margin-left: 10%; */
+  }
 }

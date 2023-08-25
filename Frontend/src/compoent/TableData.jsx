@@ -28,21 +28,10 @@ import {
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 function TableData({ result }) {
-  // const tableCellStyle = {
-  //   fontFamily: "Kanit, sans-serif", // Specify the desired font family
-  //   // fontFamily: "Roboto,Helvetica,Arial,sans-serif",
-  //   fontSize: "0.9rem", // Specify the desired font size
-  //   paddingRight: "3rem", // Specify the desired padding
-  //   maxWidth: "10rem",
-  //   textAlign: "left",
-  //   backgroundColor: "white", //
-  //   color: "#99A0CF",
-  //   // color : "#8394f8",
-  //   "&:last-child": { backgroundColor: "red" },
-  // };
   const [expandedRow, setExpandedRow] = useState(null);
+  const [sortedColumn, setSortedColumn] = useState(null);
+  const [sortDirection, setSortDirection] = useState("asc");
   const handleExpandRow = (VehicleNumber) => {
-    // console.log(AccountID);
     setExpandedRow(expandedRow === VehicleNumber ? null : VehicleNumber);
   };
 
@@ -79,13 +68,55 @@ function TableData({ result }) {
     const daysRemaining = targetDate.diff(currentDate, "days");
     return daysRemaining;
   }
+
+  const getSortIcon = (column) => {
+    if (sortedColumn === column) {
+      return sortDirection === "asc" ? (
+        <IconButton size="small">
+          <KeyboardArrowUpIcon style={{ color: "#7680bf" }} />
+        </IconButton>
+      ) : (
+        <IconButton size="small">
+          <KeyboardArrowDownIcon style={{ color: "#7680bf" }} />
+        </IconButton>
+      );
+    }
+    return (
+      <IconButton size="small">
+        <KeyboardArrowUpIcon style={{ color: "#7680bf" }} />
+      </IconButton>
+    );
+  };
+  const handleSort = (column) => {
+    if (column === sortedColumn) {
+      // If the same column is clicked again, toggle the sort direction
+      // console.log(sortDirection + column);
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      // If a new column is clicked, set it as the sorted column with ascending order
+      setSortedColumn(column);
+      setSortDirection("asc");
+    }
+  };
+  const sortedResult = [...result]; // Create a copy of the original result array
+  sortedResult.sort((a, b) => {
+    const valueA = a[sortedColumn];
+    const valueB = b[sortedColumn];
+
+    if (valueA < valueB) {
+      return sortDirection === "asc" ? -1 : 1;
+    }
+    if (valueA > valueB) {
+      return sortDirection === "asc" ? 1 : -1;
+    }
+    return 0;
+  });
   return (
     <div id="overflowX">
       <TableContainer component={Paper}>
         <Table className="order-list">
           <TableHead>
             <TableRow>
-              {/* <TableCell />  */}
               <TableCell
                 id="col_main"
                 // onClick={() => handleSort("AccountID")}
@@ -99,45 +130,63 @@ function TableData({ result }) {
               </TableCell> */}
               <TableCell
                 id="col_main"
-                // onClick={() => handleSort("CompanyName")}
+                onClick={() => handleSort("VehicleNumber")}
                 style={tableCellStyleHead}
               >
-                VehicleNumber
+                <div>
+                  {getSortIcon("VehicleNumber")}
+                  VehicleNumber
+                </div>
               </TableCell>
               <TableCell
                 id="col_main"
-                // onClick={() => handleSort("CustomerCode")}
+                onClick={() => handleSort("CustomerName")}
                 style={tableCellStyleHead}
               >
-                CustomerName
+                <div>
+                  {getSortIcon("CustomerName")}
+                  CustomerName
+                </div>
               </TableCell>
               <TableCell
                 id="col_main"
-                // onClick={() => handleSort("Email")}
+                onClick={() => handleSort("InsuranceCompany")}
                 style={tableCellStyleHead}
               >
-                InsuranceCompany
+                <div>
+                  {getSortIcon("InsuranceCompany")}
+                  InsuranceCompany
+                </div>
               </TableCell>
               <TableCell
                 id="col_main"
-                // onClick={() => handleSort("BillingCharge")}
+                onClick={() => handleSort("PolicyValue")}
                 style={tableCellStyleHead}
               >
-                PolicyValue
+                <div>
+                  {getSortIcon("PolicyValue")}
+                  PolicyValue
+                </div>
               </TableCell>
               <TableCell
                 id="col_main"
-                // onClick={() => handleSort("AccountStatus")}
+                onClick={() => handleSort("CoverageStartDate")}
                 style={tableCellStyleHead}
               >
-                CoverageStartDate
-              </TableCell>{" "}
+                <div>
+                  {getSortIcon("CoverageStartDate")}
+                  CoverageStartDate
+                </div>
+              </TableCell>
               <TableCell
                 id="col_main"
-                // onClick={() => handleSort("AccountStatus")}
+                onClick={() => handleSort("CoverageEndDate")}
                 style={tableCellStyleHead}
               >
-                CoverageEndDate
+                <div>
+                  {getSortIcon("CoverageEndDate")}
+                  CoverageEndDate
+                </div>
               </TableCell>
               {/* <TableCell
                 id="col_main"
@@ -149,7 +198,7 @@ function TableData({ result }) {
           </TableHead>
 
           <TableBody>
-            {result.map((row, index) => (
+            {sortedResult.map((row, index) => (
               <React.Fragment key={row.VehicleNumber}>
                 <TableRow
                   style={{
@@ -336,11 +385,11 @@ function TableData({ result }) {
 
                               <TableRow>
                                 <TableCell style={tableCellStyle}>
-                                DayRemaining
+                                  DayRemaining
                                 </TableCell>
                                 <TableCell style={tableCellStyle}>
-                                {calculateDaysRemaining(row.CoverageEndDate) } days 
-                                  
+                                  {calculateDaysRemaining(row.CoverageEndDate)}
+                                  days
                                 </TableCell>
                               </TableRow>
                             </TableBody>

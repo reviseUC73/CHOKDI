@@ -21,13 +21,66 @@ font-size: 0.8rem;
      */
 
 .nav_container_mui {
-    position: fixed;
-    flex-basis: 25%;
-    /* background-color: rgb(123, 154, 247); */
-    padding: 2rem;
-    height: 100%;
+  position: fixed;
+  /* background-color: rgb(123, 154, 247); */
+  width: 6%;
+  padding: 2rem;
+  height: 100%;
+  /* overflow: auto; */
+  /* list-style-type: none; */
+}
+#media_bottom {
+  min-width: 80px;
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 
-    /* overflow-y: auto;
-      
-    
+@media screen and (max-width: 900px) {
+  .nav_container_mui {
+    height: 100%;
+    width: 4%;
+
+  }
+  #media_bottom {
+    min-width: 80px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .nav_container_mui {
+    height: 100%;
+  }
+  #media_bottom {
+    min-width: 70px;
+    padding-top: 35px;
+    padding-bottom: 35px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .nav_container_mui {
+    height: 100%;
+  padding: 1.4rem;
+
+  }
+  #media_bottom {
+    /* min-width: 60px;
+    padding-top: 30px;
+    padding-bottom: 30px; */
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .nav_container_mui {
+    height: 100%;
+    padding: 1.2rem;
+
+  }
+  #media_bottom {
+    min-width: 60px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+}

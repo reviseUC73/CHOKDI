@@ -5,8 +5,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import SendIcon from "@mui/icons-material/Send";
 import Stack from "@mui/material/Stack";
 import HomeIcon from "@mui/icons-material/Home";
-import AddIcon from '@mui/icons-material/Add';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import AddIcon from "@mui/icons-material/Add";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
 function VerticalNavbar() {
   return (
     <div className="nav_container_mui">
@@ -33,13 +33,13 @@ function VerticalNavbar() {
           <HomeIcon />
           Home
         </Button> */}
-        
+
         <Button
+          id="media_bottom"
           variant="outlined"
           sx={{
             fontSize: "0.65rem",
 
-   
             backgroundColor: "#f3f7fe",
             display: "flex",
             color: "#8394f8",
@@ -56,10 +56,11 @@ function VerticalNavbar() {
             margin: "1rem",
           }}
         >
-          <HomeIcon fontSize="small"/>
+          <HomeIcon fontSize="small" />
           Home
         </Button>
         <Button
+          id="media_bottom"
           variant="outlined"
           sx={{
             fontSize: "0.65rem",
@@ -69,8 +70,8 @@ function VerticalNavbar() {
             borderRadius: "1.5rem",
             backgroundColor: "#f3f7fe",
 
-            paddingBottom: "1.5rem",
-            paddingTop: "1.5rem",
+            paddingBottom: "2rem",
+            paddingTop: "2rem",
             boxShadow: "1px 1px 2px 3px rgba(0, 0, 0, 0.04)",
             "&:hover": {
               borderColor: " #8394f8 ",
@@ -80,10 +81,11 @@ function VerticalNavbar() {
             margin: "1rem",
           }}
         >
-          <ModeEditIcon fontSize="small"/>
+          <ModeEditIcon fontSize="small" />
           EDIT
         </Button>
         <Button
+          id="media_bottom"
           variant="outlined"
           sx={{
             fontSize: "0.65rem",
@@ -103,12 +105,10 @@ function VerticalNavbar() {
             margin: "1rem",
           }}
         >
-          <AddIcon fontSize="small"/>
+          <AddIcon fontSize="small" />
           NEW
         </Button>
       </Stack>
-     
-      
     </div>
   );
 }

@@ -7,6 +7,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import MainPage from "./Page/MainPage";
+
 import VerticalNavbar from "./compoent/VerticalNavbar";
 function App() {
   return (

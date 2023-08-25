@@ -8,3 +8,57 @@
 }
 
 
+
+@media screen and (max-width: 800px) {
+  #SearchBar {
+    /* margin-right: 1rem; */
+    /* margin-right: auto; */
+    /* margin-left: auto; */
+    margin-bottom: 1rem;
+    border-radius: 1.3rem;
+    width: 45%;
+  }
+}  
+
+@media screen and (max-width: 600px) {
+  #SearchBar {
+    /* margin-right: 1rem; */
+    /* margin-right: auto; */
+    /* margin-left: auto; */
+    margin-bottom: 1rem;
+    border-radius: 1.3rem;
+    width: 55%;
+  }
+}  
+
+@media screen and (max-width: 400px) {
+  #SearchBar {
+    /* margin-right: 1rem; */
+    /* margin-right: auto; */
+    /* margin-left: auto; */
+    margin-bottom: 1rem;
+    border-radius: 1.3rem;
+    width: 65%;
+  }
+}  
+
+@media screen and (max-width: 300px) {
+  #SearchBar {
+    /* margin-right: 1rem; */
+    /* margin-right: auto; */
+    /* margin-left: auto; */
+    margin-bottom: 1rem;
+    border-radius: 1.3rem;
+    width: 95%;
+  }
+}  
+
+
+@media screen and (max-width: 200px) {
+  #SearchBar {
+
+    margin-bottom: 1rem;
+    border-radius: 1.3rem;
+    width: 85%;
+  }
+}  
