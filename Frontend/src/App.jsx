@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 
 import {
   BrowserRouter,
@@ -18,23 +18,16 @@ function App() {
   const [result, setResult] = useState([]);
 
   return (
-    <>
-      <div>
-        <div className="nav">
-          <VerticalNavbar />
-        </div>
-        <div className="contain">
-          <div className="content">
-            <SearchBar setResult={setResult} />
-            <Routes>
-              <Route path="/" element={<TableData result={result} />} />
-              <Route path="/edit" element={<EditData result={result} />} />
-              
-            </Routes>
-          </div>
-        </div>
+    <Fragment>
+      <VerticalNavbar />
+      <div className="content">
+        <SearchBar setResult={setResult} />
+        <Routes>
+          <Route path="/" element={<TableData result={result} />} />
+          <Route path="/edit" element={<EditData result={result} />} />
+        </Routes>
       </div>
-    </>
+    </Fragment>
   );
 }
 

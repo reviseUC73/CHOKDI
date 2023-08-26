@@ -32,14 +32,11 @@ import {
 } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Delete_data } from "../Services/DeteleData";
 function EditData({ result }) {
-  const [expandedRow, setExpandedRow] = useState(null);
   const [sortedColumn, setSortedColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
   const [buttonStatus, setButtonStatus] = useState(false);
-  const handleExpandRow = (VehicleNumber) => {
-    setExpandedRow(expandedRow === VehicleNumber ? null : VehicleNumber);
-  };
 
   const tableCellStyle = {
     fontFamily: "Kanit, sans-serif",
@@ -135,6 +132,7 @@ function EditData({ result }) {
       },
     },
   });
+
   return (
     <div id="overflowX">
       <TableContainer component={Paper}>
@@ -275,7 +273,7 @@ function EditData({ result }) {
                           // size="medi"
                           startIcon={<DeleteIcon />}
                           color="del"
-                          //   onClick={() => Delete_data(row.AccountID)}
+                          onClick={() => Delete_data(row.VehicleNumber)}
                           disabled={buttonStatus}
                           style={{
                             fontSize: "0.7rem",

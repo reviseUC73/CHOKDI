@@ -63,11 +63,6 @@ font-size: 0.8rem;
     height: 100%;
     padding: 1.4rem;
   }
-  #media_bottom {
-    /* min-width: 60px;
-    padding-top: 30px;
-    padding-bottom: 30px; */
-  }
 }
 
 @media screen and (max-width: 400px) {
@@ -84,7 +79,7 @@ font-size: 0.8rem;
 .active > #media_bottom {
   /* background-color: rgb(248, 248, 248); */
   /* border-color: rgb(163, 178, 254); */
-  border: 0.12rem solid rgb(163, 178, 254)
+  border: 0.12rem solid rgb(163, 178, 254);
   /* border-color: red; */
 
   /* background-color:  */

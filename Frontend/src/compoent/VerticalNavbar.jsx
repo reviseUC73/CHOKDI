@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import "./VerticalNavbar.css";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -7,40 +7,16 @@ import Stack from "@mui/material/Stack";
 import HomeIcon from "@mui/icons-material/Home";
 import AddIcon from "@mui/icons-material/Add";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
-
 import { NavLink } from "react-router-dom";
-
 function VerticalNavbar() {
+  // let activeClass = "vertical-navbar-active";
   return (
     <div className="nav_container_mui">
       <Stack direction="column" spacing={3}>
-        {/* <Button
-          variant="outlined"
-          sx={{
-            fontSize: "0.8rem",
-            display: "flex",
-            color: "#8394f8",
-            borderColor: "#DCE2EB",
-            borderRadius: "1.5rem",
-            paddingBottom: "1.8rem",
-            paddingTop: "1.8rem",
-            boxShadow: "1px 1px 2px 3px rgba(0, 0, 0, 0.04)",
-            "&:hover": {
-              borderColor: " #8394f8 ",
-            },
-            flexDirection: "column",
-            alignItems: "center", // Optional: Align content in the center vertically
-            margin: "1rem",
-          }}
-        >
-          <HomeIcon />
-          Home
-        </Button> */}
-        <NavLink end to="/" activeClassName="activeNavLink">
-          {" "}
-          {/* Use NavLink */}
+        <NavLink end to="/">
           <Button
             id="media_bottom"
+            // className={({ isActive }) => (isActive ? activeClass : undefined)}
             variant="outlined"
             sx={{
               fontSize: "0.65rem",
@@ -58,15 +34,15 @@ function VerticalNavbar() {
               },
               flexDirection: "column",
               alignItems: "center", // Optional: Align content in the center vertically
-              // margin: "1rem",
             }}
           >
             <HomeIcon fontSize="small" />
             Home
           </Button>
         </NavLink>
-        <NavLink to="/edit" activeClassName="activeNavLink">
+        <NavLink to="/edit">
           <Button
+            // className={({ isActive }) => (isActive ? activeClass : undefined)}
             id="media_bottom"
             variant="outlined"
             sx={{
