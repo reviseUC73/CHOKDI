@@ -37,27 +37,26 @@ function TableData({ result }) {
 
   const tableCellStyle = {
     fontFamily: "Kanit, sans-serif",
-    // fontSize: "0.9rem",
-    // paddingRight: "3rem",
-    // maxWidth: "10rem",
+    fontSize: "0.8rem",
+    maxWidth: "10rem",
     textAlign: "left",
-    // backgroundColor: "white",
     color: "#99A0CF",
-    paddingBottom: "0.5em",
+    paddingBottom: "0.5rem",
     paddingTop: "0.5rem",
+
     textOverflow: "ellipsis",
     borderStyle: "border-box",
   };
   const tableCellStyleHead = {
     fontFamily: "Kanit, sans-serif",
-    // fontSize: "0.9rem",
+    fontSize: "0.8rem",
     // paddingRight: "3rem",
-    // maxWidth: "10rem",
+    maxWidth: "10rem",
     textAlign: "left",
     backgroundColor: "white",
     color: "#7680bf",
-    paddingBottom: "0.5em",
-    paddingTop: "0.5rem",
+    paddingBottom: "1rem",
+    paddingTop: "1rem",
     textOverflow: "ellipsis",
     borderStyle: "border-box",
   };
@@ -72,18 +71,30 @@ function TableData({ result }) {
   const getSortIcon = (column) => {
     if (sortedColumn === column) {
       return sortDirection === "asc" ? (
-        <IconButton size="small">
-          <KeyboardArrowUpIcon style={{ color: "#7680bf" }} />
+        <IconButton size="small" style={{ padding: "0.1rem" }}>
+          <KeyboardArrowUpIcon
+            style={{
+              color: "#7680bf",
+            }}
+          />
         </IconButton>
       ) : (
-        <IconButton size="small">
-          <KeyboardArrowDownIcon style={{ color: "#7680bf" }} />
+        <IconButton size="small" style={{ padding: "0.1rem" }}>
+          <KeyboardArrowDownIcon
+            style={{
+              color: "#7680bf",
+            }}
+          />
         </IconButton>
       );
     }
     return (
-      <IconButton size="small">
-        <KeyboardArrowUpIcon style={{ color: "#7680bf" }} />
+      <IconButton size="small" style={{ padding: "0.1rem" }}>
+        <KeyboardArrowUpIcon
+          style={{
+            color: "#7680bf",
+          }}
+        />
       </IconButton>
     );
   };
@@ -210,6 +221,7 @@ function TableData({ result }) {
                       aria-label="expand row"
                       size="small"
                       onClick={() => handleExpandRow(row.VehicleNumber)}
+                      style={{ padding: "0.15rem" }}
                     >
                       {expandedRow === row.VehicleNumber ? (
                         <KeyboardArrowUpIcon />

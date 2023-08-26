@@ -7,6 +7,9 @@ import Stack from "@mui/material/Stack";
 import HomeIcon from "@mui/icons-material/Home";
 import AddIcon from "@mui/icons-material/Add";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
+
+import { NavLink } from "react-router-dom";
+
 function VerticalNavbar() {
   return (
     <div className="nav_container_mui">
@@ -33,81 +36,88 @@ function VerticalNavbar() {
           <HomeIcon />
           Home
         </Button> */}
+        <NavLink end to="/" activeClassName="activeNavLink">
+          {" "}
+          {/* Use NavLink */}
+          <Button
+            id="media_bottom"
+            variant="outlined"
+            sx={{
+              fontSize: "0.65rem",
 
-        <Button
-          id="media_bottom"
-          variant="outlined"
-          sx={{
-            fontSize: "0.65rem",
+              backgroundColor: "#f3f7fe",
+              display: "flex",
+              color: "#8394f8",
+              borderColor: "#DCE2EB",
+              borderRadius: "1.5rem",
+              paddingBottom: "1.5rem",
+              paddingTop: "1.5rem",
+              boxShadow: "1px 1px 2px 3px rgba(0, 0, 0, 0.04)",
+              "&:hover": {
+                borderColor: " #8394f8 ",
+              },
+              flexDirection: "column",
+              alignItems: "center", // Optional: Align content in the center vertically
+              // margin: "1rem",
+            }}
+          >
+            <HomeIcon fontSize="small" />
+            Home
+          </Button>
+        </NavLink>
+        <NavLink to="/edit" activeClassName="activeNavLink">
+          <Button
+            id="media_bottom"
+            variant="outlined"
+            sx={{
+              fontSize: "0.65rem",
+              display: "flex",
+              color: "#8394f8",
+              borderColor: "#DCE2EB",
+              borderRadius: "1.5rem",
+              backgroundColor: "#f3f7fe",
 
-            backgroundColor: "#f3f7fe",
-            display: "flex",
-            color: "#8394f8",
-            borderColor: "#DCE2EB",
-            borderRadius: "1.5rem",
-            paddingBottom: "1.5rem",
-            paddingTop: "1.5rem",
-            boxShadow: "1px 1px 2px 3px rgba(0, 0, 0, 0.04)",
-            "&:hover": {
-              borderColor: " #8394f8 ",
-            },
-            flexDirection: "column",
-            alignItems: "center", // Optional: Align content in the center vertically
-            margin: "1rem",
-          }}
-        >
-          <HomeIcon fontSize="small" />
-          Home
-        </Button>
-        <Button
-          id="media_bottom"
-          variant="outlined"
-          sx={{
-            fontSize: "0.65rem",
-            display: "flex",
-            color: "#8394f8",
-            borderColor: "#DCE2EB",
-            borderRadius: "1.5rem",
-            backgroundColor: "#f3f7fe",
-
-            paddingBottom: "2rem",
-            paddingTop: "2rem",
-            boxShadow: "1px 1px 2px 3px rgba(0, 0, 0, 0.04)",
-            "&:hover": {
-              borderColor: " #8394f8 ",
-            },
-            flexDirection: "column",
-            alignItems: "center", // Optional: Align content in the center vertically
-            margin: "1rem",
-          }}
-        >
-          <ModeEditIcon fontSize="small" />
-          EDIT
-        </Button>
-        <Button
-          id="media_bottom"
-          variant="outlined"
-          sx={{
-            fontSize: "0.65rem",
-            display: "flex",
-            color: "#8394f8",
-            backgroundColor: "#f3f7fe",
-            borderColor: "#DCE2EB",
-            borderRadius: "1.5rem",
-            paddingBottom: "1.5rem",
-            paddingTop: "1.5rem",
-            boxShadow: "1px 1px 2px 3px rgba(0, 0, 0, 0.04)",
-            "&:hover": {
-              borderColor: " #8394f8 ",
-            },
-            flexDirection: "column",
-            alignItems: "center", // Optional: Align content in the center vertically
-            margin: "1rem",
-          }}
-        >
-          <AddIcon fontSize="small" />
-          NEW
-        </Button>
+              paddingBottom: "2rem",
+              paddingTop: "2rem",
+              boxShadow: "1px 1px 2px 3px rgba(0, 0, 0, 0.04)",
+              "&:hover": {
+                borderColor: " #8394f8 ",
+              },
+              flexDirection: "column",
+              alignItems: "center", // Optional: Align content in the center vertically
+              // margin: "1rem",
+            }}
+          >
+            <ModeEditIcon fontSize="small" />
+            EDIT
+          </Button>
+        </NavLink>
+        <a>
+          <Button
+            id="media_bottom"
+            variant="outlined"
+            sx={{
+              fontSize: "0.65rem",
+              display: "flex",
+              color: "#8394f8",
+              backgroundColor: "#f3f7fe",
+              borderColor: "#DCE2EB",
+              borderRadius: "1.5rem",
+              paddingBottom: "1.5rem",
+              paddingTop: "1.5rem",
+              boxShadow: "1px 1px 2px 3px rgba(0, 0, 0, 0.04)",
+              "&:hover": {
+                borderColor: " #8394f8 ",
+              },
+              flexDirection: "column",
+              alignItems: "center", // Optional: Align content in the center vertically
+              // margin: "1rem",
+            }}
+          >
+            <AddIcon fontSize="small" />
+            NEW
+          </Button>
+        </a>
       </Stack>
     </div>
   );

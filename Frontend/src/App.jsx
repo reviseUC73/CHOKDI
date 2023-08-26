@@ -1,4 +1,6 @@
 import "./App.css";
+import React, { useState } from "react";
+
 import {
   BrowserRouter,
   Route,
@@ -9,20 +11,27 @@ import {
 import MainPage from "./Page/MainPage";
 
 import VerticalNavbar from "./compoent/VerticalNavbar";
+import SearchBar from "./compoent/SearchBar";
+import TableData from "./compoent/TableData";
+import EditData from "./compoent/EditData";
 function App() {
+  const [result, setResult] = useState([]);
+
   return (
     <>
       <div>
         <div className="nav">
-        <VerticalNavbar />
+          <VerticalNavbar />
         </div>
         <div className="contain">
-        
-          <Routes>
-            <Route path="/" element={<MainPage />} />
-            {/* <Route path="edit" element={<Body_edit />} /> */}
-            {/* <Route path="*" element={<Page404auth />} /> */}
-          </Routes>
+          <div className="content">
+            <SearchBar setResult={setResult} />
+            <Routes>
+              <Route path="/" element={<TableData result={result} />} />
+              <Route path="/edit" element={<EditData result={result} />} />
+              
+            </Routes>
+          </div>
         </div>
       </div>
     </>
