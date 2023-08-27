@@ -37,10 +37,13 @@ function TableData({ result }) {
 
   const tableCellStyle = {
     fontFamily: "Kanit, sans-serif",
-    fontSize: "0.8rem",
+    fontSize: "0.9rem",
     maxWidth: "10rem",
     textAlign: "left",
-    color: "#99A0CF",
+    // color: "#99A0CF",
+    // color: "#2B325D",
+    color: "#495079",
+
     paddingBottom: "0.5rem",
     paddingTop: "0.5rem",
 
@@ -49,12 +52,14 @@ function TableData({ result }) {
   };
   const tableCellStyleHead = {
     fontFamily: "Kanit, sans-serif",
-    fontSize: "0.8rem",
+    fontSize: "0.9rem",
     // paddingRight: "3rem",
     maxWidth: "10rem",
     textAlign: "left",
     backgroundColor: "white",
-    color: "#7680bf",
+    // color: "#7680bf",
+    // color: "#2B325D",
+    color: "#495079",
     paddingBottom: "1rem",
     paddingTop: "1rem",
     textOverflow: "ellipsis",
@@ -199,6 +204,17 @@ function TableData({ result }) {
                   CoverageEndDate
                 </div>
               </TableCell>
+
+              <TableCell
+                id="col_main"
+                onClick={() => handleSort("CoverageEndDate")}
+                style={tableCellStyleHead}
+              >
+                <div>
+                  {getSortIcon("DayRemaining")}
+                  DayRemaining
+                </div>
+              </TableCell>
               {/* <TableCell
                 id="col_main"
                 style={tableCellStyleHead}
@@ -262,6 +278,9 @@ function TableData({ result }) {
                   {/* <TableCell style={tableCellStyle}>
                     {row.Remark}
                   </TableCell> */}
+                  <TableCell style={tableCellStyle}>
+                    {calculateDaysRemaining(row.CoverageEndDate)} days
+                  </TableCell>
                 </TableRow>
 
                 <TableRow>

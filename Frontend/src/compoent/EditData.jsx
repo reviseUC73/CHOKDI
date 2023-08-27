@@ -40,12 +40,16 @@ function EditData({ result }) {
 
   const tableCellStyle = {
     fontFamily: "Kanit, sans-serif",
-    fontSize: "0.8rem",
+    fontSize: "0.9rem",
     // paddingRight: "3rem",
     maxWidth: "10rem",
     textAlign: "left",
     // backgroundColor: "white",
-    color: "#99A0CF",
+    // color: "#99A0CF",
+    color: "#495079",
+
+    // color: "#2B325D",
+
     paddingBottom: "0.5rem",
     paddingTop: "0.5rem",
     textOverflow: "ellipsis",
@@ -53,12 +57,14 @@ function EditData({ result }) {
   };
   const tableCellStyleHead = {
     fontFamily: "Kanit, sans-serif",
-    fontSize: "0.8rem",
+    fontSize: "0.9rem",
     // paddingRight: "3rem",
     maxWidth: "10rem",
     textAlign: "left",
     backgroundColor: "white",
-    color: "#7680bf",
+    color: "#5B6398",
+    // color: "#2B325D",
+
     paddingBottom: "1rem",
     paddingTop: "1rem",
     textOverflow: "ellipsis",
