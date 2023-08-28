@@ -14,12 +14,14 @@ import VerticalNavbar from "./compoent/VerticalNavbar";
 import SearchBar from "./compoent/SearchBar";
 import TableData from "./compoent/TableData";
 import EditData from "./compoent/EditData";
+import Form from "./compoent/Form";
 function App() {
   const [result, setResult] = useState([]);
 
   return (
     <Fragment>
       <VerticalNavbar />
+      <Form />
       <div className="content">
         <SearchBar setResult={setResult} />
         <Routes>

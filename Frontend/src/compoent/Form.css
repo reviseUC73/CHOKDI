@@ -1,0 +1,84 @@
+/* set environment of popup  */
+#overlay {
+  display: none;
+  position: fixed;
+  background: #0000006b;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 1;
+}
+
+#overlay > .grid-popup {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1rem;
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+  padding: 2.4rem;
+  position: relative;
+  margin-bottom: 3rem;
+}
+#tilte-create {
+  font-size: 2.6rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  grid-column: span 3;
+  text-align: center;
+}
+#close-popup {
+  position: absolute;
+  left: 0.5rem;
+  top: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+#hide-popup {
+  position: absolute;
+  left: 2.1rem;
+  top: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+#send-icon {
+  grid-column: 2/3;
+  grid-row: 8/9;
+
+  float: center;
+  text-align: center;
+  font-size: 1.85rem;
+}
+
+#title-submit {
+  display: none;
+}
+#send-icon:hover > #title-submit {
+    display: block;
+    position: absolute;
+    font-size: 0.8rem;
+    top: 4.8rem;
+    background: #30c564d3;
+    padding: 0.35rem;
+    border-radius: 1rem;
+    color: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+}
+
+.remark{
+    grid-column: span 2;
+    width: 100%;
+    /* width: ; */
+}
+.address{
+    grid-column: span 2;
+    width: 100%;
+    /* width: ; */
+}

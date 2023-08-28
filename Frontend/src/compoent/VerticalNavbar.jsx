@@ -10,6 +10,11 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { NavLink } from "react-router-dom";
 function VerticalNavbar() {
   // let activeClass = "vertical-navbar-active";
+  const OpenPopup = () => {
+    const overlay = document.getElementById("overlay");
+    overlay.style.display = "grid";
+    
+  };
   return (
     <div className="nav_container_mui">
       <Stack direction="column" spacing={3}>
@@ -72,6 +77,7 @@ function VerticalNavbar() {
           <Button
             id="media_bottom"
             variant="outlined"
+            onClick={OpenPopup}
             sx={{
               fontSize: "0.65rem",
               display: "flex",

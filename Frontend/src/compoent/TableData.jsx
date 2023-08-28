@@ -1,13 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
 import moment from "moment";
 
 import "./Table.css";
@@ -27,6 +19,7 @@ import {
 } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+
 function TableData({ result }) {
   const [expandedRow, setExpandedRow] = useState(null);
   const [sortedColumn, setSortedColumn] = useState(null);
