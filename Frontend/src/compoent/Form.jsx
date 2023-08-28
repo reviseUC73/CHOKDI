@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, {  useState } from "react";
 import "./Form.css";
 import { IconButton, TextField, colors } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,10 +9,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Calendar from "./Calendar";
 import moment from "moment";
+import { OnSubmitCreateForm } from "../Services/CreateData";
 
 function Form() {
   const currentDate = moment().format("YYYY-MM-DD");
-
+  const [duplicate, setDuplicate] = useState(false); // [state, setState
   const [formInput, setFormInput] = useState({
     CustomerName: "",
     CustomerAddress: "",
@@ -30,7 +31,7 @@ function Form() {
     CoverageEndDate: currentDate,
     PolicyValue: "",
     Remark: "",
-    Mail: "",
+    Mail: "user@gmail.com",
   });
 
   const handleChange = (e) => {
@@ -61,9 +62,10 @@ function Form() {
       CoverageEndDate: currentDate,
       PolicyValue: "",
       Remark: "",
-      Mail: "",
+      Mail: "user@gmail.com",
     });
     overlay.style.display = "none";
+    window.location.reload();
   };
   const HidePopup = () => {
     const overlay = document.getElementById("overlay");
@@ -75,8 +77,14 @@ function Form() {
   }
   //   return <Fragment></Fragment>;
   //   console.log(formInput)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Call the form submission logic here
+    await OnSubmitCreateForm(formInput,setFormInput,duplicate, setDuplicate);
+  };
   return (
-    <div className="overlay" id="overlay">
+    <form className="overlay" id="overlay" onSubmit={handleSubmit}>
       <div className="grid-popup">
         <IconButton id="hide-popup" onClick={HidePopup}>
           <FontAwesomeIcon icon={faCircleMinus} style={{ color: "#F7B602" }} />
@@ -87,9 +95,12 @@ function Form() {
         <div id="tilte-create"> Create </div>
         <TextField
           required
+          
           name="VehicleNumber"
           label="VehicleNumber"
           onChange={handleChange}
+          error={duplicate}
+          helperText={duplicate ? 'VehicleNumber exists' : ''}
         />
         <TextField
           required
@@ -102,6 +113,7 @@ function Form() {
           name="VehicleManufactureYear"
           label="VehicleManufactureYear"
           onChange={handleChange}
+          type="number"
         />
         <TextField
           required
@@ -114,6 +126,7 @@ function Form() {
           name="VehicleType"
           label="VehicleType"
           onChange={handleChange}
+          
         />
         <TextField
           required
@@ -158,6 +171,7 @@ function Form() {
           name="CoverageType"
           label="CoverageType"
           onChange={handleChange}
+          type="number"
         />
         <Calendar
           formInput={formInput}
@@ -169,7 +183,7 @@ function Form() {
           setFormInput={setFormInput}
           CoverageDate={"CoverageEndDate"}
         />
-        
+
         <TextField
           required
           name="Remark"
@@ -187,6 +201,7 @@ function Form() {
         {/* <TextField required name="Mail" label="Mail" onChange={handleChange} /> */}
         <IconButton
           id="send-icon"
+          type="submit" // This is important to trigger form submission
           style={{
             // marginTop: "1rem",
             justifySelf: "center",
@@ -202,7 +217,7 @@ function Form() {
           <div id="title-submit">Submit</div>
         </IconButton>
       </div>
-    </div>
+    </form>
   );
 }
 

@@ -127,6 +127,7 @@ function TableData({ result }) {
         style={{
           borderRadius: "0.8rem",
           boxShadow: "none",
+          marginBottom: "1rem",
         }}
       >
         <Table className="order-list">

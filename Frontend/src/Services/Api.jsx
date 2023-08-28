@@ -36,6 +36,25 @@ export const DeleteInformation = async (CarNumber) => {
   }
 };
 
+// Function to check for duplicate data
+export const CheckDuplicateData = async (data) => {
+  const duplicateURL = `http://${host_ip}:${port}/check-duplicate`;
+  const dataFormat = JSON.stringify(data);
+
+  try {
+    const response = await axios.post(duplicateURL, dataFormat, {
+      headers: {
+        // Overwrite Axios's automatically set Content-Type
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(response);
+    return response.data.duplicate;
+  } catch (error) {
+    console.log("Failed to check duplicate data", error);
+    return false;
+  }
+};
 export const CreateInformation = async (data) => {
   // Define the data to be sent in the request body
 
@@ -55,6 +74,8 @@ export const CreateInformation = async (data) => {
         "Content-Type": "application/json",
       },
     });
+
+
     if (response.status === 201) {
       return true;
     } else if (response.status === 400) {
