@@ -122,7 +122,13 @@ function TableData({ result }) {
   });
   return (
     <div id="overflowX">
-      <TableContainer component={Paper}>
+      <TableContainer
+        component={Paper}
+        style={{
+          borderRadius: "0.8rem",
+          boxShadow: "none",
+        }}
+      >
         <Table className="order-list">
           <TableHead>
             <TableRow>

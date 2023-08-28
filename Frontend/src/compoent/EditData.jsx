@@ -41,15 +41,9 @@ function EditData({ result }) {
   const tableCellStyle = {
     fontFamily: "Kanit, sans-serif",
     fontSize: "0.9rem",
-    // paddingRight: "3rem",
     maxWidth: "10rem",
     textAlign: "left",
-    // backgroundColor: "white",
-    // color: "#99A0CF",
     color: "#495079",
-
-    // color: "#2B325D",
-
     paddingBottom: "0.5rem",
     paddingTop: "0.5rem",
     textOverflow: "ellipsis",
@@ -141,7 +135,13 @@ function EditData({ result }) {
 
   return (
     <div id="overflowX">
-      <TableContainer component={Paper}>
+      <TableContainer
+        component={Paper}
+        style={{
+          borderRadius: "0.8rem",
+          boxShadow: "none",
+        }}
+      >
         <Table className="order-list">
           <TableHead>
             <TableRow>
