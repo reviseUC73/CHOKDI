@@ -1,25 +1,3 @@
-/* .nav_container {
-}
-
-.nav_container > * {
-padding: 0.3rem;
-text-align: center;
-font-size: 0.8rem;
-  margin-bottom: 2rem;
-  border: 0.1rem solid #00000031;
-  border-radius: 1rem;
-  box-shadow: 1px 1px 6px 3px rgba(0, 0, 0, 0.08);
-}
-
-.nav_container_mui > * {
-    padding: 0.3rem;
-    text-align: center;
-    font-size: 0.8rem;
-    margin-bottom: 2rem;
-    
-    }
-     */
-
 .nav_container_mui {
   position: fixed;
   /* background-color: rgb(123, 154, 247); */
@@ -77,10 +55,5 @@ font-size: 0.8rem;
   }
 }
 .active > #media_bottom {
-  /* background-color: rgb(248, 248, 248); */
-  /* border-color: rgb(163, 178, 254); */
   border: 0.12rem solid rgb(163, 178, 254);
-  /* border-color: red; */
-
-  /* background-color:  */
 }

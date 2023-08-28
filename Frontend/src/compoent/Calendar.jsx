@@ -16,7 +16,6 @@ function Calendar({ formInput, setFormInput, CoverageDate }) {
       <DatePicker
         label={CoverageDate}
         // value={value}
-
         value={dayjs(formInput[CoverageDate])}
         onChange={(value) => {
           setFormInput({ ...formInput, [CoverageDate]: formatDate(value) });
