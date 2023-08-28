@@ -6,7 +6,6 @@ const cors = require("cors");
 
 require("dotenv").config(); // Load environment variables from .env file
 
-
 // Initialize
 const app = express();
 app.use(cors()); // Enable CORS for all routes
@@ -32,7 +31,6 @@ db.connect((err) => {
 // Create Routes
 app.post("/create", async (req, res) => {
   const {
-    
     CustomerName,
     CustomerAddress,
     Brand,
@@ -58,7 +56,6 @@ app.post("/create", async (req, res) => {
     db.query(
       "INSERT INTO CustomerInsurance ( CustomerName ,CustomerAddress , Brand , Model, EngineCapacity ,VehicleNumber ,VehicleManufactureYear ,VehicleBody,VehicleType ,VehicleCode ,InsuranceCompany ,CoverageType ,CoverageStartDate ,CoverageEndDate ,PolicyValue,Remark,Mail ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )",
       [
-        
         CustomerName,
         CustomerAddress,
         Brand,
@@ -132,7 +129,6 @@ app.post("/edit/:VehicleNumber", async (req, res) => {
     Model,
     EngineCapacity,
 
-    
     VehicleManufactureYear,
     VehicleBody,
     VehicleType,
@@ -158,7 +154,6 @@ app.post("/edit/:VehicleNumber", async (req, res) => {
         Model,
         EngineCapacity,
 
-        
         VehicleManufactureYear,
         VehicleBody,
         VehicleType,
@@ -217,7 +212,26 @@ app.delete("/delete/:VehicleNumber", (req, res) => {
 });
 
 // app.use(bodyParser.json());
+app.post("/check-duplicate", (req, res) => {
+  // Retrieve the data from the request body
+  const { VehicleNumber } = req.body;
+  // console.log(AccountID, CustomerCode);
+  const query = `SELECT * FROM CustomerInsurance WHERE VehicleNumber = ?`;
 
+  db.query(query, [VehicleNumber], (err, result) => {
+    if (err) {
+      console.log("Failed to execute the duplicate data check query", err);
+      res.status(500).json({ error: "Internal server error" });
+      return;
+    }
+
+    // Check if any rows are returned from the query
+    const duplicate = result.length > 0;
+
+    // Return the result as JSON response
+    res.json({ duplicate });
+  });
+});
 // Listen server
 app.listen(process.env.SERVER_PORT || 3002, () => {
   console.log(`Server is running on port ${process.env.SERVER_PORT || 3002}`);
