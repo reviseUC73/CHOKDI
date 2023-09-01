@@ -8,32 +8,11 @@ import {
   faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import Calendar from "./Calendar";
-import moment from "moment";
-import { OnSubmitCreateForm } from "../Services/CreateData";
-
-function Form() {
-  const currentDate = moment().format("YYYY-MM-DD");
-  const [duplicate, setDuplicate] = useState(false); // [state, setState
-  const [formInput, setFormInput] = useState({
-    CustomerName: "",
-    CustomerAddress: "",
-    Brand: "",
-    Model: "",
-    EngineCapacity: "",
-    VehicleNumber: "",
-    VehicleManufactureYear: "",
-    VehicleBody: "",
-    VehicleType: "",
-    VehicleCode: "",
-    InsuranceCompany: "",
-    CoverageType: "",
-    CoverageStartDate: currentDate,
-    CoverageEndDate: currentDate,
-    PolicyValue: "",
-    Remark: "",
-    Mail: "user@gmail.com",
-  });
-
+import "./Form.css";
+import "./EditForm.css";
+// import moment from "moment";
+import { OnSubmitEditFormData } from "../Services/EditFormData";
+export const EditForm = ({ formInput, setFormInput, setButtonActive }) => {
   const handleChange = (e) => {
     const { target } = e; //  target = e.target is thing that changed state
     const { name } = target; // name = e.target.name
@@ -41,33 +20,16 @@ function Form() {
     setFormInput({ ...formInput, [name]: value });
     console.log(formInput);
   };
-  //   Calendar.
+  //   Calendar.id="overlayEditform"
   const ClosePopup = () => {
-    const overlay = document.getElementById("overlay");
-    // console.log(overlay);
-    setFormInput({
-      CustomerName: "",
-      CustomerAddress: "",
-      Brand: "",
-      Model: "",
-      EngineCapacity: "",
-      VehicleNumber: "",
-      VehicleManufactureYear: "",
-      VehicleBody: "",
-      VehicleType: "",
-      VehicleCode: "",
-      InsuranceCompany: "",
-      CoverageType: "",
-      CoverageStartDate: currentDate,
-      CoverageEndDate: currentDate,
-      PolicyValue: "",
-      Remark: "",
-      Mail: "user@gmail.com",
-    });
+    const overlayEdit = document.getElementById("overlayEditform");
+    setButtonActive(false);
+    // console.log(overlayEdit);
+
     const form = document.getElementsByClassName("grid-popup")[0];
     form.style.animation = "fade-out 0.3s ease-out forwards";
 
-    // overlay.style.display = "none";
+    overlayEdit.style.display = "none";
     setTimeout(() => {
       overlay.style.display = "none";
       form.style.animation = ""; // Reset animation
@@ -84,48 +46,34 @@ function Form() {
         VehicleCode: "",
         InsuranceCompany: "",
         CoverageType: "",
-        CoverageStartDate: currentDate,
-        CoverageEndDate: currentDate,
+        CoverageStartDate: "currentDate",
+        CoverageEndDate: "currentDate",
         PolicyValue: "",
         Remark: "",
         Mail: "user@gmail.com",
       });
     }, 300); // Wait for animation to finish
   };
-  const HidePopup = () => {
-    const overlay = document.getElementById("overlay");
-    console.log(overlay);
-    // overlay.style.display = "none";
-    const form = document.getElementsByClassName("grid-popup")[0];
-    form.style.animation = "fade-out 0.3s ease-out forwards";
-    setTimeout(() => {
-      overlay.style.display = "none";
-      form.style.animation = "";
-    }, 300);
-  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Call the form submission logic here
-    await OnSubmitCreateForm(formInput, setFormInput, duplicate, setDuplicate);
-  };
   return (
-    <form className="overlay" id="overlay" onSubmit={handleSubmit}>
+    <form
+      className="edit-form"
+      id="overlayEditform"
+      onSubmit={(e) => OnSubmitEditFormData(e, formInput)}
+    >
       <div className="grid-popup">
-        <IconButton id="hide-popup" onClick={HidePopup}>
-          <FontAwesomeIcon icon={faCircleMinus} style={{ color: "#F7B602" }} />
-        </IconButton>
+        {/* <IconButton id="hide-popup" onClick={HidePopup}>
+            <FontAwesomeIcon icon={faCircleMinus} style={{ color: "#F7B602" }} />
+          </IconButton> */}
         <IconButton id="close-popup" onClick={ClosePopup}>
           <FontAwesomeIcon icon={faCircleXmark} style={{ color: "#E05050" }} />
         </IconButton>
-        <div id="tilte-create"> Create </div>
+        <div id="tilte-create"> Edit </div>
         <TextField
-          required
+          disabled
           name="VehicleNumber"
           label="VehicleNumber"
           onChange={handleChange}
-          error={duplicate}
-          helperText={duplicate ? "VehicleNumber exists" : ""}
           value={formInput.VehicleNumber}
         />
         <TextField
@@ -259,6 +207,6 @@ function Form() {
       </div>
     </form>
   );
-}
+};
 
-export default Form;
+// export default EditForm;

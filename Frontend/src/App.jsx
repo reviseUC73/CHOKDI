@@ -12,8 +12,8 @@ import MainPage from "./Page/MainPage";
 
 import VerticalNavbar from "./compoent/VerticalNavbar";
 import SearchBar from "./compoent/SearchBar";
-import TableData from "./compoent/TableData";
-import EditData from "./compoent/EditData";
+import TableDataContent from "./compoent/TableDataContent";
+import EditDataContent from "./compoent/EditDataContent";
 import Form from "./compoent/Form";
 function App() {
   const [result, setResult] = useState([]);
@@ -25,8 +25,8 @@ function App() {
       <div className="content">
         <SearchBar setResult={setResult} />
         <Routes>
-          <Route path="/" element={<TableData result={result} />} />
-          <Route path="/edit" element={<EditData result={result} />} />
+          <Route path="/" element={<TableDataContent result={result} />} />
+          <Route path="/edit" element={<EditDataContent result={result} />} />
         </Routes>
       </div>
     </Fragment>

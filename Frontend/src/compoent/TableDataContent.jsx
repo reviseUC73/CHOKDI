@@ -20,7 +20,7 @@ import {
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
-function TableData({ result }) {
+function TableDataContent({ result }) {
   const [expandedRow, setExpandedRow] = useState(null);
   const [sortedColumn, setSortedColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
@@ -215,12 +215,7 @@ function TableData({ result }) {
                   DayRemaining
                 </div>
               </TableCell>
-              {/* <TableCell
-                id="col_main"
-                style={tableCellStyleHead}
-              >
-                Remark
-              </TableCell> */}
+            
             </TableRow>
           </TableHead>
 
@@ -439,4 +434,4 @@ function TableData({ result }) {
   );
 }
 
-export default TableData;
+export default TableDataContent;
