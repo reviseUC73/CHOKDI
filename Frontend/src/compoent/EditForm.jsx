@@ -10,7 +10,7 @@ import {
 import Calendar from "./Calendar";
 import "./Form.css";
 import "./EditForm.css";
-// import moment from "moment";
+import moment from "moment";
 import { OnSubmitEditFormData } from "../Services/EditFormData";
 export const EditForm = ({ formInput, setFormInput, setButtonActive }) => {
   const handleChange = (e) => {
@@ -20,18 +20,24 @@ export const EditForm = ({ formInput, setFormInput, setButtonActive }) => {
     setFormInput({ ...formInput, [name]: value });
     console.log(formInput);
   };
+
   //   Calendar.id="overlayEditform"
   const ClosePopup = () => {
+    const currentDate = moment().format("YYYY-MM-DD");
+
     const overlayEdit = document.getElementById("overlayEditform");
+    const nav = document.getElementsByClassName("nav_container_mui")[0];
     setButtonActive(false);
     // console.log(overlayEdit);
 
-    const form = document.getElementsByClassName("grid-popup")[0];
+    const form = document.getElementsByClassName("grid-popup")[1];
     form.style.animation = "fade-out 0.3s ease-out forwards";
 
-    overlayEdit.style.display = "none";
+    // overlayEdit.style.display = "none";
     setTimeout(() => {
-      overlay.style.display = "none";
+      nav.style.zIndex = "1";
+
+      overlayEdit.style.display = "none";
       form.style.animation = ""; // Reset animation
       setFormInput({
         CustomerName: "",
@@ -46,8 +52,8 @@ export const EditForm = ({ formInput, setFormInput, setButtonActive }) => {
         VehicleCode: "",
         InsuranceCompany: "",
         CoverageType: "",
-        CoverageStartDate: "currentDate",
-        CoverageEndDate: "currentDate",
+        CoverageStartDate: currentDate,
+        CoverageEndDate: currentDate,
         PolicyValue: "",
         Remark: "",
         Mail: "user@gmail.com",

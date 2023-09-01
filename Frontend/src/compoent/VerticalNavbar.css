@@ -4,6 +4,7 @@
   width: 6%;
   padding: 2rem;
   height: 100%;
+  z-index: 1;
   /* overflow: auto; */
   /* list-style-type: none; */
 }

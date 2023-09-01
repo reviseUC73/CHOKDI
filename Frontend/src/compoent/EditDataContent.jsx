@@ -159,22 +159,30 @@ function EditDataContent({ result }) {
 
   const EditOnclick = async (data) => {
     console.log(data);
+    const nav = document.getElementsByClassName("nav_container_mui")[0];
 
     const edit_button = document.getElementById("overlayEditform");
     // console.log(edit_button);
     if (buttonActive === false) {
       setFormInput(data);
+      nav.style.zIndex = "-1";
       edit_button.style.display = "grid ";
       setButtonActive(true);
     } else {
       edit_button.style.display = "none ";
       setButtonActive(false);
+      nav.style.zIndex = "1";
+
     }
   };
 
   return (
     <Fragment>
-      <EditForm formInput={formInput} setFormInput={setFormInput} setButtonActive={setButtonActive} />
+      <EditForm
+        formInput={formInput}
+        setFormInput={setFormInput}
+        setButtonActive={setButtonActive}
+      />
 
       <div id="overflowX">
         <TableContainer

@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, createContext, useState } from "react";
 
 import {
   BrowserRouter,
@@ -15,11 +15,13 @@ import SearchBar from "./compoent/SearchBar";
 import TableDataContent from "./compoent/TableDataContent";
 import EditDataContent from "./compoent/EditDataContent";
 import Form from "./compoent/Form";
+
+const WebContext = createContext();
 function App() {
   const [result, setResult] = useState([]);
-
+  const [buttonStatus, setButtonStatus] = useState(false);
   return (
-    <Fragment>
+    <WebContext.Provider value={{ buttonStatus, setButtonStatus }}>
       <VerticalNavbar />
       <Form />
       <div className="content">
@@ -29,7 +31,7 @@ function App() {
           <Route path="/edit" element={<EditDataContent result={result} />} />
         </Routes>
       </div>
-    </Fragment>
+    </WebContext.Provider>
   );
 }
 
