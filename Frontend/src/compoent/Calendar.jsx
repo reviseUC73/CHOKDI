@@ -10,7 +10,7 @@ function Calendar({ formInput, setFormInput, CoverageDate }) {
     return dayjs(date).format("YYYY-MM-DD");
   };
   // console.log( CoverageDate);
-  console.log(formInput);
+  // console.log(formInput);
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker

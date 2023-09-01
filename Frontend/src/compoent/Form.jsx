@@ -39,7 +39,7 @@ function Form() {
     const { name } = target; // name = e.target.name
     const value = e.target.value;
     setFormInput({ ...formInput, [name]: value });
-    console.log(formInput);
+    // console.log(formInput);
   };
   //   Calendar.
   const ClosePopup = () => {
