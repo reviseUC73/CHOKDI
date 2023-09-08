@@ -1,8 +1,19 @@
 import React, { useState } from "react";
 import "./LoginPage.css";
-
+import { GoogleLogin } from "@react-oauth/google";
+import { googleLogout } from "@react-oauth/google";
+import jwt_decode from "jwt-decode";
 function LoginPage() {
-  const [login, setLogin] = useState(true);
+  // const [login, setLogin] = useState(true);
+  // const [onTap, setOnTap] = useState(false);
+  const handleGoogleLoginSuccess = (credentialResponse) => {
+    console.log(credentialResponse.credential);
+    localStorage.setItem("access_token", credentialResponse.credential);
+    window.location.reload();
+  };
+  const handleGoogleLoginError = () => {
+    console.log("Login Failed");
+  };
 
   return (
     <div className="container_auth">
@@ -47,6 +58,27 @@ function LoginPage() {
             </a>
           </p>{" "}
           {/* <button id="button_auth">Log out AZ</button> */}
+          {/* <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              // var decoded = JSON.parse(credentialResponse);
+              var decoded = jwt_decode(credentialResponse.credential);
+
+              // console.log(credentialResponse);
+              console.log(decoded);
+            }}
+            onError={() => {
+              console.log("Login Failed");
+            }}
+            onClick={() => {
+              onTap ? setOnTap(false) : setOnTap(true);
+            }}
+            useOneTap={onTap}
+          /> */}
+          {/* ;<button onClick={googleLogout()}>d</button> */}
+          <GoogleLogin
+            onSuccess={handleGoogleLoginSuccess}
+            onError={handleGoogleLoginError}
+          />
         </div>
       </div>
       <div></div>
