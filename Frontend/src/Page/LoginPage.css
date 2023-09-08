@@ -1,0 +1,121 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  /* overflow-y: scroll; */
+}
+#img_auth {
+  object-fit: contain;
+  max-width: 100%;
+}
+
+.container_auth {
+  margin: 3rem;
+  display: flex;
+  justify-content: center; /* align horizontal  | */
+  align-items: center; /* align vertical   _ */
+}
+
+.form-container_auth {
+  width: 23.5rem;
+  padding: 3rem;
+
+  background-color: rgb(255, 255, 255);
+  backdrop-filter: blur(3rem) !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  color: #fff;
+  max-height: 100%;
+}
+
+#auth_topic {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: calc(50% + 5vmin);
+  color: #3f3f3f;
+  font-weight: bold;
+}
+
+#form_auth {
+  /* display: flex; */
+  /* flex-direction: column; */
+}
+
+/* assign label left */
+#label_auth {
+  margin-left: 0.5rem;
+  /* margin-bottom: 0.3rem; */
+  font-size: 1.2rem;
+  margin-right: auto;
+  color: #333;
+  font-size: calc(60% + 0.5vmin);
+}
+
+.input_auth {
+  padding: 0.7rem;
+
+  border: none;
+  border-radius: 0.4rem;
+  margin-bottom: 0.6rem;
+  color: #333;
+  background-color: rgba(248, 248, 248, 0.935);
+  width: 90%;
+  border: none;
+  border: cap;
+  font-size: 1rem;
+  border-bottom: 0.2rem solid rgba(0, 0, 0, 0.12);
+}
+
+#button_auth {
+  margin-bottom: 0.5rem;
+  padding: 0.8rem;
+  width: 95%;
+  margin-top: 0.6rem;
+  background-color: rgb(137, 155, 245);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  color: #fff;
+  border: none;
+  border-bottom: 0.2rem solid rgba(0, 0, 0, 0.12);
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+#button_auth:hover {
+  background-color: rgba(137, 155, 245, 0.879);
+}
+
+#auth-link :hover {
+  color: #8c5fb2;
+}
+
+#auth-box-link {
+  text-align: center;
+}
+
+#text_auth {
+  position: relative;
+  color: #535353;
+  font-size: 0.7rem;
+  margin-right: 0.5rem;
+  left: 5px;
+}
+#signup-link {
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: rgb(111, 134, 246);
+
+  transition: color 0.2s ease-in-out;
+}
+
+#login-link {
+  cursor: pointer;
+  font-size: 1.1rem;
+  text-decoration: none;
+  color: rgb(111, 134, 246);
+  transition: color 0.2s ease-in-out;
+}

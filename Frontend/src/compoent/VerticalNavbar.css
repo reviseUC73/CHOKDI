@@ -1,12 +1,10 @@
 .nav_container_mui {
   position: fixed;
-  /* background-color: rgb(123, 154, 247); */
   width: 6%;
   padding: 2rem;
   height: 100%;
   z-index: 1;
-  /* overflow: auto; */
-  /* list-style-type: none; */
+
 }
 #media_bottom {
   min-width: 80px;
