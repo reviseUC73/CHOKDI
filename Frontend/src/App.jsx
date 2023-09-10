@@ -10,6 +10,7 @@ import EditDataContent from "./compoent/EditDataContent";
 import Form from "./compoent/Form";
 import LoginPage from "./Page/LoginPage";
 import { TokenDecode } from "./Services/Api";
+import ProfileBar from "./compoent/ProfileBar";
 
 // import { GoogleOAuthProvider } from '@react-oauth/google';
 
@@ -27,12 +28,14 @@ function App() {
       const decode_ = async (my_token) => {
         const decoder = await TokenDecode(my_token);
         console.log(decoder);
-        setAccessToken(token);
+        if (decoder) {
+          setAccessToken(decoder);
+        }
       };
       console.log(token);
       decode_(token);
     }
-  }, [accessToken]);
+  }, []);
 
   const handleOnClick_Logout = () => {
     localStorage.removeItem("accessToken");
@@ -47,9 +50,11 @@ function App() {
           <div className="content">
             <div className="top_container">
               <SearchBar setResult={setResult} />
-              <a href="/">
+              <ProfileBar user={accessToken.data.email}  />
+              {/* <div className="profile-btn">{accessToken.data.email}</div> */}
+              {/* <a href="/">
                 <button onClick={handleOnClick_Logout}>LogOut</button>{" "}
-              </a>
+              </a> */}
             </div>
             <Routes>
               <Route path="/" element={<TableDataContent result={result} />} />

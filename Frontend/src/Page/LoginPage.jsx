@@ -48,11 +48,11 @@ function LoginPage() {
     setProfile(null);
   };
 
-  const handleGoogleLoginSuccess = (credentialResponse) => {
-    // console.log(credentialResponse.credential);
-    localStorage.setItem("credential", credentialResponse.credential);
-    window.location.reload();
-  };
+  // const handleGoogleLoginSuccess = (credentialResponse) => {
+  //   // console.log(credentialResponse.credential);
+  //   localStorage.setItem("credential", credentialResponse.credential);
+  //   window.location.reload();
+  // };
 
   return (
     <div className="container_auth">
@@ -95,6 +95,7 @@ function LoginPage() {
           >
             OR
           </Divider>
+
           {profile ? (
             <div>
               <button onClick={logOut}>Log out</button>
