@@ -75,7 +75,6 @@ export const CreateInformation = async (data) => {
       },
     });
 
-
     if (response.status === 201) {
       return true;
     } else if (response.status === 400) {
@@ -107,5 +106,24 @@ export const EditInformation = async (user_id, data) => {
   } catch (e) {
     console.log("Failed to fail data", e);
     return false;
+  }
+};
+
+export const TokenDecode = async (token) => {
+  try {
+    const data = await axios.get(
+      `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${token}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          // value: "same-origin", // "same-origin-allow-popups"
+        },
+      }
+    );
+    return data;
+  } catch (e) {
+    console.log(e);
+    return null;
   }
 };

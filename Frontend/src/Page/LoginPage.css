@@ -13,7 +13,7 @@ body {
 }
 
 .container_auth {
-  margin: 3rem;
+  margin: 2.4rem;
   display: flex;
   justify-content: center; /* align horizontal  | */
   align-items: center; /* align vertical   _ */
@@ -39,8 +39,10 @@ body {
 }
 
 #form_auth {
-  /* display: flex; */
-  /* flex-direction: column; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /* assign label left */
@@ -118,4 +120,79 @@ body {
   text-decoration: none;
   color: rgb(111, 134, 246);
   transition: color 0.2s ease-in-out;
+}
+
+/* Styles for the Google Sign-In button */
+.g-signin-button {
+  display: inline-block;
+  background-color: #ffffff;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 8px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  border: #e7e6e6 solid 1.4px;
+  /* box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+   */
+}
+
+.g-icon {
+  display: inline-block;
+  vertical-align: middle;
+  /* margin-right: 10px; */
+}
+
+.g-icon img {
+  height: 25px;
+  width: 25px;
+  vertical-align: middle;
+}
+
+.g-text {
+  vertical-align: middle;
+}
+
+/* Hover effect */
+.g-signin-button:hover {
+  border: rgba(158, 180, 246, 0.581) solid 1px;
+  background-color: #99bbf21b;
+}
+
+#container_auth_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+}
+
+.google-btn {
+  width: 80%;
+  display: inline-flex;
+  align-items: center;
+  background-color: #ffffff;
+  font-size: 0.9rem;
+  color: rgb(77, 77, 77);
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  border: #e7e6e6 solid 1.4px;
+}
+
+.google-btn img {
+  height: 25px;
+  width: 25px;
+  vertical-align: middle;
+}
+
+
+.google-btn:hover {
+  background-color: #357ae8;
+}
+
+.google-icon {
+  width: 18px;
+  margin-right: 10px;
 }

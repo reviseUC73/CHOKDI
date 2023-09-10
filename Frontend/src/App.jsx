@@ -9,6 +9,7 @@ import TableDataContent from "./compoent/TableDataContent";
 import EditDataContent from "./compoent/EditDataContent";
 import Form from "./compoent/Form";
 import LoginPage from "./Page/LoginPage";
+import { TokenDecode } from "./Services/Api";
 
 // import { GoogleOAuthProvider } from '@react-oauth/google';
 
@@ -16,27 +17,26 @@ const WebContext = createContext();
 function App() {
   const [result, setResult] = useState([]);
   const [buttonStatus, setButtonStatus] = useState(false);
-  const accessToken = localStorage.getItem("access_token");
-  // useEffect(setAccessToken, [accessToken]);
-  // console.log(jwt_decode(accessToken).email);
-  // console.log(accessToken);
-  // const setAccessToken = () => {
-  //   const token = localStorage.getItem("access_token");
-  //   if (token) {
-  //     const decoded = jwt_decode(token);
-  //     console.log(decoded);
-  //     const currentTime = Date.now() / 1000;
-  //     if (decoded.exp < currentTime) {
-  //       localStorage.removeItem("access_token");
-  //       localStorage.removeItem("refresh_token");
-  //     }
-  //   }
-  // };
+
+  const [accessToken, setAccessToken] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    // const decode = TokenDecode
+    if (token) {
+      const decode_ = async (my_token) => {
+        const decoder = await TokenDecode(my_token);
+        console.log(decoder);
+        setAccessToken(token);
+      };
+      console.log(token);
+      decode_(token);
+    }
+  }, [accessToken]);
 
   const handleOnClick_Logout = () => {
-    localStorage.removeItem("access_token");
+    localStorage.removeItem("accessToken");
     window.location.reload();
-    // localStorage.removeItem("refresh_token");
   };
   return (
     <Fragment>
@@ -47,8 +47,9 @@ function App() {
           <div className="content">
             <div className="top_container">
               <SearchBar setResult={setResult} />
-              <div>{jwt_decode(accessToken).email}</div>
-              <button onClick={handleOnClick_Logout}>LogOut</button>{" "}
+              <a href="/">
+                <button onClick={handleOnClick_Logout}>LogOut</button>{" "}
+              </a>
             </div>
             <Routes>
               <Route path="/" element={<TableDataContent result={result} />} />

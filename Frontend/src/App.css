@@ -20,13 +20,13 @@
   align-items: center;
   margin-bottom: 1rem;
 }
-.top_container > button {
+.top_container > a > button {
   border-radius: 1rem;
   font-size: 0.8rem;
   box-shadow: 1px 1px 2px 3px rgba(0, 0, 0, 0.04);
   color: #8394f8;
   background-color: #f3f7fe;
-  border-color: #DCE2EB;
+  border-color: #dce2eb;
 }
 @media screen and (max-width: 900px) {
   .content {
