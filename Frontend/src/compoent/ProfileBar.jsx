@@ -10,7 +10,7 @@ import Avatar from "@mui/material/Avatar";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
+
 import Tooltip from "@mui/material/Tooltip";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
@@ -33,10 +33,17 @@ export default function ProfileBar({ user }) {
   };
   return (
     <React.Fragment>
-      <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" ,marginRight:"1rem",}}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          textAlign: "center",
+          marginRight: "1rem",
+        }}
+      >
         <Tooltip title={user}>
           <IconButton
-        //   style={{padding:"1rem"}}
+            //   style={{padding:"1rem"}}
             onClick={handleClick}
             size="medium"
             sx={{ ml: 2 }}
@@ -59,7 +66,7 @@ export default function ProfileBar({ user }) {
         PaperProps={{
           elevation: 0,
           sx: {
-            fontFamily: "Kanit, sans-serif",
+            // fontFamily: "Kanit, sans-serif",
             borderRadius: "0.5rem",
             bgcolor: " #FFFFFF",
             color: "#484848",
@@ -74,7 +81,7 @@ export default function ProfileBar({ user }) {
               mr: 1,
             },
             "&:before": {
-              fontFamily: "Kanit, sans-serif",
+            //   fontFamily: "Kanit, sans-serif",
 
               content: '""',
               display: "block",
@@ -84,7 +91,6 @@ export default function ProfileBar({ user }) {
               width: 10,
               height: 10,
               bgcolor: " #FFFFFF",
-
               transform: "translateY(-50%) rotate(45deg)",
               zIndex: 0,
             },
@@ -101,7 +107,7 @@ export default function ProfileBar({ user }) {
         </MenuItem>
 
         <Divider />
-        <MenuItem
+        {/* <MenuItem
           onClick={handleClose}
           style={{ fontFamily: "Kanit, sans-serif" }}
         >
@@ -118,7 +124,7 @@ export default function ProfileBar({ user }) {
             <Settings fontSize="small" />
           </ListItemIcon>
           Settings
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem
           onClick={handleLogout}
           style={{ fontFamily: "Kanit, sans-serif" }}
