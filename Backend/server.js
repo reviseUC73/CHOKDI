@@ -267,7 +267,10 @@ const G_TokenVerify = async (token) => {
       }
     );
     console.log("response", "call api is successed");
-    return response.status === 200;
+    if (response.status === 200) {
+      return response.data.email;
+    }
+    return null;
   } catch (err) {
     // console.log("Error in token decode", err);
     return false;
@@ -279,8 +282,16 @@ app.post("/google-register", jsonParser, async (req, res) => {
   const { Mail, Password, FirstName, LastName, Role, Token } = userData;
   const query = `INSERT INTO UserAccount (Mail, Password, FirstName, LastName, Role) VALUES (?,?,?,?,?)`;
   const isTokenValid = await G_TokenVerify(Token);
-  if (!isTokenValid) {
-    res.status(401).json({ error: "Invalid token" });
+  if (!Boolean(isTokenValid)) {
+    res
+      .status(401)
+      .json({
+        error: "Invalid token > This token is not found or will expire.)",
+      });
+    return;
+  }
+  if (isTokenValid !== Mail) {
+    res.status(401).json({ error: "Invalid token > This is not your token." });
     return;
   }
   db.query(

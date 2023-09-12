@@ -9,15 +9,13 @@ import TableDataContent from "./compoent/TableDataContent";
 import EditDataContent from "./compoent/EditDataContent";
 import Form from "./compoent/Form";
 import LoginPage from "./Page/LoginPage";
-import { TokenDecode } from "./Services/Api";
+import { TokenDecodeGOOGLE } from "./Services/Api";
 import ProfileBar from "./compoent/ProfileBar";
+import PasswordSetPage from "./Page/PasswordSetPage";
 
-// import { GoogleOAuthProvider } from '@react-oauth/google';
 
-const WebContext = createContext();
 function App() {
   const [result, setResult] = useState([]);
-  const [buttonStatus, setButtonStatus] = useState(false);
 
   const [accessToken, setAccessToken] = useState(null);
 
@@ -26,13 +24,19 @@ function App() {
     // const decode = TokenDecode
     if (token) {
       const decode_ = async (my_token) => {
-        const decoder = await TokenDecode(my_token);
-        console.log(decoder);
-        if (decoder) {
-          setAccessToken(decoder);
+        try {
+          const decoder = await TokenDecodeGOOGLE(my_token);
+          // console.log(decoder);
+          if (decoder) {
+            setAccessToken(decoder);
+          }
+        } catch (e) {
+          console.log(e);
+          localStorage.removeItem("accessToken");
+          window.location.reload();
         }
       };
-      console.log(token);
+      // console.log(token);
       decode_(token);
     }
   }, []);
@@ -44,13 +48,14 @@ function App() {
   return (
     <Fragment>
       {accessToken ? (
-        <WebContext.Provider value={{ buttonStatus, setButtonStatus }}>
+        // <WebContext.Provider value={{ buttonStatus, setButtonStatus }}>
+        <div>
           <VerticalNavbar />
           <Form />
           <div className="content">
             <div className="top_container">
               <SearchBar setResult={setResult} />
-              <ProfileBar user={accessToken.data.email}  />
+              <ProfileBar user={accessToken.data.email} />
               {/* <div className="profile-btn">{accessToken.data.email}</div> */}
               {/* <a href="/">
                 <button onClick={handleOnClick_Logout}>LogOut</button>{" "}
@@ -64,10 +69,12 @@ function App() {
               />
             </Routes>
           </div>
-        </WebContext.Provider>
+        </div>
       ) : (
+        // </WebContext.Provider>
         <Routes>
           <Route path="/" element={<LoginPage />} />
+          <Route path="/setPassword" element={<PasswordSetPage  email={"rew"}/>} />
           {/* <Route path="/login2" element={<LoginPage2 />} /> */}
         </Routes>
       )}

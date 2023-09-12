@@ -42,7 +42,7 @@ function SearchBar({ setResult }) {
         searchResult = SearchInData(data, keySearch.toLowerCase());
       }
       setResult(searchResult);
-      console.log(searchResult);
+      // console.log(searchResult);
     } catch (error) {
       console.error(error);
     }

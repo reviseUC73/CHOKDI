@@ -109,9 +109,9 @@ export const EditInformation = async (user_id, data) => {
   }
 };
 
-export const TokenDecode = async (token) => {
+export const TokenDecodeGOOGLE = async (token) => {
   try {
-    const data = await axios.get(
+    const response = await axios.get(
       `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${token}`,
       {
         headers: {
@@ -121,9 +121,62 @@ export const TokenDecode = async (token) => {
         },
       }
     );
-    return data;
+    console.log(response);
+    // Check for a successful response (status code 200)
+    if (response.status === 200) {
+      // console.log(response);
+      return response;
+    } else {
+      if (response.status === 401) {
+        console.log("Token expired or Token not found or Token invalid");
+      } else {
+        // Handle unexpected response status codes
+        console.error("Unexpected response status:", response.status);
+      }
+      return null;
+    }
+    // return response;
   } catch (e) {
     console.log(e);
+    console.log("Failed to decode token");
     return null;
+  }
+};
+
+export const CreateAuthUser = async (data) => {
+  //  data is json format -> { email: , password, firstname ,lastname , role }
+  const baseURL = `http://${host_ip}:${port}/google-register`;
+  console.log(data);
+  if (
+    !data.email ||
+    !data.password ||
+    !data.role ||
+    !data.firstName ||
+    !data.lastName
+  ) {
+    console.log("Missing required field(s)");
+    return false;
+  }
+
+  var data_format =data; // convert json to string
+
+  try {
+    // Send the PUT request
+    const response = await axios.post(baseURL, data_format, {
+      headers: {
+        // Overwrite Axios's automatically set Content-Type
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 201) {
+      return true;
+    } else if (response.status === 400) {
+      console.log(response.data);
+    }
+    return false;
+  } catch (e) {
+    console.log("Failed to submit data", e);
+    return false;
   }
 };

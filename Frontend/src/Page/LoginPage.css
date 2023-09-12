@@ -122,6 +122,7 @@ body {
   transition: color 0.2s ease-in-out;
 }
 
+
 /* Styles for the Google Sign-In button */
 .g-signin-button {
   display: inline-block;

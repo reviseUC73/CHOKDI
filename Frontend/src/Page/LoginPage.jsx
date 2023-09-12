@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./LoginPage.css";
-import { GoogleLogin } from "@react-oauth/google";
-import { googleLogout } from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
-import GoogleButton from "react-google-button";
-import { useGoogleOneTapLogin } from "@react-oauth/google";
 import { useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
-import { TokenDecode } from "../Services/Api";
+import { TokenDecodeGOOGLE } from "../Services/Api";
 import Divider from "@mui/material/Divider";
 function LoginPage() {
   const [user, setUser] = useState(null);
-  const [profile, setProfile] = useState(null);
+  const [profileToken, setProfileToken] = useState(null);
 
   // token can use from request body and ttps://www.googleapis.com/oauth2/v1/userinfo?access_token=$
   useEffect(() => {
@@ -19,9 +13,9 @@ function LoginPage() {
       console.log(user);
       if (user) {
         try {
-          const data = await TokenDecode(user.access_token);
-          setProfile(data);
-          console.log(profile);
+          const data = await TokenDecodeGOOGLE(user.access_token);
+          setProfileToken(data);
+          console.log(profileToken);
         } catch (error) {
           console.log(error);
 
@@ -35,18 +29,18 @@ function LoginPage() {
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
-      console.log("codeResponse");
-      console.log(codeResponse);
+      // console.log("codeResponse")
+
       setUser(codeResponse);
       localStorage.setItem("accessToken", codeResponse.access_token);
       window.location.reload();
     },
     onError: (error) => console.log("Login Failed:", error),
   });
-  const logOut = () => {
-    googleLogout();
-    setProfile(null);
-  };
+  // const logOut = () => {
+  //   googleLogout();
+  //   setProfileToken(null);
+  // };
 
   // const handleGoogleLoginSuccess = (credentialResponse) => {
   //   // console.log(credentialResponse.credential);
@@ -58,14 +52,14 @@ function LoginPage() {
     <div className="container_auth">
       <div>
         <div className="form-container_auth " id="login-form">
-          <div id="auth_topic">Login</div>
+          <div id="auth_topic">CHOKDI</div>
           <img
             id="img_auth"
             src="../../image/login_img.png"
             alt="Italian Trulli"
           />
           <form id="form_auth">
-            <label for="username" id="label_auth">
+            <label  id="label_auth">
               Username
             </label>
             <input
@@ -75,7 +69,7 @@ function LoginPage() {
               name="username"
               required
             />
-            <label for="password" id="label_auth">
+            <label id="label_auth">
               Password
             </label>
             <input
@@ -96,11 +90,8 @@ function LoginPage() {
             OR
           </Divider>
 
-          {profile ? (
-            <div>
-              <button onClick={logOut}>Log out</button>
-            </div>
-          ) : (
+          {profileToken ? // </div> //   <button onClick={logOut}>Log out</button> // <div>
+          null : (
             // <button onClick={() => login()}>Sign in with Google 🚀 </button>
             <div id="container_auth_button">
               <div className="g-signin-button" onClick={login}>
