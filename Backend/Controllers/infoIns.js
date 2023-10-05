@@ -1,5 +1,5 @@
 const db = require("../Models/db");
-require("dotenv").config();
+
 
 // Create Routes
 exports.create = async (req, res) => {
