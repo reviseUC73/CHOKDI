@@ -1,11 +1,4 @@
-const express = require("express");
-const router = express.Router();
 const db = require("../Models/db");
-// const cors = require("cors");
-
-const bodyParser = require("body-parser");
-const jsonParser = bodyParser.json();
-
 require("dotenv").config();
 
 // Create Routes
