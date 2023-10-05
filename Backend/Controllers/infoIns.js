@@ -1,5 +1,4 @@
-const db = require("../Models/db");
-
+const db = require("../Models/db.js");
 
 // Create Routes
 exports.create = async (req, res) => {
