@@ -1,4 +1,4 @@
-const db = require("../Models/db.js");
+const db = require("../Config/db.js");
 const bcrypt = require("bcryptjs");
 const axios = require("axios");
 var jwt = require("jsonwebtoken");

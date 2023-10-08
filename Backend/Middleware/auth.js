@@ -1,5 +1,5 @@
 var jwt = require("jsonwebtoken");
-const db = require("../Models/db.js");
+const db = require("../Config/db.js");
 // const bcrypt = require("bcryptjs");
 
 const axios = require("axios");
@@ -121,7 +121,7 @@ exports.authVerifyToken = async (req, res, next) => {
       return res.status(401).json({ message: "Token not found" });
     }
     const decoded = jwt.verify(token_payload, process.env.JWT_SECRET);
-    console.log(decoded);
+    // console.log(decoded);
     next();
   } catch (err) {
     console.log(err);
