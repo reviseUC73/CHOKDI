@@ -1,6 +1,7 @@
 const db = require("../Config/db.js");
 const bcrypt = require("bcryptjs");
 const axios = require("axios");
+
 var jwt = require("jsonwebtoken");
 
 require("dotenv").config(); // Load environment variables from .env file
@@ -267,7 +268,7 @@ exports.login = async (req, res) => {
         } else {
           // res.status(200).json(result);
 
-          console.log(result);
+          // console.log(result);
           // Check email in system -> email and password are correct -> send token to client
           if (result.length === 0) {
             res.status(401).json({ error: "Email not found" });
@@ -297,7 +298,16 @@ exports.login = async (req, res) => {
                 console.log(err);
                 return;
               }
-              res.status(200).json({ message: "Login success", token, user }); // sent to fontend and add it to header
+              
+              res
+                .status(200)
+                .json({ message: "Login success", token, user })
+                .cookie("token", token, {
+                  httpOnly: true,
+                  maxAge: 300000,
+                  secure: true,
+                  sameSite: none,
+                }); // set cookie; // sent to fontend and add it to header
             }
           );
         }

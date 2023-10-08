@@ -3,6 +3,7 @@ const db = require("../Config/db.js");
 // const bcrypt = require("bcryptjs");
 
 const axios = require("axios");
+const { token } = require("morgan");
 
 exports.checkTokenG_MiddleV1 = async (req, res, next) => {
   const userData = req.body;
@@ -116,13 +117,39 @@ exports.checkMailUsed_Middle = async (req, res, next) => {
 
 exports.authVerifyToken = async (req, res, next) => {
   try {
-    const token_payload = req.headers["auth_token"]; // manage by fontend
-    if (!token_payload) {
+    const token = req.headers["authorization"].split(" ")[1];
+    // manage by fontend
+    if (!token) {
       return res.status(401).json({ message: "Token not found" });
     }
-    const decoded = jwt.verify(token_payload, process.env.JWT_SECRET);
-    // console.log(decoded);
-    next();
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(decoded);
+    db.query(
+      `SELECT * FROM UserAccount WHERE Mail = ?`,
+      [decoded.Mail],
+      (err, result) => {
+        if (err) {
+          console.error(err.message);
+          res.status(500).json({
+            regis_status: "invalid",
+            message: "Internal server error",
+          });
+          return;
+        }
+        console.log(result[0]);
+
+        if (!result[0]) {
+          res.status(401).json({
+            message: "Your mail not found in system",
+          });
+          return;
+        }
+
+        req.user = result[0];
+        next();
+        return;
+      }
+    );
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Token Invalid" });
