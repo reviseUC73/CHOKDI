@@ -52,7 +52,7 @@ exports.create = async (req, res) => {
       (err, result, fields) => {
         if (err) {
           console.log("Error inserting into database", err);
-          res.body = "hi";
+
           return res.status(400).send({ result: " false" });
         }
         return res
@@ -140,7 +140,7 @@ exports.edit = async (req, res) => {
           console.log("Error updating database", err);
           return res.status(400).send();
         }
-        return res.status(200).json({
+        return res.status(201).json({
           message: "Updating database is successful",
           affectedRows: result.affectedRows,
         });
@@ -165,7 +165,7 @@ exports.remove = async (req, res) => {
           console.log("Error deleting from database", err);
           return res.status(400).send();
         }
-        return res.status(200).json({
+        return res.status(204).json({
           message: "Deleting from database is successful",
           affectedRows: result.affectedRows,
         });

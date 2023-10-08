@@ -1,4 +1,12 @@
 const db = require("../Models/db.js");
+const bcrypt = require("bcryptjs");
+const axios = require("axios");
+var jwt = require("jsonwebtoken");
+
+require("dotenv").config(); // Load environment variables from .env file
+
+// const { token } = require("morgan");
+
 const G_TokenVerify = async (token) => {
   try {
     const response = await axios.get(
@@ -7,41 +15,81 @@ const G_TokenVerify = async (token) => {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "routerlication/json",
-          // value: "same-origin", // "same-origin-allow-popups"
+          value: "same-origin", // "same-origin-allow-popups"
         },
       }
     );
-    console.log("response", "call api is successed");
+
+    // console.log(response.data.email, "call api is successed");
+    // console.log("response", "call api is successed");
     if (response.status === 200) {
       return response.data.email;
     }
+
     return null;
   } catch (err) {
-    // console.log("Error in token decode", err);
+    console.log("Error in token decode", err);
     return false;
   }
 };
 
 // use when user auth by oauth / check email of user has db ?
-exports.checkEmailUsed = async (req, res) => {
+exports.checkEmailUsed_1 = async (req, res) => {
   const userData = req.body; // we use body-parser to get json from request's body (jsonParser)
-  const { email } = userData; // email = userData.email -> we get string email from json and when you request to server you must send json(body) with key is email
-  // const { mail } = userData; -> when  call api in body req you sent { mail : .... } in body reply
-  // res.json(email);
+  const { Mail } = userData; // email = userData.email -> we get string email from json and when you request to server you must send json(body) with key is email
   const query = `SELECT * FROM UserAccount WHERE Mail = ?`;
-  db.query(query, [email], (err, result) => {
+  db.query(query, [Mail], (err, result) => {
     if (err) {
       console.log("Failed to execute the check email query", err);
       res.status(500).json({ error: "Internal server error" });
       return;
     }
     const emailUsed = result.length > 0;
-    res.json({ MailUsed: emailUsed });
+
+    console.log("emailUsed", result);
+    res.json({ MailUsed: emailUsed, message: `can use this ${Mail}` });
     return;
   });
 };
 
-exports.googleCreateAccount = async (req, res) => {
+exports.checkEmailUsed = async (req, res) => {
+  const userData = req.body;
+  const { Mail } = userData;
+  try {
+    db.query(
+      `SELECT Mail FROM UserAccount WHERE Mail = ?`,
+      [Mail],
+      (err, result) => {
+        if (err) {
+          console.error(err.message);
+          res.status(500).json({
+            regis_status: "invalid",
+          });
+          return;
+        }
+        // console.log(result);
+        var mailUsed = result.length > 0;
+        if (mailUsed) {
+          res
+            .status(409) // Conflict
+            .json({
+              message:
+                "Username/Email already exists. Please choose a different one.",
+              resgis_status: "mail_used",
+              MailUsed: mailUsed,
+            });
+          return;
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    // return res.status(500).json({ error: err.message });
+    return res.status(500).send({ ReferenceError: err.message });
+  }
+};
+
+exports.googleRegister = async (req, res) => {
   const userData = req.body;
   const { Mail, Password, FirstName, LastName, Role, Token } = userData;
   const query = `INSERT INTO UserAccount (Mail, Password, FirstName, LastName, Role) VALUES (?,?,?,?,?)`;
@@ -56,6 +104,7 @@ exports.googleCreateAccount = async (req, res) => {
     res.status(401).json({ error: "Invalid token > This is not your token." });
     return;
   }
+
   db.query(
     query,
     [Mail, Password, FirstName, LastName, Role],
@@ -92,10 +141,166 @@ exports.listMail = async (req, res) => {
   }
 };
 
-exports.login = async (req, res) => {
-  const userData = req.body; // we use body-parser to get json from request's body (jsonParser)
+//change in payload token -> Gtoken
+
+//regis-status = invalid , mail_used, success
+exports.registerAll = async (req, res) => {
+  const userData = req.body;
+  var { Mail, Password, FirstName, LastName, Role, Token } = userData;
+  const isGtokenValid = await G_TokenVerify(Token);
+
+  if (!Boolean(isGtokenValid)) {
+    res.status(401).json({
+      regis_status: "invalid",
+      error: "Invalid token > This token is not found or will expire.)",
+    });
+    return;
+  }
+  if (isGtokenValid !== Mail) {
+    res.status(401).json({
+      regis_status: "invalid",
+      error: "Invalid token > This is not your token.",
+    });
+    return;
+  }
+
+  // now this google account is enabled by admin(this account can use (google mail that enables to access ))
+  try {
+    const query_insert = `INSERT INTO UserAccount (Mail, Password, FirstName, LastName, Role) VALUES (?,?,?,?,?)`;
+    db.query(
+      `SELECT Mail FROM UserAccount WHERE Mail = ?`,
+      [Mail],
+      (err, result) => {
+        if (err) {
+          console.error(err.message);
+          res.status(500).json({
+            regis_status: "invalid",
+          });
+          return;
+        }
+        // console.log(result);
+        var mailUsed = result.length > 0;
+        if (mailUsed) {
+          res
+            .status(409) // Conflict
+            .json({
+              message:
+                "Username/Email already exists. Please choose a different one.",
+              resgis_status: "mail_used",
+              MailUsed: mailUsed,
+            });
+          return;
+        }
+      }
+    );
+
+    // Encrypt
+    const hashedPassword = await bcrypt.hash(Password, 10);
+    console.log("query_insert");
+
+    db.query(
+      query_insert,
+      [Mail, hashedPassword, FirstName, LastName, Role],
+      (err, result) => {
+        if (err) {
+          console.log("Failed to execute the register query", err);
+          res.status(500).json({
+            regis_status: "invalid",
+            error: "Internal server error",
+          });
+          return;
+        }
+
+        res.status(201).json({
+          regis_status: "success",
+          affectedRows: result.affectedRows,
+          message: "User account created successfully.",
+        });
+      }
+    );
+  } catch (e) {
+    console.log(e.message);
+    res.status(401).json({ resgis_status: "sql_command_fail" }).json;
+  }
 };
 
 exports.register = async (req, res) => {
-  const userData = req.body; // we use body-parser to get json from request's body (jsonParser)
+  // Encrypt
+  const userData = req.body;
+  var { Mail, Password, FirstName, LastName, Role } = userData;
+  const hashedPassword = await bcrypt.hash(Password, 10);
+  console.log("query_insert");
+  // const query_insert = `INSERT INTO UserAccount (Mail, Password, FirstName, LastName, Role) VALUES (?,?,?,?,?)`;
+  db.query(
+    `INSERT INTO UserAccount (Mail, Password, FirstName, LastName, Role) VALUES (?,?,?,?,?)`,
+    [Mail, hashedPassword, FirstName, LastName, Role],
+    (err, result) => {
+      if (err) {
+        console.log("Failed to execute the register query", err);
+        res.status(500).json({
+          regis_status: "invalid",
+          error: "Internal server error",
+        });
+        return;
+      }
+
+      res.status(201).json({
+        regis_status: "success",
+        affectedRows: result.affectedRows,
+        message: "User account created successfully.",
+      });
+    }
+  );
+};
+// use jwt token when user login (optional -> het token when user register)
+exports.login = async (req, res) => {
+  const { email, password } = req.body;
+
+  // const [result] = await db.query
+  try {
+    db.query(
+      "SELECT * FROM UserAccount WHERE Mail = ?",
+      [email],
+      async (err, result) => {
+        if (err) {
+          res.status(400).json({ error: " Sql_commnad_fail" });
+        } else {
+          // res.status(200).json(result);
+
+          console.log(result);
+          // Check email in system -> email and password are correct -> send token to client
+          if (result.length === 0) {
+            res.status(401).json({ error: "Email not found" });
+            return;
+          }
+          var user = result[0];
+          // console.log(user);
+          const isPasswordMatched = await bcrypt.compare(
+            password,
+            user.Password
+          );
+          if (!isPasswordMatched) {
+            res.status(401).json({ error: "Password is incorrect" });
+            return;
+          }
+
+          // user.Password = password; // sent data of user that pass word is not encrypted
+          // const token = jwt.sign({ email: user.Mail }, process.env.JWT_SECRET, {
+          jwt.sign({ email: email }, process.env.JWT_SECRET, (err, token) => {
+            if (err) {
+              res.status(500).json({ error: "Internal server error" });
+              // throw err;
+              console.log(err);
+              return;
+            }
+            res.status(200).json({ message: "Login success", token, user });
+          });
+        }
+        return;
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Internal server error (1)" });
+  }
 };

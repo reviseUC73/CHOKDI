@@ -1,12 +1,5 @@
 const express = require("express");
-const mysql = require("mysql2");
 const cors = require("cors");
-var bodyParser = require("body-parser");
-// import axios from "axios";
-const axios = require("axios");
-
-// create application/json parser
-var jsonParser = bodyParser.json();
 
 //import router
 const dataRouter = require("./Routes/infoIns");
