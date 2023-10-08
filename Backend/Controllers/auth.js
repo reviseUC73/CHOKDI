@@ -286,15 +286,20 @@ exports.login = async (req, res) => {
 
           // user.Password = password; // sent data of user that pass word is not encrypted
           // const token = jwt.sign({ email: user.Mail }, process.env.JWT_SECRET, {
-          jwt.sign({ email: email }, process.env.JWT_SECRET, (err, token) => {
-            if (err) {
-              res.status(500).json({ error: "Internal server error" });
-              // throw err;
-              console.log(err);
-              return;
+          jwt.sign(
+            { Mail: email, Role: user.Role },
+            process.env.JWT_SECRET,
+            { expiresIn: "1d" },
+            (err, token) => {
+              if (err) {
+                res.status(500).json({ error: "Internal server error" });
+                // throw err;
+                console.log(err);
+                return;
+              }
+              res.status(200).json({ message: "Login success", token, user }); // sent to fontend and add it to header
             }
-            res.status(200).json({ message: "Login success", token, user });
-          });
+          );
         }
         return;
       }

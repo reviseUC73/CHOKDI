@@ -1,5 +1,4 @@
-var jwt = require('jsonwebtoken');
-var token = jwt.sign({ foo: 'bar' }, 'shhhhh');
+var jwt = require("jsonwebtoken");
 const db = require("../Models/db.js");
 // const bcrypt = require("bcryptjs");
 
@@ -115,6 +114,17 @@ exports.checkMailUsed_Middle = async (req, res, next) => {
   }
 };
 
-exports.getToken = async (req, res) => {
-   
+exports.authVerifyToken = async (req, res, next) => {
+  try {
+    const token_payload = req.headers["auth_token"]; // manage by fontend
+    if (!token_payload) {
+      return res.status(401).json({ message: "Token not found" });
+    }
+    const decoded = jwt.verify(token_payload, process.env.JWT_SECRET);
+    console.log(decoded);
+    next();
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Token Invalid" });
+  }
 };
