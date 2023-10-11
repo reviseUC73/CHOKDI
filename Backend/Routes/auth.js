@@ -10,6 +10,7 @@ const {
   listMail,
   login,
   register,
+  login_google,
 } = require("../Controllers/auth");
 const {
   checkMailUsed_Middle,
@@ -23,6 +24,8 @@ router.post("/google-create-account", jsonParser, googleRegister);
 
 router.get("/listMail", jsonParser, listMail);
 
+
+// ยังไม่ได้
 router.post(
   "/register",
   jsonParser,
@@ -30,6 +33,7 @@ router.post(
   checkMailUsed_Middle,
   register
 );
+
 router.post(
   "/login",
   jsonParser,
@@ -37,5 +41,15 @@ router.post(
   // checkMailUsed_Middle,
   login
 );
+
+//body => token and mail
+router.post(
+  "/login-google",
+  jsonParser,
+  checkTokenG_Middle,
+  // checkMailUsed_Middle,
+  login_google
+);
+
 
 module.exports = router;

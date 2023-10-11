@@ -21,10 +21,10 @@ const G_TokenVerify = async (token) => {
       }
     );
 
-    // console.log(response.data.email, "call api is successed");
+    // console.log(response.data.Mail, "call api is successed");
     // console.log("response", "call api is successed");
     if (response.status === 200) {
-      return response.data.email;
+      return response.data.Mail;
     }
 
     return null;
@@ -34,14 +34,14 @@ const G_TokenVerify = async (token) => {
   }
 };
 
-// use when user auth by oauth / check email of user has db ?
+// use when user auth by oauth / check Mail of user has db ?
 exports.checkEmailUsed_1 = async (req, res) => {
   const userData = req.body; // we use body-parser to get json from request's body (jsonParser)
-  const { Mail } = userData; // email = userData.email -> we get string email from json and when you request to server you must send json(body) with key is email
+  const { Mail } = userData; // Mail = userData.Mail -> we get string Mail from json and when you request to server you must send json(body) with key is Mail
   const query = `SELECT * FROM UserAccount WHERE Mail = ?`;
   db.query(query, [Mail], (err, result) => {
     if (err) {
-      console.log("Failed to execute the check email query", err);
+      console.log("Failed to execute the check Mail query", err);
       res.status(500).json({ error: "Internal server error" });
       return;
     }
@@ -254,14 +254,15 @@ exports.register = async (req, res) => {
   );
 };
 // use jwt token when user login (optional -> het token when user register)
+// sent token in cookie of brower domain api and
 exports.login = async (req, res) => {
-  const { email, password } = req.body;
+  const { Mail, password } = req.body;
 
   // const [result] = await db.query
   try {
     db.query(
       "SELECT * FROM UserAccount WHERE Mail = ?",
-      [email],
+      [Mail],
       async (err, result) => {
         if (err) {
           res.status(400).json({ error: " Sql_commnad_fail" });
@@ -269,7 +270,7 @@ exports.login = async (req, res) => {
           // res.status(200).json(result);
 
           // console.log(result);
-          // Check email in system -> email and password are correct -> send token to client
+          // Check Mail in system -> Mail and password are correct -> send token to client
           if (result.length === 0) {
             res.status(401).json({ error: "Email not found" });
             return;
@@ -286,9 +287,10 @@ exports.login = async (req, res) => {
           }
 
           // user.Password = password; // sent data of user that pass word is not encrypted
-          // const token = jwt.sign({ email: user.Mail }, process.env.JWT_SECRET, {
+          // const token = jwt.sign({ Mail: user.Mail }, process.env.JWT_SECRET, {
+          const threeDays = 3 * 24 * 60 * 60 * 1000;
           jwt.sign(
-            { Mail: email, Role: user.Role },
+            { Mail: Mail, Role: user.Role },
             process.env.JWT_SECRET,
             { expiresIn: "1d" },
             (err, token) => {
@@ -298,16 +300,68 @@ exports.login = async (req, res) => {
                 console.log(err);
                 return;
               }
-              
+
               res
                 .status(200)
-                .json({ message: "Login success", token, user })
-                .cookie("token", token, {
-                  httpOnly: true,
-                  maxAge: 300000,
+                .cookie("authToken", token, {
+                  // httpOnly: true,
+                  maxAge: threeDays,
                   secure: true,
-                  sameSite: none,
-                }); // set cookie; // sent to fontend and add it to header
+                  // sameSite: none,
+                }) // set cookie; // sent to fontend and add it to header
+                .json({ message: "Login success", token, user });
+            }
+          );
+        }
+        return;
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Internal server error (1)" });
+  }
+};
+
+// check Mail and google token
+exports.login_google = async (req, res) => {
+  const { Mail } = req.body;
+
+  // const [result] = await db.query
+  try {
+    db.query(
+      "SELECT * FROM UserAccount WHERE Mail = ?",
+      [Mail],
+      async (err, result) => {
+        if (err) {
+          res.status(400).json({ error: " Sql_commnad_fail" });
+        } else {
+          if (result.length === 0) {
+            res.status(401).json({ error: "Email not found" });
+            //-> con create new user 
+            return;
+          }
+          // have mail in db
+          var user = result[0];
+          const threeDays = 3 * 24 * 60 * 60 * 1000;
+          jwt.sign(
+            { Mail: Mail, Role: user.Role },
+            process.env.JWT_SECRET,
+            { expiresIn: "1d" },
+            (err, token) => {
+              if (err) {
+                res.status(500).json({ error: "Internal server error" });
+                console.log(err);
+                return;
+              }
+              res
+                .status(200)
+                .cookie("authToken", token, {
+                  // httpOnly: true,
+                  maxAge: threeDays,
+                  // secure: true,
+                  // sameSite: none,
+                }) // set cookie; // sent to fontend and add it to header
+                .json({ message: "Login success", token, user });
             }
           );
         }

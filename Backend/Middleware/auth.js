@@ -64,6 +64,7 @@ exports.checkTokenG_Middle = async (req, res, next) => {
       return;
     }
     if (GToken.status === 200) {
+      
       next();
       console.log("vaild g token correct");
       return;

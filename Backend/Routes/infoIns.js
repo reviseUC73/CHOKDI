@@ -17,10 +17,10 @@ const jsonParser = bodyParser.json();
 require("dotenv").config();
 
 // Create Routes
-router.get("/read", authVerifyToken, read);
-router.post("/create", authVerifyToken, create);
-router.post("/edit/:VehicleNumber", authVerifyToken, edit);
-router.delete("/delete/:VehicleNumber", authVerifyToken, remove);
-router.post("/check-duplicate", jsonParser, authVerifyToken, checkDuplicate);
+router.get("/read", read);
+router.post("/create", create);
+router.post("/edit/:VehicleNumber", edit);
+router.delete("/delete/:VehicleNumber",remove);
+router.post("/check-duplicate", jsonParser, checkDuplicate);
 
 module.exports = router;
