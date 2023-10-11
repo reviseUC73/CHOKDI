@@ -1,21 +1,37 @@
 import React, { useState, useEffect } from "react";
 import "./LoginPage.css";
 import { useGoogleLogin } from "@react-oauth/google";
-import { TokenDecodeGOOGLE } from "../Services/Api";
+import { Login_api_google, TokenDecodeGOOGLE } from "../Services/Api";
 import Divider from "@mui/material/Divider";
+import axios from "axios";
+import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
+
 function LoginPage() {
-  const [user, setUser] = useState(null);
-  const [profileToken, setProfileToken] = useState(null);
+  const [tokenOfUser, setTokenOfUser] = useState(null); //
+  const [userInfo, setUserInfo] = useState(null);
 
   // token can use from request body and ttps://www.googleapis.com/oauth2/v1/userinfo?access_token=$
   useEffect(() => {
     const fetchData = async () => {
-      console.log(user);
-      if (user) {
+      console.log(tokenOfUser);
+      if (tokenOfUser) {
         try {
-          const data = await TokenDecodeGOOGLE(user.access_token);
-          setProfileToken(data);
-          console.log(profileToken);
+          const userInfo_decode = await TokenDecodeGOOGLE(
+            tokenOfUser.access_token
+          );
+          // setUserInfo(data);
+          console.log("UserInfo : ", userInfo_decode);
+          console.log("tokenOfUser", tokenOfUser);
+
+          const json_ = {
+            Mail: userInfo_decode.data.email,
+            Token: tokenOfUser.access_token,
+          };
+          const log = await Login_api_google(json_);
+          window.location.reload();
+
+          console.log(log);
         } catch (error) {
           console.log(error);
 
@@ -25,29 +41,34 @@ function LoginPage() {
     };
 
     fetchData();
-  }, [user]);
+  }, [tokenOfUser]);
 
   const login = useGoogleLogin({
-    onSuccess: (codeResponse) => {
-      // console.log("codeResponse")
-
-      setUser(codeResponse);
+    onSuccess: async (codeResponse) => {
+      setTokenOfUser(codeResponse);
       localStorage.setItem("accessToken", codeResponse.access_token);
-      window.location.reload();
+      // window.location.reload();
     },
     onError: (error) => console.log("Login Failed:", error),
   });
-  // const logOut = () => {
-  //   googleLogout();
-  //   setProfileToken(null);
-  // };
 
-  // const handleGoogleLoginSuccess = (credentialResponse) => {
-  //   // console.log(credentialResponse.credential);
-  //   localStorage.setItem("credential", credentialResponse.credential);
-  //   window.location.reload();
-  // };
+  const test = () => {
+    // console.log("tokenOfUser", tokenOfUser);
+    // console.log("userInfo", userInfo);
+    // // const json_ = {
+    //   Mail: userInfo.data.email,
+    //   Token: tokenOfUser.access_token,
+    // };
+    // const log = await Login_api_google(json_);
+    // console.log(log);
+    // console.log(toke)
+    const authToken = Cookies.get("authToken");
+    const decodedToken = jwt_decode(authToken);
 
+    console.log(decodedToken);
+    // console.log(authToken);
+    console.log("Testing");
+  };
   return (
     <div className="container_auth">
       <div>
@@ -58,10 +79,11 @@ function LoginPage() {
             src="../../image/login_img.png"
             alt="Italian Trulli"
           />
+          <button id="button_auth" type="submit" onClick={test}>
+            Cookies
+          </button>
           <form id="form_auth">
-            <label  id="label_auth">
-              Username
-            </label>
+            <label id="label_auth">Username</label>
             <input
               className="input_auth"
               type="text"
@@ -69,9 +91,7 @@ function LoginPage() {
               name="username"
               required
             />
-            <label id="label_auth">
-              Password
-            </label>
+            <label id="label_auth">Password</label>
             <input
               className="input_auth"
               type="password"
@@ -90,8 +110,7 @@ function LoginPage() {
             OR
           </Divider>
 
-          {profileToken ? // </div> //   <button onClick={logOut}>Log out</button> // <div>
-          null : (
+          {userInfo ? null : ( // </div> //   <button onClick={logOut}>Log out</button> // <div>
             // <button onClick={() => login()}>Sign in with Google 🚀 </button>
             <div id="container_auth_button">
               <div className="g-signin-button" onClick={login}>
@@ -105,16 +124,7 @@ function LoginPage() {
               </div>
             </div>
           )}
-          {/* <div id="container_auth_button">
-            <a href="#" onclick="signInWithGoogle()" class="google-btn">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
-                alt="Google Icon"
-                class="google-icon"
-              />
-              Sign in with Google
-            </a>
-          </div> */}
+
           <div
             id="auth-box-link "
             style={{

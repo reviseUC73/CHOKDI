@@ -13,7 +13,7 @@ import { OnSubmitCreateForm } from "../Services/CreateData";
 
 function Form() {
   const currentDate = moment().format("YYYY-MM-DD");
-  const [duplicate, setDuplicate] = useState(false); // [state, setState
+  const [duplicate, setDuplicate] = useState(false); 
   const [formInput, setFormInput] = useState({
     CustomerName: "",
     CustomerAddress: "",
@@ -44,6 +44,7 @@ function Form() {
   //   Calendar.
   const ClosePopup = () => {
     const overlay = document.getElementById("overlay");
+    setDuplicate(false);
     // console.log(overlay);
     setFormInput({
       CustomerName: "",

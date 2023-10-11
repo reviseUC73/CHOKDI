@@ -20,7 +20,6 @@ function PasswordSetPage({ email }) {
     const value = e.target.value;
     const name = e.target.name;
     setInput({ ...input, [name]: value });
-    // console.log(input);
   };
 
   const checkPasswordDuplicate = () => {
@@ -47,12 +46,7 @@ function PasswordSetPage({ email }) {
     checkPasswordDuplicate();
     if (checkPasswordDuplicate()) {
       await CreateAuthUser({ ...input, role: "user" });
-    //   Swal.fire({
-    //     icon: "warning",
-    //     title: "DOne",
-    //     text: "Passwords do not match",
-    //     confirmButtonColor: "#7fcee2",
-    //   });
+  
       // Passwords match, proceed with form submission
       console.log("Passwords match, submit the form");
       //   navigator.push("/login");
@@ -72,7 +66,7 @@ function PasswordSetPage({ email }) {
           <div id="reset_password_topic">Assign Information </div>
           <img
             id="img_auth"
-            src="https://img.freepik.com/premium-vector/humanitarian-help-concept_23-2148535314.jpg?w=996"
+            src="../../image/setPass_img.jpeg"
           />
           <form id="form_auth" onSubmit={onSubmit}>
             <label id="label_setInfo">Email</label>
@@ -107,8 +101,6 @@ function PasswordSetPage({ email }) {
               className={
                 passwordsMatch ? "input_set_password" : "input_warning"
               }
-              // ? (`input_set_password` :
-              // "input-error" )
 
               type="password"
               id="password"

@@ -1,8 +1,6 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Fade from "@mui/material/Fade";
 
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
@@ -12,15 +10,16 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 
 import Tooltip from "@mui/material/Tooltip";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import "./ProfileBar.css";
+import Cookies from "js-cookie";
 
-export default function ProfileBar({ user }) {
+export default function ProfileBar({ user_email }) {
   const handleLogout = () => {
     setAnchorEl(null);
-    localStorage.removeItem("accessToken");
+    // localStorage.removeItem("accessToken");
+    Cookies.remove("authToken");
+
     window.location.reload();
   };
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -41,7 +40,7 @@ export default function ProfileBar({ user }) {
           marginRight: "1rem",
         }}
       >
-        <Tooltip title={user}>
+        <Tooltip title={user_email}>
           <IconButton
             //   style={{padding:"1rem"}}
             onClick={handleClick}
@@ -52,7 +51,7 @@ export default function ProfileBar({ user }) {
             aria-expanded={open ? "true" : undefined}
           >
             <Avatar className="profile-btn" sx={{ width: 32, height: 32 }}>
-              {user.slice(0, 1)}
+              {user_email.slice(0, 1)}
             </Avatar>
           </IconButton>
         </Tooltip>
@@ -81,7 +80,7 @@ export default function ProfileBar({ user }) {
               mr: 1,
             },
             "&:before": {
-            //   fontFamily: "Kanit, sans-serif",
+              //   fontFamily: "Kanit, sans-serif",
 
               content: '""',
               display: "block",
@@ -103,7 +102,7 @@ export default function ProfileBar({ user }) {
           onClick={handleClose}
           style={{ fontFamily: "Kanit, sans-serif" }}
         >
-          <Avatar /> {user}
+          <Avatar /> {user_email}
         </MenuItem>
 
         <Divider />

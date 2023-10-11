@@ -5,7 +5,7 @@ const port = 3001;
 const host_ip = "localhost";
 
 export const AllInformation = async () => {
-  const baseURL = `http://${host_ip}:${port}/read`;
+  const baseURL = `http://${host_ip}:${port}/infoIns/read`;
 
   try {
     const response = await axios.get(baseURL);
@@ -17,7 +17,7 @@ export const AllInformation = async () => {
 };
 
 export const DeleteInformation = async (CarNumber) => {
-  const baseURL = `http://${host_ip}:${port}/delete/${CarNumber}`;
+  const baseURL = `http://${host_ip}:${port}/infoIns/delete/${CarNumber}`;
   try {
     const response = await axios.delete(baseURL);
     console.log("API response:", response.status, response.data);
@@ -38,7 +38,7 @@ export const DeleteInformation = async (CarNumber) => {
 
 // Function to check for duplicate data
 export const CheckDuplicateData = async (data) => {
-  const duplicateURL = `http://${host_ip}:${port}/check-duplicate`;
+  const duplicateURL = `http://${host_ip}:${port}/infoIns/check-duplicate`;
   const dataFormat = JSON.stringify(data);
 
   try {
@@ -58,7 +58,7 @@ export const CheckDuplicateData = async (data) => {
 export const CreateInformation = async (data) => {
   // Define the data to be sent in the request body
 
-  const baseURL = `http://${host_ip}:${port}/create`;
+  const baseURL = `http://${host_ip}:${port}/infoIns/create`;
   var data_format = JSON.stringify(data);
 
   if (!data.VehicleNumber || !data.CustomerName || !data.InsuranceCompany) {
@@ -88,7 +88,7 @@ export const CreateInformation = async (data) => {
 };
 
 export const EditInformation = async (user_id, data) => {
-  const baseURL = `http://${host_ip}:${port}/edit/${user_id}`;
+  const baseURL = `http://${host_ip}:${port}/infoIns/edit/${user_id}`;
   var data_format = JSON.stringify(data);
   try {
     // Send the PUT request
@@ -121,7 +121,7 @@ export const TokenDecodeGOOGLE = async (token) => {
         },
       }
     );
-    console.log(response);
+    // console.log(response);
     // Check for a successful response (status code 200)
     if (response.status === 200) {
       // console.log(response);
@@ -143,9 +143,48 @@ export const TokenDecodeGOOGLE = async (token) => {
   }
 };
 
+export const login_api = async (data) => {};
+// click on login google -> gogole sent token to font
+// -> font call this api -> by sent user id password
+
+export const Login_api_google = async (data) => {
+  // click on login google -> gogole sent token to font
+  // -> font call this api -> by sent only mail in request body
+  // -> if mail exist -> return status and keep cookie
+  // console.log(data);
+  // req : token and mail
+  // return status and keep token cookie and json(message, your token , user_Data) -> token(Mail,Role)
+  const baseURL = `http://${host_ip}:${port}/auth/login-google`;
+  if (!data) {
+    console.log("Missing required field(s)");
+    return false;
+  }
+  var data_format = JSON.stringify(data);
+  try {
+    const response = await axios.post(baseURL, data_format, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    });
+    console.log(response.status);
+    if (response.status === 200) {
+      // console.log("response.status = " + response.status);
+      // console.log("response.meessage = " + response.message);
+      // console.log("response.token = " + response.token);
+      // console.log("response.user = " + response.user);
+
+      return response.data; // Return just the data, but this is up to your needs
+    }
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+};
+
 export const CreateAuthUser = async (data) => {
   //  data is json format -> { email: , password, firstname ,lastname , role }
-  const baseURL = `http://${host_ip}:${port}/google-register`;
+  const baseURL = `http://${host_ip}:${port}/auth/google-create-account`;
   console.log(data);
   if (
     !data.email ||
@@ -158,7 +197,7 @@ export const CreateAuthUser = async (data) => {
     return false;
   }
 
-  var data_format =data; // convert json to string
+  var data_format = data; // convert json to string
 
   try {
     // Send the PUT request
