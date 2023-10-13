@@ -90,39 +90,6 @@ exports.checkEmailUsed = async (req, res) => {
   }
 };
 
-exports.googleRegister = async (req, res) => {
-  const userData = req.body;
-  const { Mail, Password, FirstName, LastName, Role, Token } = userData;
-  const query = `INSERT INTO UserAccount (Mail, Password, FirstName, LastName, Role) VALUES (?,?,?,?,?)`;
-  const isTokenValid = await G_TokenVerify(Token);
-  if (!Boolean(isTokenValid)) {
-    res.status(401).json({
-      error: "Invalid token > This token is not found or will expire.)",
-    });
-    return;
-  }
-  if (isTokenValid !== Mail) {
-    res.status(401).json({ error: "Invalid token > This is not your token." });
-    return;
-  }
-
-  db.query(
-    query,
-    [Mail, Password, FirstName, LastName, Role],
-    (err, result) => {
-      if (err) {
-        console.log("Failed to execute the register query", err);
-        res.status(500).json({ error: "Internal server error" });
-        return;
-      }
-      console.log("result", result);
-      res.json({
-        message: "Register success",
-        affectedRows: result.affectedRows,
-      });
-    }
-  );
-};
 
 exports.listMail = async (req, res) => {
   const sql_command = "SELECT Mail FROM UserAccount;";
@@ -225,34 +192,76 @@ exports.registerAll = async (req, res) => {
   }
 };
 
-exports.register = async (req, res) => {
-  // Encrypt
-  const userData = req.body;
-  var { Mail, Password, FirstName, LastName, Role } = userData;
-  const hashedPassword = await bcrypt.hash(Password, 10);
-  console.log("query_insert");
-  // const query_insert = `INSERT INTO UserAccount (Mail, Password, FirstName, LastName, Role) VALUES (?,?,?,?,?)`;
-  db.query(
-    `INSERT INTO UserAccount (Mail, Password, FirstName, LastName, Role) VALUES (?,?,?,?,?)`,
-    [Mail, hashedPassword, FirstName, LastName, Role],
-    (err, result) => {
-      if (err) {
-        console.log("Failed to execute the register query", err);
-        res.status(500).json({
-          regis_status: "invalid",
-          error: "Internal server error",
-        });
-        return;
-      }
 
-      res.status(201).json({
-        regis_status: "success",
-        affectedRows: result.affectedRows,
-        message: "User account created successfully.",
-      });
-    }
-  );
+exports.register = async (req, res) => {
+  try {
+    const userData = req.body;
+    var { Mail, Password, FirstName, LastName, Role } = userData;
+
+    // Encrypt
+    const hashedPassword = await bcrypt.hash(Password, 10);
+
+    // Insert User
+    const query = `INSERT INTO UserAccount (Mail, Password, FirstName, LastName, Role) VALUES (?,?,?,?,?)`;
+    db.query(
+      query,
+      [Mail, hashedPassword, FirstName, LastName, Role],
+      (err, result) => {
+        if (err) {
+          console.error("Failed to execute the register query", err);
+          return res.status(500).json({
+            regis_status: "invalid",
+            error: "Internal server error",
+          });
+        }
+
+        // Generate JWT
+        const tokenPayload = { Mail: Mail, Role: "User" };
+        jwt.sign(
+          tokenPayload,
+          process.env.JWT_SECRET,
+          { expiresIn: "3d" },
+          (err, token) => {
+            if (err) {
+              console.error("Failed to generate token", err);
+              return res
+                .status(500)
+                .json({ error: "Internal server error (Generate Token Fail)" });
+            }
+            console.log("1 token", token);
+            // Define Max Age
+            const threeDays = 3 * 24 * 60 * 60 * 1000; // Ensure this value is correct for your use case
+
+            // Send Response
+            res
+              .status(201)
+              .cookie("authToken", token, {
+                // httpOnly: true,
+                maxAge: threeDays,
+                // secure: true,
+                // sameSite: 'None',
+              })
+              .json({
+                affectedRows: result.affectedRows,
+                message: "User account created successfully.",
+                token,
+                user: {
+                  Mail,
+                  FirstName,
+                  LastName,
+                  Role,
+                },
+              });
+          }
+        );
+      }
+    );
+  } catch (error) {
+    console.error("Unexpected error", error);
+    return res.status(500).json({ error: "Unexpected server error" });
+  }
 };
+
 // use jwt token when user login (optional -> het token when user register)
 // sent token in cookie of brower domain api and
 exports.login = async (req, res) => {
@@ -336,8 +345,9 @@ exports.login_google = async (req, res) => {
           res.status(400).json({ error: " Sql_commnad_fail" });
         } else {
           if (result.length === 0) {
+            console.log("Email not found");
             res.status(401).json({ error: "Email not found" });
-            //-> con create new user 
+            //-> con create new user
             return;
           }
           // have mail in db
@@ -346,7 +356,7 @@ exports.login_google = async (req, res) => {
           jwt.sign(
             { Mail: Mail, Role: user.Role },
             process.env.JWT_SECRET,
-            { expiresIn: "1d" },
+            { expiresIn: "3d" },
             (err, token) => {
               if (err) {
                 res.status(500).json({ error: "Internal server error" });
@@ -354,7 +364,7 @@ exports.login_google = async (req, res) => {
                 return;
               }
               res
-                .status(200)
+                .status(201)
                 .cookie("authToken", token, {
                   // httpOnly: true,
                   maxAge: threeDays,

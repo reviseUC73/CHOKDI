@@ -64,11 +64,8 @@ exports.checkTokenG_Middle = async (req, res, next) => {
       return;
     }
     if (GToken.status === 200) {
-      
-      next();
       console.log("vaild g token correct");
-      return;
-      //   return res.status(400).json({ message: "vaild g token correct" });
+      return next();
     }
     return res.status(400).json({ message: "some error" });
   } catch (err) {
@@ -87,6 +84,7 @@ exports.checkMailUsed_Middle = async (req, res, next) => {
       [Mail],
       (err, result) => {
         if (err) {
+          // console.log()
           console.error(err.message);
           res.status(500).json({
             regis_status: "invalid",
@@ -105,9 +103,11 @@ exports.checkMailUsed_Middle = async (req, res, next) => {
               resgis_status: "mail_used",
               MailUsed: mailUsed,
             });
-          return;
+          // return;
+        } else {
+          console.log("can use this mail");
+          next();
         }
-        next();
       }
     );
   } catch (err) {

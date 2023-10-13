@@ -6,7 +6,7 @@ const jsonParser = bodyParser.json();
 
 const {
   checkEmailUsed,
-  googleRegister,
+  
   listMail,
   login,
   register,
@@ -20,8 +20,6 @@ const {
 // use when user auth by oauth / check email of user has db ?
 router.post("/check-email-used", jsonParser, checkEmailUsed);
 
-router.post("/google-create-account", jsonParser, googleRegister);
-
 router.get("/listMail", jsonParser, listMail);
 
 
@@ -29,16 +27,16 @@ router.get("/listMail", jsonParser, listMail);
 router.post(
   "/register",
   jsonParser,
-  checkTokenG_Middle,
-  checkMailUsed_Middle,
+  // checkTokenG_Middle,
+  // checkMailUsed_Middle,
   register
 );
 
 router.post(
   "/login",
   jsonParser,
-  // checkTokenG_Middle,
-  // checkMailUsed_Middle,
+  checkTokenG_Middle,
+  checkMailUsed_Middle,
   login
 );
 
