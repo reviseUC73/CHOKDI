@@ -35,7 +35,7 @@ exports.checkTokenG_MiddleV1 = async (req, res, next) => {
 exports.checkTokenG_Middle = async (req, res, next) => {
   const userData = req.body;
   const { Token, Mail } = userData;
-  console.log(Token);
+  // console.log(Token);
   try {
     const GToken = await axios.get(
       `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${Token}`,
@@ -48,7 +48,7 @@ exports.checkTokenG_Middle = async (req, res, next) => {
       }
     );
     const token_mail = GToken.data.email;
-    console.log("token_mail", token_mail);
+    // console.log("token_mail", token_mail);
     if (!Boolean(token_mail)) {
       res.status(401).json({
         token_status: "invalid",
@@ -64,7 +64,7 @@ exports.checkTokenG_Middle = async (req, res, next) => {
       return;
     }
     if (GToken.status === 200) {
-      console.log("vaild g token correct");
+      // console.log("vaild g token correct");
       return next();
     }
     return res.status(400).json({ message: "some error" });
@@ -76,7 +76,7 @@ exports.checkTokenG_Middle = async (req, res, next) => {
 
 exports.checkMailUsed_Middle = async (req, res, next) => {
   const userData = req.body;
-  console.log("userData", userData);
+  // console.log("userData", userData);
   const { Mail } = userData;
   try {
     db.query(
@@ -92,7 +92,7 @@ exports.checkMailUsed_Middle = async (req, res, next) => {
           });
           return;
         }
-        console.log(result);
+        // console.log(result);
         var mailUsed = result.length > 0;
         if (mailUsed) {
           res
@@ -105,7 +105,7 @@ exports.checkMailUsed_Middle = async (req, res, next) => {
             });
           // return;
         } else {
-          console.log("can use this mail");
+          // console.log("can use this mail");
           next();
         }
       }
@@ -124,7 +124,7 @@ exports.authVerifyToken = async (req, res, next) => {
       return res.status(401).json({ message: "Token not found" });
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded);
+    // console.log(decoded);
     db.query(
       `SELECT * FROM UserAccount WHERE Mail = ?`,
       [decoded.Mail],
@@ -137,7 +137,7 @@ exports.authVerifyToken = async (req, res, next) => {
           });
           return;
         }
-        console.log(result[0]);
+        // console.log(result[0]);
 
         if (!result[0]) {
           res.status(401).json({

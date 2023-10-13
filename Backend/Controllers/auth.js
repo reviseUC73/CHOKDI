@@ -228,7 +228,7 @@ exports.register = async (req, res) => {
                 .status(500)
                 .json({ error: "Internal server error (Generate Token Fail)" });
             }
-            console.log("1 token", token);
+            // console.log("1 token", token);
             // Define Max Age
             const threeDays = 3 * 24 * 60 * 60 * 1000; // Ensure this value is correct for your use case
 

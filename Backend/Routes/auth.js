@@ -27,8 +27,8 @@ router.get("/listMail", jsonParser, listMail);
 router.post(
   "/register",
   jsonParser,
-  // checkTokenG_Middle,
-  // checkMailUsed_Middle,
+  checkTokenG_Middle,
+  checkMailUsed_Middle,
   register
 );
 
