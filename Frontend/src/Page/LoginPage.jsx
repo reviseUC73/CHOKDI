@@ -6,15 +6,16 @@ import Divider from "@mui/material/Divider";
 import axios from "axios";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
-function LoginPage() {
+function LoginPage({ setUserInfo, userInfo, setIsLogin }) {
   const [tokenOfUser, setTokenOfUser] = useState(null); //
-  const [userInfo, setUserInfo] = useState(null);
-
+  // const [userInfo, setUserInfo] = useState(null);
+  const navigate = useNavigate();
   // token can use from request body and ttps://www.googleapis.com/oauth2/v1/userinfo?access_token=$
   useEffect(() => {
     const fetchData = async () => {
-      console.log(tokenOfUser);
+      // console.log(tokenOfUser);
       if (tokenOfUser) {
         try {
           const userInfo_decode = await TokenDecodeGOOGLE(
@@ -28,10 +29,25 @@ function LoginPage() {
             Mail: userInfo_decode.data.email,
             Token: tokenOfUser.access_token,
           };
+          setUserInfo(userInfo_decode);
           const log = await Login_api_google(json_);
-          window.location.reload();
+          // 401 : mail not use / 200 : mail used
+          console.log("log : ", log.status);
+          if (log.status === 401) {
+            setIsLogin(true);
+            console.log(
+              "Create new user and redirect to /assign info user page (./setpassword)"
+            );
+            navigate("/setpassword");
 
-          console.log(log);
+            // window.location.href = "/register";
+          }
+          if (log.status === 201) {
+            console.log("Login success and redirect to main page (./)");
+            window.location.reload();
+          }
+
+          // console.log(log);
         } catch (error) {
           console.log(error);
 
@@ -46,6 +62,8 @@ function LoginPage() {
   const login = useGoogleLogin({
     onSuccess: async (codeResponse) => {
       setTokenOfUser(codeResponse);
+      // setIsLogin(true);
+
       localStorage.setItem("accessToken", codeResponse.access_token);
       // window.location.reload();
     },
@@ -62,10 +80,17 @@ function LoginPage() {
     // const log = await Login_api_google(json_);
     // console.log(log);
     // console.log(toke)
+    // setIsLogin(true);
     const authToken = Cookies.get("authToken");
-    const decodedToken = jwt_decode(authToken);
+    // const decodedToken = jwt_decode(authToken);
+    try {
+      const decodedToken = jwt_decode(authToken);
+      console.log("Decoded token:", decodedToken);
+    } catch (error) {
+      console.error("Error decoding token:", error);
+    }
 
-    console.log(decodedToken);
+    // console.log(decodedToken);
     // console.log(authToken);
     console.log("Testing");
   };
@@ -79,9 +104,9 @@ function LoginPage() {
             src="../../image/login_img.png"
             alt="Italian Trulli"
           />
-          <button id="button_auth" type="submit" onClick={test}>
+          {/* <button id="button_auth" type="submit" onClick={test}>
             Cookies
-          </button>
+          </button> */}
           <form id="form_auth">
             <label id="label_auth">Username</label>
             <input

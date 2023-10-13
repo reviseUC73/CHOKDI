@@ -9,7 +9,7 @@ import TableDataContent from "./compoent/TableDataContent";
 import EditDataContent from "./compoent/EditDataContent";
 import Form from "./compoent/Form";
 import LoginPage from "./Page/LoginPage";
-import { TokenDecodeGOOGLE } from "./Services/Api";
+// import { TokenDecodeGOOGLE } from "./Services/Api";
 import ProfileBar from "./compoent/ProfileBar";
 import PasswordSetPage from "./Page/PasswordSetPage"; // Load environment variables from .env file
 import Cookies from "js-cookie";
@@ -20,7 +20,11 @@ function App() {
   const [result, setResult] = useState([]);
 
   const [accessToken, setAccessToken] = useState(null);
+  const [isLogin, setIsLogin] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
 
+  // const [setPassword,setPassword] = useState(false);
+  // const []
   // useEffect(async () => {
   //   // const token_g = localStorage.getItem("accessToken");
   //   const authToken = Cookies.get("authToken");
@@ -44,14 +48,18 @@ function App() {
   //     decode_(token_g);
   //   }
   // }, []);
+  // console.log("IsLogidn : ", isLogin);
+  // console.log("user : ", userInfo);
 
-  useEffect(() => {
+  useEffect( () => {
     try {
+      // console.log("accessToken", accessToken);
+      // console.log(isLogin);
       const authToken = Cookies.get("authToken");
-      console.log(authToken);
-
+      // console.log(authToken);
+      console.log("authToken", authToken);
       if (!authToken) {
-        console.log("token not found");
+        console.log("Cookie_token not found");
       } else {
         // use api login user by sent mail and google token for verify
         const authToken = Cookies.get("authToken");
@@ -68,7 +76,9 @@ function App() {
       Cookies.remove("authToken");
     }
   }, []);
-
+  const authToken = Cookies.get("authToken");
+  console.log("authToken", authToken);
+  console.log("accessToken", accessToken);
 
   return (
     <Fragment>
@@ -92,10 +102,24 @@ function App() {
         </div>
       ) : (
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route
+            path="/"
+            element={
+              <LoginPage
+                setUserInfo={setUserInfo}
+                userInfo={userInfo}
+                setIsLogin={setIsLogin}
+              />
+            }
+          />
           <Route
             path="/setPassword"
-            element={<PasswordSetPage email={"rew"} />}
+            element={
+              <PasswordSetPage
+                userInfo={userInfo}
+                // isLogin={setIsLogin}
+              />
+            }
           />
         </Routes>
       )}

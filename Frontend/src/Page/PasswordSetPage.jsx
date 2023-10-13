@@ -4,15 +4,26 @@ import "./PasswordSetPage.css";
 import Swal from "sweetalert2";
 import { CreateAuthUser } from "../Services/Api";
 
-function PasswordSetPage({ email }) {
+function PasswordSetPage({ userInfo }) {
+  const token_g = localStorage.getItem("accessToken");
+
   const navigate = useNavigate();
+  // (tokenOfUser && token_g)
+  useEffect(() => {
+    if (!userInfo && token_g) {
+      localStorage.removeItem("accessToken");
+      navigate("/");
+    } else {
+      setInput({ ...input, Mail: userInfo.data.email, Token: token_g });
+    }
+  }, [userInfo]);
 
   const [input, setInput] = useState({
-    email: email,
-    firstName: "",
-    lastName: "",
-    password: "",
-    confirmPassword: "",
+    Mail: "Email not found",
+    FirstName: "",
+    LastName: "",
+    Password: "",
+    ConfirmPassword: "",
   });
   const [passwordsMatch, setPasswordsMatch] = useState(true); // Initially assume passwords match
 
@@ -20,12 +31,13 @@ function PasswordSetPage({ email }) {
     const value = e.target.value;
     const name = e.target.name;
     setInput({ ...input, [name]: value });
+    console.log(input);
   };
 
   const checkPasswordDuplicate = () => {
-    const { password, confirmPassword } = input;
+    const { Password, ConfirmPassword } = input;
 
-    if (password === confirmPassword) {
+    if (Password === ConfirmPassword) {
       // Passwords match
 
       return true;
@@ -43,47 +55,53 @@ function PasswordSetPage({ email }) {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    checkPasswordDuplicate();
-    if (checkPasswordDuplicate()) {
-      await CreateAuthUser({ ...input, role: "user" });
-  
-      // Passwords match, proceed with form submission
-      console.log("Passwords match, submit the form");
-      //   navigator.push("/login");
-      navigate("/");
-      // Add your form submission logic here
-    } else {
-      // Passwords don't match, show an error message to the user
+    // Check if the passwords match
+    if (!checkPasswordDuplicate()) {
       console.error("Passwords do not match");
-      // Update the state to indicate that passwords don't match
       setPasswordsMatch(false);
+      return; // If they don't match, exit early to avoid further execution
+    }
+
+    try {
+      // Create a new user
+      const new_user = await CreateAuthUser({ ...input, Role: "user" });
+      console.log("New user created:", new_user);
+
+      // If the user was successfully created, navigate to the home page
+      if (new_user) {
+        navigate("/");
+        window.location.reload();
+      } else {
+        console.error("User creation failed:", new_user);
+      }
+    } catch (err) {
+      // Log any errors that occur during user creation
+      console.error("Error during user creation:", err);
     }
   };
+
   return (
     <div className="container_auth">
       <div>
         <div className="form_set_pass" id="login-form">
           <div id="reset_password_topic">Assign Information </div>
-          <img
-            id="img_auth"
-            src="../../image/setPass_img.jpeg"
-          />
+          <img id="img_auth" src="../../image/setPass_img.jpeg" />
           <form id="form_auth" onSubmit={onSubmit}>
             <label id="label_setInfo">Email</label>
             <input
               className="input_email_disable"
               type="text"
-              id="username"
-              name="username"
+              id="Mail"
+              name="Mail"
               disabled
-              value={email}
+              value={input.Mail}
             />
             <label id="label_setInfo">First Name</label>
             <input
               className="input_set_password"
               type="text"
-              id="firstName"
-              name="firstName"
+              id="FirstName"
+              name="FirstName"
               onChange={handleChange}
               required
             />{" "}
@@ -91,8 +109,8 @@ function PasswordSetPage({ email }) {
             <input
               className="input_set_password"
               type="text"
-              id="lastName"
-              name="lastName"
+              id="LastName"
+              name="LastName"
               onChange={handleChange}
               required
             />
@@ -101,10 +119,9 @@ function PasswordSetPage({ email }) {
               className={
                 passwordsMatch ? "input_set_password" : "input_warning"
               }
-
               type="password"
-              id="password"
-              name="password"
+              id="Password"
+              name="Password"
               onChange={handleChange}
               required
             />
@@ -115,7 +132,7 @@ function PasswordSetPage({ email }) {
               }
               type="password"
               id="Confirm Password"
-              name="confirmPassword"
+              name="ConfirmPassword"
               onChange={handleChange}
               required
             />

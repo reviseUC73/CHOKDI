@@ -148,12 +148,6 @@ export const login_api = async (data) => {};
 // -> font call this api -> by sent user id password
 
 export const Login_api_google = async (data) => {
-  // click on login google -> gogole sent token to font
-  // -> font call this api -> by sent only mail in request body
-  // -> if mail exist -> return status and keep cookie
-  // console.log(data);
-  // req : token and mail
-  // return status and keep token cookie and json(message, your token , user_Data) -> token(Mail,Role)
   const baseURL = `http://${host_ip}:${port}/auth/login-google`;
   if (!data) {
     console.log("Missing required field(s)");
@@ -166,56 +160,121 @@ export const Login_api_google = async (data) => {
         "Content-Type": "application/json",
       },
       withCredentials: true,
+      validateStatus: function (status) {
+        return status >= 200 && status < 500; // ยอมรับ status codes ระหว่าง 200-499
+      },
     });
-    console.log(response.status);
+    console.log("Response.status : ", response.status);
     if (response.status === 200) {
-      // console.log("response.status = " + response.status);
-      // console.log("response.meessage = " + response.message);
-      // console.log("response.token = " + response.token);
-      // console.log("response.user = " + response.user);
-
-      return response.data; // Return just the data, but this is up to your needs
+      return response; // Return just the data, but this is up to your needs
+    } else if (response.status === 401) {
+      console.log("This email is not yet in db.");
+      return response;
+    } else {
+      // สำหรับ status codes อื่น ๆ ที่ไม่ได้จัดการใน if และ else if ข้างต้น
+      console.log("Response with status:", response.status);
+      return response;
     }
   } catch (err) {
+    console.log("Error:");
     console.log(err);
     return false;
   }
 };
 
-export const CreateAuthUser = async (data) => {
-  //  data is json format -> { email: , password, firstname ,lastname , role }
-  const baseURL = `http://${host_ip}:${port}/auth/google-create-account`;
-  console.log(data);
-  if (
-    !data.email ||
-    !data.password ||
-    !data.role ||
-    !data.firstName ||
-    !data.lastName
-  ) {
-    console.log("Missing required field(s)");
-    return false;
+// export const RegisterUser = async (data) => {
+//   const baseURL = `http://${host_ip}:${port}/auth/register`;
+//   if (
+//     !data.email ||
+//     !data.password ||
+//     !data.role ||
+//     !data.firstName ||
+//     !data.lastName
+//   ) {
+//     console.log("Missing required field(s)");
+//     return false;
+//   }
+
+// };
+// export const CreateAuthUser = async (data) => {
+//   //  data is json format -> { email: , password, firstname ,lastname , role }
+//   const baseURL = `http://${host_ip}:${port}/auth/register`;
+//   console.log(data);
+//   if (
+//     !data.Mail ||
+//     !data.Password ||
+//     !data.Role ||
+//     !data.FirstName ||
+//     !data.LastName
+//   ) {
+//     console.log("Missing required field(s)");
+//     return false;
+//   }
+
+//   var data_format = JSON.stringify(data);
+
+//   try {
+//     // Send the PUT request
+//     const response = await axios.post(baseURL, data_format, {
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       withCredentials: true,
+//     });
+//     console.log("status", response.status);
+//     console.log("response", response);
+//     if (response.status === 201) {
+//       return response;
+//     } else if (response.status === 400) {
+//       console.log(response.data);
+//     }
+//   } catch (e) {
+//     console.log("Failed to submit data", e);
+//     return "error";
+//   }
+// };
+
+export const CreateAuthUser  = async (userData) => {
+  const { Mail, Password, FirstName, LastName, Role } = userData;
+
+  if (!Mail || !Password || !Role || !FirstName || !LastName) {
+    console.error("Missing required field(s)");
+    return { success: false, message: "Missing required field(s)" };
   }
 
-  var data_format = data; // convert json to string
-
   try {
-    // Send the PUT request
-    const response = await axios.post(baseURL, data_format, {
+    // Send the POST request
+    const BASE_URL = `http://${host_ip}:${port}/auth/register`;
+
+    const response = await axios.post(BASE_URL, userData, {
       headers: {
-        // Overwrite Axios's automatically set Content-Type
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     });
 
+    console.log("Response Status:", response.status);
+    console.log("Response Data:", response.data);
+
+    // Check the response status
     if (response.status === 201) {
-      return true;
+      return { success: true, data: response.data };
     } else if (response.status === 400) {
-      console.log(response.data);
+      console.error("Bad Request:", response.data);
+      return { success: false, message: "Bad request", data: response.data };
+    } else {
+      console.error("Unhandled response status:", response.status);
+      return {
+        success: false,
+        message: `Unhandled response status: ${response.status}`,
+      };
     }
-    return false;
-  } catch (e) {
-    console.log("Failed to submit data", e);
-    return false;
+  } catch (error) {
+    console.error("Failed to submit data", error);
+    return {
+      success: false,
+      message: "Error occurred while making the request",
+      error,
+    };
   }
 };
