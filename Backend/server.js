@@ -24,7 +24,7 @@ app.use("/infoIns", dataRouter); // use and set prefix path of Insurance
 app.use("/auth", authRouter);
 
 // Listen server
-app.listen(process.env.SERVER_PORT || 3002, () => {
-  console.log(`Server is running on port ${process.env.SERVER_PORT || 3002}`);
+app.listen(process.env.SERVER_PORT || 3001, () => {
+  console.log(`Server is running on port ${process.env.SERVER_PORT || 3001}`);
   // console.log(`localhost:3002/read`);
 });
