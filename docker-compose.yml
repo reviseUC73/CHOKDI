@@ -5,7 +5,8 @@ services:
     image: mysql
     volumes:
       - mysql_data:/var/lib/mysql
-      - /Users/reviseuc73/Desktop/Project/Chokdi/CustomerInsurance.sql:/docker-entrypoint-initdb.d/CustomerInsurance.sql
+      - ./CustomerInsurance.sql:/docker-entrypoint-initdb.d/CustomerInsurance.sql
+      # - /Users/reviseuc73/Desktop/Project/Chokdi/CustomerInsurance.sql:/docker-entrypoint-initdb.d/CustomerInsurance.sql
       
     ports:
       - "3406:3306"
