@@ -143,7 +143,35 @@ export const TokenDecodeGOOGLE = async (token) => {
   }
 };
 
-export const login_api = async (data) => {};
+export const login_api = async (data) => {
+  const baseURL = `http://${host_ip}:${port}/auth/login`;
+
+  if (!data) {
+    console.log("Missing required field(s)");
+    return false;
+  }
+  var data_format = JSON.stringify(data);
+
+  try {
+    const response = await axios.post(baseURL, data_format, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    });
+    if (response.statusCode === 201) {
+      console.log("login_api : Success");
+      return response;
+    } else {
+      console.log("status code : " + response.statusCode);
+      console.log("Error : " + response.error);
+    }
+
+    console.log("status", response.status);
+  } catch (err) {
+    console.log("Error:", eer);
+  }
+};
 // click on login google -> gogole sent token to font
 // -> font call this api -> by sent user id password
 
@@ -234,7 +262,7 @@ export const Login_api_google = async (data) => {
 //   }
 // };
 
-export const CreateAuthUser  = async (userData) => {
+export const CreateAuthUser = async (userData) => {
   const { Mail, Password, FirstName, LastName, Role } = userData;
 
   if (!Mail || !Password || !Role || !FirstName || !LastName) {
