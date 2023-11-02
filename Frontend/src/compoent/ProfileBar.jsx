@@ -13,14 +13,18 @@ import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import "./ProfileBar.css";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfileBar({ user_email }) {
+  const navigate = useNavigate();
   const handleLogout = () => {
     setAnchorEl(null);
     // localStorage.removeItem("accessToken");
     Cookies.remove("authToken");
-
+    navigate("/");
     window.location.reload();
+
+
   };
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
