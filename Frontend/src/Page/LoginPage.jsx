@@ -141,7 +141,7 @@ function LoginPage({ setUserInfo, userInfo, setIsLogin }) {
               <div className="g-signin-button" onClick={login}>
                 <div className="g-icon">
                   <img
-                    src="https://freepngimg.com/save/66274-school-google-pearl-button-up-sign-middle/1600x1600"
+                    src="../../image/google_icon.png"
                     alt="Google Icon"
                   />
                 </div>
