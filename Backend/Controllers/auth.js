@@ -90,7 +90,6 @@ exports.checkEmailUsed = async (req, res) => {
   }
 };
 
-
 exports.listMail = async (req, res) => {
   const sql_command = "SELECT Mail FROM UserAccount;";
   try {
@@ -192,7 +191,6 @@ exports.registerAll = async (req, res) => {
   }
 };
 
-
 exports.register = async (req, res) => {
   try {
     const userData = req.body;
@@ -265,33 +263,29 @@ exports.register = async (req, res) => {
 // use jwt token when user login (optional -> het token when user register)
 // sent token in cookie of brower domain api and
 exports.login = async (req, res) => {
-  const { Mail, password } = req.body;
-
+  const { Mail, Password } = req.body;
+  console.log(Mail, Password);
   // const [result] = await db.query
   try {
     db.query(
       "SELECT * FROM UserAccount WHERE Mail = ?",
       [Mail],
       async (err, result) => {
+        console.log(result);
         if (err) {
           res.status(400).json({ error: " Sql_commnad_fail" });
         } else {
-          // res.status(200).json(result);
-
-          // console.log(result);
-          // Check Mail in system -> Mail and password are correct -> send token to client
           if (result.length === 0) {
-            res.status(401).json({ error: "Email not found" });
+            res.status(401).json({ message: "Email not found" });
             return;
           }
           var user = result[0];
-          // console.log(user);
           const isPasswordMatched = await bcrypt.compare(
-            password,
+            Password,
             user.Password
           );
           if (!isPasswordMatched) {
-            res.status(401).json({ error: "Password is incorrect" });
+            res.status(401).json({ message: "Password is incorrect" });
             return;
           }
 
@@ -301,7 +295,7 @@ exports.login = async (req, res) => {
           jwt.sign(
             { Mail: Mail, Role: user.Role },
             process.env.JWT_SECRET,
-            { expiresIn: "1d" },
+            { expiresIn: "3d" },
             (err, token) => {
               if (err) {
                 res.status(500).json({ error: "Internal server error" });
@@ -311,14 +305,14 @@ exports.login = async (req, res) => {
               }
 
               res
-                .status(200)
+                .status(201)
                 .cookie("authToken", token, {
                   // httpOnly: true,
                   maxAge: threeDays,
                   secure: true,
                   // sameSite: none,
                 }) // set cookie; // sent to fontend and add it to header
-                .json({ message: "Login success", token, user });
+                .json({ message: "Login success", user });
             }
           );
         }
