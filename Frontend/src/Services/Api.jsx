@@ -1,8 +1,8 @@
 import axios from "axios";
 // require("dotenv").config(); // Load environment variables from .env file
 
-const port = 3001;
-const host_ip = "localhost";
+const port = import.meta.env.VITE_API_PORT;
+const host_ip = import.meta.env.VITE_API_HOST_IP;
 
 export const AllInformation = async () => {
   const baseURL = `http://${host_ip}:${port}/infoIns/read`;
