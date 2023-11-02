@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from "react";
 import "./LoginPage.css";
 import { useGoogleLogin } from "@react-oauth/google";
-import { Login_api_google, TokenDecodeGOOGLE } from "../Services/Api";
+import {
+  Login_api_google,
+  TokenDecodeGOOGLE,
+  login_api,
+} from "../Services/Api";
 import Divider from "@mui/material/Divider";
 import axios from "axios";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
-function LoginPage({ setUserInfo, userInfo, setIsLogin }) {
+function LoginPage({ setUserInfo, userInfo, setEnableAssignPage }) {
   const [tokenOfUser, setTokenOfUser] = useState(null); //
-  // const [userInfo, setUserInfo] = useState(null);
+  const [input, setInput] = useState({ Mail: "", Password: "" });
+
   const navigate = useNavigate();
-  // token can use from request body and ttps://www.googleapis.com/oauth2/v1/userinfo?access_token=$
   useEffect(() => {
     const fetchData = async () => {
       // console.log(tokenOfUser);
@@ -34,20 +39,18 @@ function LoginPage({ setUserInfo, userInfo, setIsLogin }) {
           // 401 : mail not use / 200 : mail used
           console.log("log : ", log.status);
           if (log.status === 401) {
-            setIsLogin(true);
             console.log(
               "Create new user and redirect to /assign info user page (./setpassword)"
             );
-            navigate("/setpassword");
-
-            // window.location.href = "/register";
+            setEnableAssignPage(true);
+            navigate("/setpassword", {
+              state: { email: userInfo_decode.data.email },
+            });
           }
           if (log.status === 201) {
             console.log("Login success and redirect to main page (./)");
             window.location.reload();
           }
-
-          // console.log(log);
         } catch (error) {
           console.log(error);
 
@@ -69,20 +72,16 @@ function LoginPage({ setUserInfo, userInfo, setIsLogin }) {
     },
     onError: (error) => console.log("Login Failed:", error),
   });
-
+  const handleChange = (e) => {
+    const { target } = e;
+    const { name } = target;
+    const value = e.target.value;
+    setInput({ ...input, [name]: value });
+    console.log(input);
+  };
   const test = () => {
-    // console.log("tokenOfUser", tokenOfUser);
-    // console.log("userInfo", userInfo);
-    // // const json_ = {
-    //   Mail: userInfo.data.email,
-    //   Token: tokenOfUser.access_token,
-    // };
-    // const log = await Login_api_google(json_);
-    // console.log(log);
-    // console.log(toke)
-    // setIsLogin(true);
     const authToken = Cookies.get("authToken");
-    // const decodedToken = jwt_decode(authToken);
+
     try {
       const decodedToken = jwt_decode(authToken);
       console.log("Decoded token:", decodedToken);
@@ -90,9 +89,37 @@ function LoginPage({ setUserInfo, userInfo, setIsLogin }) {
       console.error("Error decoding token:", error);
     }
 
-    // console.log(decodedToken);
-    // console.log(authToken);
     console.log("Testing");
+  };
+
+  const onSubmit = async (e, data_form) => {
+    e.preventDefault();
+    try {
+      // api will sent cookie and respose
+      const response = await login_api(data_form);
+      console.log(response);
+      if (response.status === 201) {
+        // const data_user = response.data.user;
+        // console.log(data_user);
+        window.location.reload();
+      }
+      console.log(response.status, response.data.message);
+      if (
+        (response.status === 401 &&
+          response.data.message === "Password is incorrect") ||
+        response.data.message === "Email not found"
+      ) {
+        Swal.fire({
+          icon: "warning",
+          title: "Password or Email is wrong",
+          text: "Please check mail and password again",
+          confirmButtonColor: "#7fcee2",
+        });
+        console.log("wrong password");
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
   return (
     <div className="container_auth">
@@ -107,21 +134,28 @@ function LoginPage({ setUserInfo, userInfo, setIsLogin }) {
           {/* <button id="button_auth" type="submit" onClick={test}>
             Cookies
           </button> */}
-          <form id="form_auth">
-            <label id="label_auth">Username</label>
+          <form
+            id="form_auth"
+            onSubmit={(e) => {
+              onSubmit(e, input);
+            }}
+          >
+            <label id="label_auth">Email</label>
             <input
               className="input_auth"
               type="text"
-              id="username"
-              name="username"
+              id="Mail"
+              name="Mail"
+              onChange={handleChange}
               required
             />
             <label id="label_auth">Password</label>
             <input
               className="input_auth"
               type="password"
-              id="password"
-              name="password"
+              id="Password"
+              name="Password"
+              onChange={handleChange}
               required
             />
             <button id="button_auth" type="submit">
@@ -140,16 +174,12 @@ function LoginPage({ setUserInfo, userInfo, setIsLogin }) {
             <div id="container_auth_button">
               <div className="g-signin-button" onClick={login}>
                 <div className="g-icon">
-                  <img
-                    src="../../image/google_icon.png"
-                    alt="Google Icon"
-                  />
+                  <img src="../../image/google_icon.png" alt="Google Icon" />
                 </div>
                 <span className="g-text"></span>
               </div>
             </div>
           )}
-
           <div
             id="auth-box-link "
             style={{
