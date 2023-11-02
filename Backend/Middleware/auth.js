@@ -1,10 +1,34 @@
 var jwt = require("jsonwebtoken");
 const db = require("../Config/db.js");
-// const bcrypt = require("bcryptjs");
-
 const axios = require("axios");
-const { token } = require("morgan");
 
+async function verifyToken(token, secret) {
+  try {
+    const decoded = jwt.verify(token, secret);
+    // console.log(decoded); // this will print out the payload of the token
+    return decoded;
+  } catch (err) {
+    console.error("Token verification failed:", err.message);
+    return null;
+  }
+}
+exports.verifyCookieToken = async (req, res, next) => {
+  try {
+    const token = req.cookies.authToken;
+    // console.log("token", token);
+    if (!token) {
+      return res.status(401).json({ message: "Token not provided" });
+    }
+    const decodedToken = await verifyToken(token, process.env.JWT_SECRET); // Make sure to use your JWT secret here
+    if (!decodedToken) {
+      return res.status(401).json({ message: "Token verification failed" });
+    }
+    next();
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ message: "Error in token decode" });
+  }
+};
 exports.checkTokenG_MiddleV1 = async (req, res, next) => {
   const userData = req.body;
   const { Token } = userData;
@@ -118,6 +142,7 @@ exports.checkMailUsed_Middle = async (req, res, next) => {
 
 exports.authVerifyToken = async (req, res, next) => {
   try {
+    /// use local storage to req in headers
     const token = req.headers["authorization"].split(" ")[1];
     // manage by fontend
     if (!token) {

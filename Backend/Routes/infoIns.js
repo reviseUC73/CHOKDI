@@ -11,16 +11,18 @@ const {
 
 // const cors = require("cors");
 const bodyParser = require("body-parser");
-const { authVerifyToken } = require("../Middleware/auth");
+const { verifyCookieToken } = require("../Middleware/auth");
+// const { authVerifyToken } = require("../Middleware/auth");
+// verifyCookieToken
 const jsonParser = bodyParser.json();
 
 require("dotenv").config();
 
 // Create Routes
-router.get("/read", read);
-router.post("/create", create);
-router.post("/edit/:VehicleNumber", edit);
-router.delete("/delete/:VehicleNumber",remove);
-router.post("/check-duplicate", jsonParser, checkDuplicate);
+router.post("/create", verifyCookieToken, create);
+router.post("/edit/:VehicleNumber", verifyCookieToken, edit);
+router.delete("/delete/:VehicleNumber", verifyCookieToken, remove);
+router.post("/check-duplicate", jsonParser, verifyCookieToken, checkDuplicate);
+router.get("/read", verifyCookieToken, read);
 
 module.exports = router;
