@@ -13,7 +13,7 @@ import { OnSubmitCreateForm } from "../Services/CreateData";
 
 function Form() {
   const currentDate = moment().format("YYYY-MM-DD");
-  const [duplicate, setDuplicate] = useState(false); 
+  const [duplicate, setDuplicate] = useState(false);
   const [formInput, setFormInput] = useState({
     CustomerName: "",
     CustomerAddress: "",
@@ -31,7 +31,7 @@ function Form() {
     CoverageEndDate: currentDate,
     PolicyValue: "",
     Remark: "",
-    Mail: "user@gmail.com",
+    Mail: "",
   });
 
   const handleChange = (e) => {
@@ -63,7 +63,7 @@ function Form() {
       CoverageEndDate: currentDate,
       PolicyValue: "",
       Remark: "",
-      Mail: "user@gmail.com",
+      Mail: "",
     });
     const form = document.getElementsByClassName("grid-popup")[0];
     form.style.animation = "fade-out 0.3s ease-out forwards";
@@ -89,7 +89,7 @@ function Form() {
         CoverageEndDate: currentDate,
         PolicyValue: "",
         Remark: "",
-        Mail: "user@gmail.com",
+        Mail: "",
       });
     }, 300); // Wait for animation to finish
   };
@@ -224,7 +224,6 @@ function Form() {
         />
 
         <TextField
-          required
           name="Remark"
           label="Remark"
           onChange={handleChange}
@@ -239,7 +238,13 @@ function Form() {
           type="number"
           value={formInput.PolicyValue}
         />
-        {/* <TextField required name="Mail" label="Mail" onChange={handleChange} /> */}
+        <TextField
+          required
+          name="Mail"
+          label="Mail"
+          onChange={handleChange}
+          value={formInput.Mail}
+        />
         <IconButton
           id="send-icon"
           type="submit" // This is important to trigger form submission

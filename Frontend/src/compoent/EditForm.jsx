@@ -56,7 +56,7 @@ export const EditForm = ({ formInput, setFormInput, setButtonActive }) => {
         CoverageEndDate: currentDate,
         PolicyValue: "",
         Remark: "",
-        Mail: "user@gmail.com",
+        Mail: "",
       });
     }, 300); // Wait for animation to finish
   };
@@ -191,6 +191,13 @@ export const EditForm = ({ formInput, setFormInput, setButtonActive }) => {
           onChange={handleChange}
           type="number"
           value={formInput.PolicyValue}
+        />
+        <TextField
+          required
+          name="Mail"
+          label="Mail"
+          onChange={handleChange}
+          value={formInput.Mail}
         />
         {/* <TextField required name="Mail" label="Mail" onChange={handleChange} /> */}
         <IconButton

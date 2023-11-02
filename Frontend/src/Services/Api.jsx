@@ -26,8 +26,8 @@ export const DeleteInformation = async (CarNumber) => {
     });
     console.log("API response:", response.status, response.data);
 
-    if (response.status === 200) {
-      console.log("Delete successful with status 201!");
+    if (response.status === 204) {
+      console.log("Delete successful with status 204!");
       return true;
     } else {
       console.log("Delete operation failed!");
@@ -105,8 +105,7 @@ export const EditInformation = async (user_id, data) => {
       },
       withCredentials: true,
     });
-    console.log(response.status);
-    if (response.status === 200) {
+    if (response.status === 201) {
       return true;
     }
     return false;
