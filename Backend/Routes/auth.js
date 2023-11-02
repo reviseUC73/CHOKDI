@@ -6,7 +6,7 @@ const jsonParser = bodyParser.json();
 
 const {
   checkEmailUsed,
-  
+
   listMail,
   login,
   register,
@@ -22,7 +22,6 @@ router.post("/check-email-used", jsonParser, checkEmailUsed);
 
 router.get("/listMail", jsonParser, listMail);
 
-
 // ยังไม่ได้
 router.post(
   "/register",
@@ -32,22 +31,9 @@ router.post(
   register
 );
 
-router.post(
-  "/login",
-  jsonParser,
-  checkTokenG_Middle,
-  checkMailUsed_Middle,
-  login
-);
+router.post("/login", jsonParser, login);
 
 //body => token and mail
-router.post(
-  "/login-google",
-  jsonParser,
-  checkTokenG_Middle,
-  // checkMailUsed_Middle,
-  login_google
-);
-
+router.post("/login-google", jsonParser, checkTokenG_Middle, login_google);
 
 module.exports = router;
