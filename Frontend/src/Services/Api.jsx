@@ -11,7 +11,7 @@ export const AllInformation = async () => {
     const response = await axios.get(baseURL, {
       withCredentials: true,
     });
-    // console.log(response.data);
+    console.log(response);
     return response.data;
   } catch (err) {
     return null;
@@ -98,7 +98,7 @@ export const EditInformation = async (user_id, data) => {
   var data_format = JSON.stringify(data);
   try {
     // Send the PUT request
-    const response = await axios.post(baseURL, data_format, {
+    const response = await axios.p(baseURL, data_format, {
       headers: {
         // Overwrite Axios's automatically set Content-Type
         "Content-Type": "application/json",
@@ -112,6 +112,28 @@ export const EditInformation = async (user_id, data) => {
   } catch (e) {
     console.log("Failed to fail data", e);
     return false;
+  }
+};
+export const GetDataByEmail = async (email) => {
+  // const jsonMail = { Mail: email}
+  // console.log("email", email);
+  const baseURL = `http://${host_ip}:${port}/infoIns/getDataByEmail/${email}`;
+
+  try {
+    const response = await axios.get(baseURL, {
+      withCredentials: true,
+    });
+    console.log("API response:", response);
+    if (response.status === 200) {
+      console.log("Data retrieval successful!");
+      return response.data;
+    } else {
+      console.log("Data retrieval failed!");
+      return null;
+    }
+  } catch (err) {
+    console.error("API error:", err.message);
+    return null;
   }
 };
 

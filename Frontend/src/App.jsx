@@ -76,7 +76,7 @@ function App() {
       Cookies.remove("authToken");
     }
   }, []);
-  const authToken = Cookies.get("authToken");
+  // const authToken = Cookies.get("authToken");
   // console.log("authToken", authToken);
   // console.log("accessToken", accessToken);
 
@@ -88,7 +88,7 @@ function App() {
           <Form />
           <div className="content">
             <div className="top_container">
-              <SearchBar setResult={setResult} />
+              <SearchBar setResult={setResult} accessToken={accessToken} />
               <ProfileBar user_email={accessToken.Mail} />
             </div>
             <Routes>

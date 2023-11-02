@@ -6,7 +6,7 @@ function MainPage() {
   const [result, setResult] = useState([]);
   return (
     <div className="content">
-      <SearchBar setResult={setResult} />
+      <SearchBar setResult={setResult}   />
       <TableDataContent result={result} />
     </div>
   );

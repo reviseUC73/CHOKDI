@@ -6,9 +6,9 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 
 import "./SearchBar.css";
-import { AllInformation } from "../Services/Api";
+import { AllInformation, GetDataByEmail } from "../Services/Api";
 
-function SearchBar({ setResult }) {
+function SearchBar({ setResult, accessToken }) {
   const [keySearch, setKeySearch] = useState("");
   const handleChange = (event) => {
     // console
@@ -25,18 +25,15 @@ function SearchBar({ setResult }) {
     const filteredData = data.filter(
       (val_item) =>
         val_item.VehicleNumber.toLowerCase().includes(keySearch) ||
-
         val_item.InsuranceCompany.toLowerCase().includes(keySearch) ||
         val_item.CustomerName.toLowerCase().includes(keySearch)
-
     );
     return filteredData;
   };
 
   async function fetchData() {
     try {
-      const data = await AllInformation();
-      // console.log(data)
+      const data = await GetDataByEmail(accessToken.Mail);
       let searchResult = data;
       if (keySearch.trim() !== "") {
         searchResult = SearchInData(data, keySearch.toLowerCase());
