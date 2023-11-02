@@ -158,18 +158,15 @@ export const login_api = async (data) => {
         "Content-Type": "application/json",
       },
       withCredentials: true,
+      validateStatus: function (status) {
+        return status >= 200 && status < 500; // ยอมรับ status codes ระหว่าง 200-499
+      },
     });
-    if (response.statusCode === 201) {
-      console.log("login_api : Success");
-      return response;
-    } else {
-      console.log("status code : " + response.statusCode);
-      console.log("Error : " + response.error);
-    }
+    return response;
 
-    console.log("status", response.status);
+    // console.log("status", response.status);
   } catch (err) {
-    console.log("Error:", eer);
+    console.log("Error:", err);
   }
 };
 // click on login google -> gogole sent token to font
@@ -209,58 +206,6 @@ export const Login_api_google = async (data) => {
     return false;
   }
 };
-
-// export const RegisterUser = async (data) => {
-//   const baseURL = `http://${host_ip}:${port}/auth/register`;
-//   if (
-//     !data.email ||
-//     !data.password ||
-//     !data.role ||
-//     !data.firstName ||
-//     !data.lastName
-//   ) {
-//     console.log("Missing required field(s)");
-//     return false;
-//   }
-
-// };
-// export const CreateAuthUser = async (data) => {
-//   //  data is json format -> { email: , password, firstname ,lastname , role }
-//   const baseURL = `http://${host_ip}:${port}/auth/register`;
-//   console.log(data);
-//   if (
-//     !data.Mail ||
-//     !data.Password ||
-//     !data.Role ||
-//     !data.FirstName ||
-//     !data.LastName
-//   ) {
-//     console.log("Missing required field(s)");
-//     return false;
-//   }
-
-//   var data_format = JSON.stringify(data);
-
-//   try {
-//     // Send the PUT request
-//     const response = await axios.post(baseURL, data_format, {
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       withCredentials: true,
-//     });
-//     console.log("status", response.status);
-//     console.log("response", response);
-//     if (response.status === 201) {
-//       return response;
-//     } else if (response.status === 400) {
-//       console.log(response.data);
-//     }
-//   } catch (e) {
-//     console.log("Failed to submit data", e);
-//     return "error";
-//   }
-// };
 
 export const CreateAuthUser = async (userData) => {
   const { Mail, Password, FirstName, LastName, Role } = userData;
