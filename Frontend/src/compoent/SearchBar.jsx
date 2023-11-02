@@ -33,7 +33,12 @@ function SearchBar({ setResult, accessToken }) {
 
   async function fetchData() {
     try {
-      const data = await GetDataByEmail(accessToken.Mail);
+      var data = [];
+      if (accessToken.Role == "admin") {
+        data = await AllInformation();
+      } else {
+        data = await GetDataByEmail(accessToken.Mail);
+      }
       let searchResult = data;
       if (keySearch.trim() !== "") {
         searchResult = SearchInData(data, keySearch.toLowerCase());
