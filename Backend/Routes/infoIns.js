@@ -7,6 +7,7 @@ const {
   edit,
   remove,
   checkDuplicate,
+  getByEmail,
 } = require("../Controllers/infoIns");
 
 // const cors = require("cors");
@@ -24,5 +25,8 @@ router.post("/edit/:VehicleNumber", verifyCookieToken, edit);
 router.delete("/delete/:VehicleNumber", verifyCookieToken, remove);
 router.post("/check-duplicate", jsonParser, verifyCookieToken, checkDuplicate);
 router.get("/read", verifyCookieToken, read);
+// router.get("/getDataByEmail/:Mail", getByEmail);
+router.get("/getDataByEmail/:Mail",verifyCookieToken, getByEmail);
+
 
 module.exports = router;

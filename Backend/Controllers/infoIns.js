@@ -84,6 +84,24 @@ exports.read = async (req, res) => {
     return res.status(500).send();
   }
 };
+exports.getByEmail = async (req, res) => {
+  const emailToFind = req.params.Mail;
+  const sql_command = "SELECT * FROM CustomerInsurance WHERE Mail = ?;";
+  console.log(emailToFind);
+  try {
+    db.query(sql_command, [emailToFind], (err, result) => {
+      if (err) {
+        console.log("Error reading from database", err);
+        return res.status(400).json({ error: err.message });
+      }
+
+      return res.status(200).json(result);
+    });
+  } catch (err) {
+    console.log("Server error", err);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
 
 // Update data in the database
 exports.edit = async (req, res) => {
@@ -198,5 +216,3 @@ exports.checkDuplicate = async (req, res) => {
     res.json({ duplicate });
   });
 };
-
-
