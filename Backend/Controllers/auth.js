@@ -47,7 +47,7 @@ exports.checkEmailUsed_1 = async (req, res) => {
     }
     const emailUsed = result.length > 0;
 
-    console.log("emailUsed", result);
+    // console.log("emailUsed", result);
     res.json({ MailUsed: emailUsed, message: `can use this ${Mail}` });
     return;
   });
@@ -264,14 +264,14 @@ exports.register = async (req, res) => {
 // sent token in cookie of brower domain api and
 exports.login = async (req, res) => {
   const { Mail, Password } = req.body;
-  console.log(Mail, Password);
+  // console.log(Mail, Password);
   // const [result] = await db.query
   try {
     db.query(
       "SELECT * FROM UserAccount WHERE Mail = ?",
       [Mail],
       async (err, result) => {
-        console.log(result);
+        // console.log(result);
         if (err) {
           res.status(400).json({ error: " Sql_commnad_fail" });
         } else {
