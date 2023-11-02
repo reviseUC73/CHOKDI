@@ -75,7 +75,7 @@ function LoginPage({ setUserInfo, userInfo, setEnableAssignPage }) {
     const { name } = target;
     const value = e.target.value;
     setInput({ ...input, [name]: value });
-    console.log(input);
+    // console.log(input);
   };
   const test = () => {
     const authToken = Cookies.get("authToken");

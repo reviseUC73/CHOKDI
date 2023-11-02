@@ -57,7 +57,7 @@ function App() {
       // console.log(isLogin);
       const authToken = Cookies.get("authToken");
       // console.log(authToken);
-      console.log("authToken", authToken);
+      // console.log("authToken", authToken);
       if (!authToken) {
         console.log("Cookie_token not found");
       } else {
@@ -66,7 +66,7 @@ function App() {
         const decodedToken = jwt_decode(authToken);
 
         if (decodedToken) {
-          console.log("DecodedToken : ", decodedToken);
+          // console.log("DecodedToken : ", decodedToken);
           setAccessToken(decodedToken);
           // window.location.reload();
         }
@@ -77,8 +77,8 @@ function App() {
     }
   }, []);
   const authToken = Cookies.get("authToken");
-  console.log("authToken", authToken);
-  console.log("accessToken", accessToken);
+  // console.log("authToken", authToken);
+  // console.log("accessToken", accessToken);
 
   return (
     <Fragment>

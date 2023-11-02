@@ -31,7 +31,7 @@ function PasswordSetPage({ userInfo }) {
     const value = e.target.value;
     const name = e.target.name;
     setInput({ ...input, [name]: value });
-    console.log(input);
+    // console.log(input);
   };
 
   const checkPasswordDuplicate = () => {
