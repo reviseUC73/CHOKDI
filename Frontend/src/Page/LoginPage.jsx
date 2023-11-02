@@ -43,9 +43,7 @@ function LoginPage({ setUserInfo, userInfo, setEnableAssignPage }) {
               "Create new user and redirect to /assign info user page (./setpassword)"
             );
             setEnableAssignPage(true);
-            navigate("/setpassword", {
-              state: { email: userInfo_decode.data.email },
-            });
+            navigate("/setpassword");
           }
           if (log.status === 201) {
             console.log("Login success and redirect to main page (./)");
@@ -169,38 +167,13 @@ function LoginPage({ setUserInfo, userInfo, setEnableAssignPage }) {
             OR
           </Divider>
 
-          {userInfo ? null : ( // </div> //   <button onClick={logOut}>Log out</button> // <div>
-            // <button onClick={() => login()}>Sign in with Google 🚀 </button>
-            <div id="container_auth_button">
-              <div className="g-signin-button" onClick={login}>
-                <div className="g-icon">
-                  <img src="../../image/google_icon.png" alt="Google Icon" />
-                </div>
-                <span className="g-text"></span>
+          <div id="container_auth_button">
+            <div className="g-signin-button" onClick={login}>
+              <div className="g-icon">
+                <img src="../../image/google_icon.png" alt="Google Icon" />
               </div>
+              <span className="g-text"></span>
             </div>
-          )}
-          <div
-            id="auth-box-link "
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <span id="text_auth">Don't have an account? </span>
-          </div>
-          <div
-            id="auth-box-link "
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <span href="/register" id="signup-link">
-              Sign up
-            </span>
           </div>
         </div>
       </div>

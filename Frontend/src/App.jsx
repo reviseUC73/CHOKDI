@@ -20,8 +20,8 @@ function App() {
   const [result, setResult] = useState([]);
 
   const [accessToken, setAccessToken] = useState(null);
-  const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
+  const [enableAssignPage, setEnableAssignPage] = useState(false); // login?
 
   // const [setPassword,setPassword] = useState(false);
   // const []
@@ -51,7 +51,7 @@ function App() {
   // console.log("IsLogidn : ", isLogin);
   // console.log("user : ", userInfo);
 
-  useEffect( () => {
+  useEffect(() => {
     try {
       // console.log("accessToken", accessToken);
       // console.log(isLogin);
@@ -108,19 +108,16 @@ function App() {
               <LoginPage
                 setUserInfo={setUserInfo}
                 userInfo={userInfo}
-                setIsLogin={setIsLogin}
+                setEnableAssignPage={setEnableAssignPage}
               />
             }
           />
-          <Route
-            path="/setPassword"
-            element={
-              <PasswordSetPage
-                userInfo={userInfo}
-                // isLogin={setIsLogin}
-              />
-            }
-          />
+          {enableAssignPage ? (
+            <Route
+              path="/setPassword"
+              element={<PasswordSetPage userInfo={userInfo} />}
+            />
+          ) : null}
         </Routes>
       )}
     </Fragment>
