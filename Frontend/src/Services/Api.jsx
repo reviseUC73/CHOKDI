@@ -8,7 +8,9 @@ export const AllInformation = async () => {
   const baseURL = `http://${host_ip}:${port}/infoIns/read`;
 
   try {
-    const response = await axios.get(baseURL);
+    const response = await axios.get(baseURL, {
+      withCredentials: true,
+    });
     // console.log(response.data);
     return response.data;
   } catch (err) {
@@ -19,7 +21,9 @@ export const AllInformation = async () => {
 export const DeleteInformation = async (CarNumber) => {
   const baseURL = `http://${host_ip}:${port}/infoIns/delete/${CarNumber}`;
   try {
-    const response = await axios.delete(baseURL);
+    const response = await axios.delete(baseURL, {
+      withCredentials: true,
+    });
     console.log("API response:", response.status, response.data);
 
     if (response.status === 200) {
@@ -47,6 +51,7 @@ export const CheckDuplicateData = async (data) => {
         // Overwrite Axios's automatically set Content-Type
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     });
     console.log(response);
     return response.data.duplicate;
@@ -73,6 +78,7 @@ export const CreateInformation = async (data) => {
         // Overwrite Axios's automatically set Content-Type
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     });
 
     if (response.status === 201) {
@@ -97,6 +103,7 @@ export const EditInformation = async (user_id, data) => {
         // Overwrite Axios's automatically set Content-Type
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     });
     console.log(response.status);
     if (response.status === 200) {
