@@ -108,7 +108,7 @@ function Form() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Call the form submission logic here
-    await OnSubmitCreateForm(formInput, setFormInput, duplicate, setDuplicate);
+    await OnSubmitCreateForm(formInput, setFormInput,  setDuplicate);
   };
   return (
     <form className="overlay" id="overlay" onSubmit={handleSubmit}>

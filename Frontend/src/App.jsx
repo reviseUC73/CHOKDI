@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { Fragment, createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
 import { Route, Routes } from "react-router-dom";
 // import jwt_decode from "jwt-decode";
@@ -9,55 +9,23 @@ import TableDataContent from "./compoent/TableDataContent";
 import EditDataContent from "./compoent/EditDataContent";
 import Form from "./compoent/Form";
 import LoginPage from "./Page/LoginPage";
-// import { TokenDecodeGOOGLE } from "./Services/Api";
 import ProfileBar from "./compoent/ProfileBar";
 import PasswordSetPage from "./Page/PasswordSetPage"; // Load environment variables from .env file
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 
-// require("dotenv").config()
+const UserStateContext = createContext();
+
 function App() {
+  const [userState, setUserState] = useState(null); // login?
+
   const [result, setResult] = useState([]);
 
-  const [accessToken, setAccessToken] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [enableAssignPage, setEnableAssignPage] = useState(false); // login?
-
-  // const [setPassword,setPassword] = useState(false);
-  // const []
-  // useEffect(async () => {
-  //   // const token_g = localStorage.getItem("accessToken");
-  //   const authToken = Cookies.get("authToken");
-  //   // const decode = TokenDecode
-  //   if (token_g) {
-  //     const decode_ = async (my_token) => {
-  //       try {
-  //         const decoder = await TokenDecodeGOOGLE(my_token);
-  //         console.log(decoder);
-  //         if (decoder) {
-  //           setAccessToken(decoder);
-  //           // api login user by sent mail and google token for verify
-  //         }
-  //       } catch (e) {
-  //         console.log(e);
-  //         localStorage.removeItem("accessToken");
-  //         window.location.reload();
-  //       }
-  //     };
-  //     // console.log(token);
-  //     decode_(token_g);
-  //   }
-  // }, []);
-  // console.log("IsLogidn : ", isLogin);
-  // console.log("user : ", userInfo);
-
   useEffect(() => {
     try {
-      // console.log("accessToken", accessToken);
-      // console.log(isLogin);
       const authToken = Cookies.get("authToken");
-      // console.log(authToken);
-      // console.log("authToken", authToken);
       if (!authToken) {
         console.log("Cookie_token not found");
       } else {
@@ -66,30 +34,39 @@ function App() {
         const decodedToken = jwt_decode(authToken);
 
         if (decodedToken) {
-          // console.log("DecodedToken : ", decodedToken);
-          setAccessToken(decodedToken);
-          // window.location.reload();
+          setUserState(decodedToken);
+        } else {
+          console.log("Token expired or Token not found or Token invalid");
+          const googleToken = localStorage.getItem("accessToken");
+          if (googleToken) {
+            localStorage.removeItem("accessToken");
+          }
+          Cookies.remove("authToken");
         }
       }
     } catch (e) {
       console.log(e);
-      Cookies.remove("authToken");
+      const authToken = Cookies.get("authToken");
+      const googleToken = localStorage.getItem("accessToken");
+      if (authToken) {
+        Cookies.remove("authToken");
+      }
+      if (googleToken) {
+        localStorage.removeItem("accessToken");
+      }
     }
   }, []);
-  // const authToken = Cookies.get("authToken");
-  // console.log("authToken", authToken);
-  // console.log("accessToken", accessToken);
 
   return (
-    <Fragment>
-      {accessToken ? (
+    <UserStateContext.Provider value={{ userState, setUserState }}>
+      {userState ? (
         <div>
           <VerticalNavbar />
           <Form />
           <div className="content">
             <div className="top_container">
-              <SearchBar setResult={setResult} accessToken={accessToken} />
-              <ProfileBar user_email={accessToken.Mail} />
+              <SearchBar setResult={setResult}  />
+              <ProfileBar user_email={userState.Mail} />
             </div>
             <Routes>
               <Route path="/" element={<TableDataContent result={result} />} />
@@ -120,8 +97,10 @@ function App() {
           ) : null}
         </Routes>
       )}
-    </Fragment>
+    </UserStateContext.Provider>
   );
 }
+
+export { UserStateContext };
 
 export default App;

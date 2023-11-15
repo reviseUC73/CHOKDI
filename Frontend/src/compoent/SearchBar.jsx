@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
@@ -7,8 +7,11 @@ import SearchIcon from "@mui/icons-material/Search";
 
 import "./SearchBar.css";
 import { AllInformation, GetDataByEmail } from "../Services/Api";
+import { UserStateContext } from "../App";
 
-function SearchBar({ setResult, accessToken }) {
+function SearchBar({ setResult }) {
+  const { userState, setUserState } = useContext(UserStateContext);
+
   const [keySearch, setKeySearch] = useState("");
   const handleChange = (event) => {
     // console
@@ -20,8 +23,7 @@ function SearchBar({ setResult, accessToken }) {
   }, [keySearch]);
 
   const SearchInData = (data, keySearch) => {
-    // console.log(data);
-    // console.log(keySearch)
+
     const filteredData = data.filter(
       (val_item) =>
         val_item.VehicleNumber.toLowerCase().includes(keySearch) ||
@@ -34,10 +36,10 @@ function SearchBar({ setResult, accessToken }) {
   async function fetchData() {
     try {
       var data = [];
-      if (accessToken.Role == "admin") {
+      if (userState.Role == "admin") {
         data = await AllInformation();
       } else {
-        data = await GetDataByEmail(accessToken.Mail);
+        data = await GetDataByEmail(userState.Mail);
       }
       let searchResult = data;
       if (keySearch.trim() !== "") {
