@@ -27,8 +27,8 @@ function LoginPage({ setUserInfo, userInfo, setEnableAssignPage }) {
             tokenOfUser.access_token
           );
           // setUserInfo(data);
-          console.log("UserInfo : ", userInfo_decode);
-          console.log("tokenOfUser", tokenOfUser);
+          // console.log("UserInfo : ", userInfo_decode);
+          // console.log("tokenOfUser", tokenOfUser);
 
           const json_ = {
             Mail: userInfo_decode.data.email,
@@ -63,7 +63,6 @@ function LoginPage({ setUserInfo, userInfo, setEnableAssignPage }) {
   const login = useGoogleLogin({
     onSuccess: async (codeResponse) => {
       setTokenOfUser(codeResponse);
-      // setIsLogin(true);
 
       localStorage.setItem("accessToken", codeResponse.access_token);
       // window.location.reload();
@@ -75,7 +74,6 @@ function LoginPage({ setUserInfo, userInfo, setEnableAssignPage }) {
     const { name } = target;
     const value = e.target.value;
     setInput({ ...input, [name]: value });
-    // console.log(input);
   };
   const test = () => {
     const authToken = Cookies.get("authToken");
@@ -97,11 +95,9 @@ function LoginPage({ setUserInfo, userInfo, setEnableAssignPage }) {
       const response = await login_api(data_form);
       console.log(response);
       if (response.status === 201) {
-        // const data_user = response.data.user;
         // console.log(data_user);
         window.location.reload();
       }
-      console.log(response.status, response.data.message);
       if (
         (response.status === 401 &&
           response.data.message === "Password is incorrect") ||

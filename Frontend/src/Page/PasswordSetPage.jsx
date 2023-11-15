@@ -65,7 +65,7 @@ function PasswordSetPage({ userInfo }) {
     try {
       // Create a new user
       const new_user = await CreateAuthUser({ ...input, Role: "user" });
-      console.log("New user created:", new_user);
+      // console.log("New user created:", new_user);
 
       // If the user was successfully created, navigate to the home page
       if (new_user) {
