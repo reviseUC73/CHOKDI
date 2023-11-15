@@ -181,3 +181,45 @@ exports.authVerifyToken = async (req, res, next) => {
     return res.status(500).json({ message: "Token Invalid" });
   }
 };
+
+
+
+
+exports.verifyRoleAdmin = async (req, res, next) => {
+  try {
+    const token = req.cookies.authToken;
+    const decodedToken = await verifyToken(token, process.env.JWT_SECRET); // Make sure to use your JWT secret here
+    if (decodedToken.Role.toLowerCase() == "admin") {
+      return next();
+    }
+    return res
+      .status(401)
+      .json({ message: "Your permission not enough for access this api" });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ message: "Error in token decode" });
+  }
+};
+
+
+exports.verifiedPermissionsUser = async (req, res, next) => {
+  try {
+    const token = req.cookies.authToken;
+    const decodedToken = await verifyToken(token, process.env.JWT_SECRET);
+    if (decodedToken.Role.toLowerCase() == "admin") {
+      return next();
+    } else {
+      const mail = req.params.Mail;
+      if (decodedToken.Mail == mail) {
+        return next();
+      }
+      return res.status(401).json({
+        message:
+          "Your permission not enough for access this api because Not use the owner of this permission.",
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ message: "Error in token decode" });
+  }
+};

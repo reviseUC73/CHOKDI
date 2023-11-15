@@ -15,7 +15,7 @@ require("dotenv").config(); // Load environment variables from .env file
 // Initialize
 const app = express();
 app.use(morgan("dev")); // console log when server using any api
-app.use(cors({ credentials: true, origin: "http://localhost:5173" })); // แก้ไขเป็น origin ที่คุณต้องการอนุญาต})); // Enable CORS for all routes / check policies when requesting routes
+app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.use(express.json()); // change json to javascript
 app.use(cookieParser());
 

@@ -10,23 +10,19 @@ const {
   getByEmail,
 } = require("../Controllers/infoIns");
 
-// const cors = require("cors");
 const bodyParser = require("body-parser");
-const { verifyCookieToken } = require("../Middleware/auth");
-// const { authVerifyToken } = require("../Middleware/auth");
-// verifyCookieToken
+const { verifyCookieToken, verifiedPermissionsUser, verifyRoleAdmin } = require("../Middleware/auth");
 const jsonParser = bodyParser.json();
 
 require("dotenv").config();
 
 // Create Routes
-router.post("/create", verifyCookieToken, create);
-router.post("/edit/:VehicleNumber", verifyCookieToken, edit);
-router.delete("/delete/:VehicleNumber", verifyCookieToken, remove);
-router.post("/check-duplicate", jsonParser, verifyCookieToken, checkDuplicate);
-router.get("/read", verifyCookieToken, read);
-// router.get("/getDataByEmail/:Mail", getByEmail);
-router.get("/getDataByEmail/:Mail",verifyCookieToken, getByEmail);
+router.post("/create", verifyCookieToken, verifyRoleAdmin,create);
+router.post("/edit/:VehicleNumber", verifyCookieToken,verifyRoleAdmin, edit);
+router.delete("/delete/:VehicleNumber", verifyCookieToken,verifyRoleAdmin, remove);
+router.post("/check-duplicate", jsonParser, verifyCookieToken,verifyRoleAdmin, checkDuplicate);
+router.get("/read", verifyCookieToken, verifyRoleAdmin ,read);
 
+router.get("/getDataByEmail/:Mail", verifyCookieToken,verifiedPermissionsUser, getByEmail);
 
 module.exports = router;
