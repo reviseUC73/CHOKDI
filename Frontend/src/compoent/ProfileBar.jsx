@@ -19,12 +19,10 @@ export default function ProfileBar({ user_email }) {
   const navigate = useNavigate();
   const handleLogout = () => {
     setAnchorEl(null);
-    // localStorage.removeItem("accessToken");
+    localStorage.removeItem("accessToken");
     Cookies.remove("authToken");
     navigate("/");
     window.location.reload();
-
-
   };
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -46,7 +44,6 @@ export default function ProfileBar({ user_email }) {
       >
         <Tooltip title={user_email}>
           <IconButton
-            //   style={{padding:"1rem"}}
             onClick={handleClick}
             size="medium"
             sx={{ ml: 2 }}
@@ -69,12 +66,10 @@ export default function ProfileBar({ user_email }) {
         PaperProps={{
           elevation: 0,
           sx: {
-            // fontFamily: "Kanit, sans-serif",
             borderRadius: "0.5rem",
             bgcolor: " #FFFFFF",
             color: "#484848",
             overflow: "visible",
-            // border : "1px solid #E3E3E3",
             filter: "drop-shadow(0px 2px 2px rgba(0,0,0,0.1))",
             mt: 1.5,
             "& .MuiAvatar-root": {
@@ -84,7 +79,6 @@ export default function ProfileBar({ user_email }) {
               mr: 1,
             },
             "&:before": {
-              //   fontFamily: "Kanit, sans-serif",
 
               content: '""',
               display: "block",
@@ -110,24 +104,7 @@ export default function ProfileBar({ user_email }) {
         </MenuItem>
 
         <Divider />
-        {/* <MenuItem
-          onClick={handleClose}
-          style={{ fontFamily: "Kanit, sans-serif" }}
-        >
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem>
-        <MenuItem
-          onClick={handleClose}
-          style={{ fontFamily: "Kanit, sans-serif" }}
-        >
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem> */}
+
         <MenuItem
           onClick={handleLogout}
           style={{ fontFamily: "Kanit, sans-serif" }}

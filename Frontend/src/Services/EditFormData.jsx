@@ -1,4 +1,4 @@
-import { CheckDuplicateData, CreateInformation, EditInformation } from "./Api";
+import { EditInformation } from "./Api";
 import Swal from "sweetalert2";
 import moment from "moment";
 export const OnSubmitEditFormData = async (e, fromInput) => {
@@ -46,6 +46,4 @@ export const OnSubmitEditFormData = async (e, fromInput) => {
   }
 };
 
-// if (result.isConfirmed) {
-// const edited = await EditInformation(account_id, trimmedData);
-// setEditMode(false);
+

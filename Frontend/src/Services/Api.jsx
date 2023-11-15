@@ -11,7 +11,6 @@ export const AllInformation = async () => {
     const response = await axios.get(baseURL, {
       withCredentials: true,
     });
-    console.log(response);
     return response.data;
   } catch (err) {
     return null;
@@ -53,7 +52,6 @@ export const CheckDuplicateData = async (data) => {
       },
       withCredentials: true,
     });
-    console.log(response);
     return response.data.duplicate;
   } catch (error) {
     console.log("Failed to check duplicate data", error);
@@ -84,7 +82,6 @@ export const CreateInformation = async (data) => {
     if (response.status === 201) {
       return true;
     } else if (response.status === 400) {
-      console.log(response.data);
     }
     return false;
   } catch (e) {
@@ -192,7 +189,6 @@ export const login_api = async (data) => {
     });
     return response;
 
-    // console.log("status", response.status);
   } catch (err) {
     console.log("Error:", err);
   }
@@ -225,7 +221,6 @@ export const Login_api_google = async (data) => {
       return response;
     } else {
       // สำหรับ status codes อื่น ๆ ที่ไม่ได้จัดการใน if และ else if ข้างต้น
-      console.log("Response with status:", response.status);
       return response;
     }
   } catch (err) {

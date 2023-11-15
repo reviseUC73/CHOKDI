@@ -1,12 +1,10 @@
 import { CheckDuplicateData, CreateInformation } from "./Api";
 import Swal from "sweetalert2";
 import moment from "moment";
-import { useState } from "react";
 
 export const OnSubmitCreateForm = async (
   fromInput,
   setFormInput,
-  duplicate,
   setDuplicate
 ) => {
   //   const [error, setError] = useState(true);
@@ -36,7 +34,6 @@ export const OnSubmitCreateForm = async (
   };
 
   const isDuplicate = await CheckDuplicateData(trimmedData);
-  console.log(isDuplicate);
   if (isDuplicate) {
     // Handle duplicate case
 
