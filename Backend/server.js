@@ -15,7 +15,7 @@ require("dotenv").config(); // Load environment variables from .env file
 // Initialize
 const app = express();
 app.use(morgan("dev")); // console log when server using any api
-app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+app.use(cors({ credentials: true, origin: process.env.ALLOW_REQUEST_IP }));
 app.use(express.json()); // change json to javascript
 app.use(cookieParser());
 
@@ -24,7 +24,6 @@ app.use("/infoIns", dataRouter); // use and set prefix path of Insurance
 app.use("/auth", authRouter);
 
 // Listen server
-app.listen(process.env.SERVER_PORT || 3001, () => {
-  console.log(`Server is running on port ${process.env.SERVER_PORT || 3001}`);
-  // console.log(`localhost:3002/read`);
+app.listen(process.env.SERVER_PORT, () => {
+  console.log(`Server is running on port ${process.env.SERVER_PORT}`);
 });
