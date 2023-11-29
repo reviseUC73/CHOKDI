@@ -1,70 +1,54 @@
 
-# CHOKDI Web Application 
-### Car Insurance Customer Data Management 
+# CHOKDI Web Application
 
-Welcome to the Car Insurance Customer Data Management web application! This application is built using React Vite for the frontend and JavaScript (Node.js) with Nodemon for the backend. It utilizes OAuth Google for authentication and authorization. The app allows admin users to manage customer data, and customers can access and manage their car insurance data.
+## Overview
 
+CHOKDI is a state-of-the-art web application tailored for car insurance companies. Developed using React Vite and Node.js, it offers a seamless, efficient experience, deployed on AWS EC2 for top-notch performance and reliability. Its security is a standout feature, with JWT for encryption and cookie-based sessions, aligning with OWASP standards. CHOKDI is an essential tool for secure, efficient customer data management in the insurance sector."
 ## Features
 
-- **Authentication**: Users can log in using their Gmail accounts via OAuth Google authentication.
+### Enhanced Security
+- **JWT and OWASP Guidelines**: Implements JWT tokens for secure data encryption and decryption, aligned with OWASP security standards.
+- **Role-Based Access Control**: Granular control over data access through a comprehensive role and permission system.
 
-- **Admin Dashboard**: Admin users have access to an admin dashboard where they can view and manage all customer data, including editing and deleting customer records.
+### User Authentication
+- **OAuth Google Authentication**: Secure and convenient login using Gmail accounts.
 
-- **Customer Dashboard**: Customers have access to a personalized dashboard where they can view and manage their own car insurance data.
+### Scalable and Reliable
+- **AWS EC2 Deployment**: Ensures high availability and scalable performance.
 
-- **Data Management**: Admin users can add new customers to the system.
+### User Interface
+- **Admin Dashboard**: For managing all aspects of customer data.
+- **Customer Dashboard**: Allows customers to view and update their insurance data.
 
-## Prerequisites
+### API Access
+- Secure API access with authentication and role-based permissions.
 
-- Docker: Make sure you have Docker installed on your system.
+## Getting Started
 
-## Getting Started with Docker Compose
+### Prerequisites
+- Docker installed on your system.
 
-1. Clone this repository: `git clone https://github.com/reviseUC73/CHOKDI.git`
-
+### Installation
+1. Clone the repository: `git clone https://github.com/reviseUC73/CHOKDI.git`
 2. Navigate to the project directory: `cd CHOKDI`
-
-3. Create a `.env` file in the project root and configure it with your environment variables.
-
+3. Create a `.env` file and configure it with your environment variables.
 4. Run the application using Docker Compose:
-
-   ```bash
-   docker-compose up
-   ```
-   
-   OR
-   
-   - Detached mode : It will run in the background and won't show their logs and outputs in the current terminal session.
-
-
-    ```bash
-   docker-compose up -d
-    ```
-
-5. Access the application in your browser at http://localhost:4100
-## Environment Variables
-Make sure to set up the required environment variables in your .env file. You can find the necessary variables in the .env.example file provided in the project.
+   - In foreground: `docker-compose up`
+   - In detached mode: `docker-compose up -d`
 
 ## Usage
-- Admin users: Log in using your Gmail account associated with admin privileges. You'll have access to the admin dashboard for managing customer data, including editing and deleting customer records.
-
-- Customer users: Log in using your Gmail account. You'll be able to access your own car insurance data and update it as needed.
+- **Admin Users**: Log in with an admin Gmail account to access the admin dashboard.
+- **Customer Users**: Log in with a regular Gmail account to access the customer dashboard.
 
 ## Contributing
-Contributions are welcome! If you find any issues or have suggestions for improvements, feel free to create a pull request.
+Contributions to CHOKDI are welcome. Feel free to fork the repository, create a pull request, or open issues for any bugs or feature suggestions.
 
 ## License
 This project is licensed under the MIT License.
 
-## Acknowledgements
-This project was inspired by the need to efficiently manage car insurance customer data.
-We appreciate the open-source community and the contributors of various libraries used in this project.
-
-
+## Acknowledgments
+Thanks to the open-source community and all contributors to the libraries used in this project.
 
 ---
-Happy coding!
 
-For questions or support, please contact [setthanan50@gmail.com](mailto:setthanan50@gmail.com).
-
-This version of the README provides instructions for running your application using Docker Compose, as per the GitHub repository you provided. Ensure that you customize any environment variables and other settings as per your actual project configuration.
+For more information or support, contact setthanan50@gmail.com.
