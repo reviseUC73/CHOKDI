@@ -160,7 +160,7 @@ export const EditForm = ({ formInput, setFormInput, setButtonActive }) => {
           name="CoverageType"
           label="CoverageType"
           onChange={handleChange}
-          type="number"
+          // type="number"
           value={formInput.CoverageType}
         />
         <Calendar

@@ -207,7 +207,7 @@ function Form() {
           name="CoverageType"
           label="CoverageType"
           onChange={handleChange}
-          type="number"
+          // type="number"
           value={formInput.CoverageType}
         />
         <Calendar
