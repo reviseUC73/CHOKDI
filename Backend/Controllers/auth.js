@@ -81,9 +81,14 @@ exports.register = async (req, res) => {
         }
 
         // Generate JWT
-        const tokenPayload = { Mail: result.Mail, Role: result.Role };
+        // const tokenPayload = { Mail: result.Mail, Role: result.Role };
+        console.log("result: ", result);
+        console.log("user: ", result[0]);
+
+        console.log("role: " , result.Role);
+
         jwt.sign(
-          tokenPayload,
+          { Mail: Mail, Role: "User" },
           process.env.JWT_SECRET,
           { expiresIn: "3d" },
           (err, token) => {
