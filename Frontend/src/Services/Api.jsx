@@ -95,7 +95,7 @@ export const EditInformation = async (user_id, data) => {
   var data_format = JSON.stringify(data);
   try {
     // Send the PUT request
-    const response = await axios.p(baseURL, data_format, {
+    const response = await axios.post(baseURL, data_format, {
       headers: {
         // Overwrite Axios's automatically set Content-Type
         "Content-Type": "application/json",
