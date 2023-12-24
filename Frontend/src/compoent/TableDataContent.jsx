@@ -135,15 +135,8 @@ function TableDataContent({ result }) {
             <TableRow>
               <TableCell
                 id="col_main"
-                // onClick={() => handleSort("AccountID")}
                 style={tableCellStyleHead}
               ></TableCell>
-              {/* <TableCell
-                id="col_main"
-                style={tableCellStyleHead}
-              >
-                CUSTOMERID
-              </TableCell> */}
               <TableCell
                 id="col_main"
                 onClick={() => handleSort("VehicleNumber")}
@@ -151,7 +144,7 @@ function TableDataContent({ result }) {
               >
                 <div>
                   {getSortIcon("VehicleNumber")}
-                  VehicleNumber
+                  ทะเบียนรถ
                 </div>
               </TableCell>
               <TableCell
@@ -161,7 +154,7 @@ function TableDataContent({ result }) {
               >
                 <div>
                   {getSortIcon("CustomerName")}
-                  CustomerName
+                  ชื่อลูกค้า
                 </div>
               </TableCell>
               <TableCell
@@ -171,7 +164,7 @@ function TableDataContent({ result }) {
               >
                 <div>
                   {getSortIcon("InsuranceCompany")}
-                  InsuranceCompany
+                  บริษัทประกัน
                 </div>
               </TableCell>
               <TableCell
@@ -181,7 +174,7 @@ function TableDataContent({ result }) {
               >
                 <div>
                   {getSortIcon("PolicyValue")}
-                  PolicyValue
+                  มูลค่ากรมธรรม์
                 </div>
               </TableCell>
               <TableCell
@@ -191,7 +184,7 @@ function TableDataContent({ result }) {
               >
                 <div>
                   {getSortIcon("CoverageStartDate")}
-                  CoverageStartDate
+                  วันเริ่มคุ้มครอง
                 </div>
               </TableCell>
               <TableCell
@@ -201,7 +194,7 @@ function TableDataContent({ result }) {
               >
                 <div>
                   {getSortIcon("CoverageEndDate")}
-                  CoverageEndDate
+                  วันหมดอายุ
                 </div>
               </TableCell>
 
@@ -212,7 +205,7 @@ function TableDataContent({ result }) {
               >
                 <div>
                   {getSortIcon("DayRemaining")}
-                  DayRemaining
+                  จำนวนวันคงเหลือ
                 </div>
               </TableCell>
             
@@ -313,7 +306,7 @@ function TableDataContent({ result }) {
                             <TableBody>
                               <TableRow>
                                 <TableCell style={tableCellStyle}>
-                                  CustomerAddress :
+                                  ที่อยู่ลูกค้า :
                                 </TableCell>
                                 <TableCell style={tableCellStyle}>
                                   {row.CustomerAddress}
@@ -322,7 +315,7 @@ function TableDataContent({ result }) {
 
                               <TableRow>
                                 <TableCell style={tableCellStyle}>
-                                  Brand :
+                                  ยี่ห้อยาพาหนะ
                                 </TableCell>
                                 <TableCell style={tableCellStyle}>
                                   {row.Brand}
@@ -331,7 +324,7 @@ function TableDataContent({ result }) {
 
                               <TableRow>
                                 <TableCell style={tableCellStyle}>
-                                  Model
+                                  รุ่นยานพาหนะ
                                 </TableCell>
                                 <TableCell style={tableCellStyle}>
                                   {row.Model}
@@ -340,7 +333,7 @@ function TableDataContent({ result }) {
 
                               <TableRow>
                                 <TableCell style={tableCellStyle}>
-                                  EngineCapacity (CC.)
+                                  จำนวน CC.  
                                 </TableCell>
                                 <TableCell style={tableCellStyle}>
                                   {row.EngineCapacity} CC.
@@ -349,7 +342,7 @@ function TableDataContent({ result }) {
 
                               <TableRow>
                                 <TableCell style={tableCellStyle}>
-                                  VehicleManufactureYear:
+                                  ปีที่จดทะเบียน
                                 </TableCell>
                                 <TableCell style={tableCellStyle}>
                                   {row.VehicleManufactureYear}
@@ -358,7 +351,7 @@ function TableDataContent({ result }) {
 
                               <TableRow>
                                 <TableCell style={tableCellStyle}>
-                                  VehicleBody
+                                  แบบตัวถัง
                                 </TableCell>
                                 <TableCell style={tableCellStyle}>
                                   {row.VehicleBody}
@@ -367,7 +360,7 @@ function TableDataContent({ result }) {
 
                               <TableRow>
                                 <TableCell style={tableCellStyle}>
-                                  VehicleType
+                                  แบบตัวถัง
                                 </TableCell>
                                 <TableCell style={tableCellStyle}>
                                   {row.VehicleType}
@@ -376,7 +369,7 @@ function TableDataContent({ result }) {
 
                               <TableRow>
                                 <TableCell style={tableCellStyle}>
-                                  VehicleCode
+                                  รหัสรถ
                                 </TableCell>
                                 <TableCell style={tableCellStyle}>
                                   {row.VehicleCode}
@@ -385,7 +378,7 @@ function TableDataContent({ result }) {
 
                               <TableRow>
                                 <TableCell style={tableCellStyle}>
-                                  CoverageType
+                                  ประเภทประกัน
                                 </TableCell>
                                 <TableCell style={tableCellStyle}>
                                   {row.CoverageType}
@@ -394,7 +387,7 @@ function TableDataContent({ result }) {
 
                               <TableRow>
                                 <TableCell style={tableCellStyle}>
-                                  Remark
+                                  หมายเหตุ
                                 </TableCell>
                                 <TableCell style={tableCellStyle}>
                                   {row.Remark}
@@ -402,7 +395,7 @@ function TableDataContent({ result }) {
                               </TableRow>
                               <TableRow>
                                 <TableCell style={tableCellStyle}>
-                                  Mail
+                                  Email
                                 </TableCell>
                                 <TableCell style={tableCellStyle}>
                                   {row.Mail}
@@ -411,7 +404,7 @@ function TableDataContent({ result }) {
 
                               <TableRow>
                                 <TableCell style={tableCellStyle}>
-                                  DayRemaining
+                                  จำนวนวันคงเหลือ
                                 </TableCell>
                                 <TableCell style={tableCellStyle}>
                                   {calculateDaysRemaining(row.CoverageEndDate)}

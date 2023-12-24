@@ -202,7 +202,7 @@ function EditDataContent({ result }) {
                 >
                   <div>
                     {getSortIcon("VehicleNumber")}
-                    VehicleNumber
+                    ทะเบียนรถ
                   </div>
                 </TableCell>
                 <TableCell
@@ -212,7 +212,7 @@ function EditDataContent({ result }) {
                 >
                   <div>
                     {getSortIcon("CustomerName")}
-                    CustomerName
+                    ชื่อลูกค้า
                   </div>
                 </TableCell>
                 <TableCell
@@ -222,7 +222,7 @@ function EditDataContent({ result }) {
                 >
                   <div>
                     {getSortIcon("InsuranceCompany")}
-                    InsuranceCompany
+                    บริษัทประกัน
                   </div>
                 </TableCell>
                 <TableCell
@@ -232,7 +232,7 @@ function EditDataContent({ result }) {
                 >
                   <div>
                     {getSortIcon("PolicyValue")}
-                    PolicyValue
+                    มูลค่ากรมธรรม์
                   </div>
                 </TableCell>
                 <TableCell
@@ -242,7 +242,7 @@ function EditDataContent({ result }) {
                 >
                   <div>
                     {getSortIcon("CoverageStartDate")}
-                    CoverageStartDate
+                    วันเริ่มคุ้มครอง
                   </div>
                 </TableCell>
                 <TableCell
@@ -252,7 +252,7 @@ function EditDataContent({ result }) {
                 >
                   <div>
                     {getSortIcon("CoverageEndDate")}
-                    CoverageEndDate
+                    วันหมดอายุ
                   </div>
                 </TableCell>
 
