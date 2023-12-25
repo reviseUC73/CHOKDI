@@ -11,7 +11,7 @@ export const OnSubmitCreateForm = async (
   //   const [duplicate, setDuplicate] = useState(false);
   const currentDate = moment().format("YYYY-MM-DD");
   console.log(fromInput);
-  //   e.preventDefault();
+  //   e.preventDefault()
   console.log("start submit");
   const trimmedData = {
     CustomerName: fromInput.CustomerName,
@@ -30,7 +30,7 @@ export const OnSubmitCreateForm = async (
     CoverageEndDate: fromInput.CoverageEndDate,
     PolicyValue: fromInput.PolicyValue.trim(),
     Remark: fromInput.Remark.trim(),
-    Mail: "user@gmail.com",
+    Mail: fromInput.Mail.trim(),
   };
 
   const isDuplicate = await CheckDuplicateData(trimmedData);
@@ -68,7 +68,7 @@ export const OnSubmitCreateForm = async (
         CoverageEndDate: currentDate,
         PolicyValue: "",
         Remark: "",
-        Mail: "user@gmail.com",
+        Mail: "",
       });
       Swal.fire({
         icon: "success",

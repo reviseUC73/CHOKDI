@@ -360,7 +360,7 @@ function TableDataContent({ result }) {
 
                               <TableRow>
                                 <TableCell style={tableCellStyle}>
-                                  แบบตัวถัง
+                                เลขตัวถัง
                                 </TableCell>
                                 <TableCell style={tableCellStyle}>
                                   {row.VehicleType}
@@ -369,7 +369,7 @@ function TableDataContent({ result }) {
 
                               <TableRow>
                                 <TableCell style={tableCellStyle}>
-                                  รหัสรถ
+                                รหัสยานพาหนะ
                                 </TableCell>
                                 <TableCell style={tableCellStyle}>
                                   {row.VehicleCode}

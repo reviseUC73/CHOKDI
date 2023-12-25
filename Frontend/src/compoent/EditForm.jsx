@@ -78,21 +78,21 @@ export const EditForm = ({ formInput, setFormInput, setButtonActive }) => {
         <TextField
           disabled
           name="VehicleNumber"
-          label="VehicleNumber"
+          label="ทะเบียนรถ"
           onChange={handleChange}
           value={formInput.VehicleNumber}
         />
         <TextField
           required
           name="Model"
-          label="Model"
+          label="รุ่นยานพาหนะ"
           onChange={handleChange}
           value={formInput.Model}
         />
         <TextField
           required
           name="VehicleManufactureYear"
-          label="VehicleManufactureYear"
+          label="ปีที่จดทะเบียน"
           onChange={handleChange}
           type="number"
           value={formInput.VehicleManufactureYear}
@@ -100,50 +100,50 @@ export const EditForm = ({ formInput, setFormInput, setButtonActive }) => {
         <TextField
           required
           name="VehicleBody"
-          label="VehicleBody"
+          label="แบบตัวถัง"
           onChange={handleChange}
           value={formInput.VehicleBody}
         />
         <TextField
           required
           name="VehicleType"
-          label="VehicleType"
+          label="เลขตัวถัง"
           onChange={handleChange}
           value={formInput.VehicleType}
         />
         <TextField
           required
           name="VehicleCode"
-          label="VehicleCode"
+          label="รหัสยานพาหนะ"
           onChange={handleChange}
           value={formInput.VehicleCode}
         />
         <TextField
           required
           name="CustomerName"
-          label="CustomerName"
+          label="ชื่อลูกค้า"
           onChange={handleChange}
           value={formInput.CustomerName}
         />
         <TextField
           required
           name="Brand"
-          label="Brand"
+          label="ยี่ห้อยาพาหนะ"
           onChange={handleChange}
           value={formInput.Brand}
         />
         <TextField
           required
           name="EngineCapacity"
-          label="EngineCapacity (CC.)"
+          label="จำนวน CC."
           onChange={handleChange}
           type="number"
           value={formInput.EngineCapacity}
         />
-        <TextField
+         <TextField
           required
           name="CustomerAddress"
-          label="CustomerAddress"
+          label="ที่อยู่ลูกค้า"
           onChange={handleChange}
           className="address"
           value={formInput.CustomerAddress}
@@ -151,14 +151,14 @@ export const EditForm = ({ formInput, setFormInput, setButtonActive }) => {
         <TextField
           required
           name="InsuranceCompany"
-          label="InsuranceCompany"
+          label="ชื่อบริษัทประกัน"
           onChange={handleChange}
           value={formInput.InsuranceCompany}
         />
         <TextField
           required
           name="CoverageType"
-          label="CoverageType"
+          label="ประเภทประกัน"
           onChange={handleChange}
           // type="number"
           value={formInput.CoverageType}
@@ -177,9 +177,8 @@ export const EditForm = ({ formInput, setFormInput, setButtonActive }) => {
         />
 
         <TextField
-          required
           name="Remark"
-          label="Remark"
+          label="หมายเหตุ"
           onChange={handleChange}
           className="remark"
           value={formInput.Remark}
@@ -187,7 +186,7 @@ export const EditForm = ({ formInput, setFormInput, setButtonActive }) => {
         <TextField
           required
           name="PolicyValue"
-          label="PolicyValue"
+          label="มูลค่ากรมธรรม์"
           onChange={handleChange}
           type="number"
           value={formInput.PolicyValue}
@@ -195,7 +194,7 @@ export const EditForm = ({ formInput, setFormInput, setButtonActive }) => {
         <TextField
           required
           name="Mail"
-          label="Mail"
+          label="Email"
           onChange={handleChange}
           value={formInput.Mail}
         />

@@ -39,7 +39,7 @@ function Form() {
     const { name } = target; // name = e.target.name
     const value = e.target.value;
     setFormInput({ ...formInput, [name]: value });
-    // console.log(formInput);
+    console.log(formInput);
   };
   //   Calendar.
   const ClosePopup = () => {
@@ -123,23 +123,30 @@ function Form() {
         <TextField
           required
           name="VehicleNumber"
-          label="VehicleNumber"
+          label="ทะเบียนรถ"
           onChange={handleChange}
           error={duplicate}
           helperText={duplicate ? "VehicleNumber exists" : ""}
           value={formInput.VehicleNumber}
         />
+         <TextField
+          required
+          name="Brand"
+          label="ยี่ห้อยาพาหนะ"
+          onChange={handleChange}
+          value={formInput.Brand}
+        />
         <TextField
           required
           name="Model"
-          label="Model"
+          label="รุ่นยานพาหนะ"
           onChange={handleChange}
           value={formInput.Model}
         />
         <TextField
           required
           name="VehicleManufactureYear"
-          label="VehicleManufactureYear"
+          label="ปีที่จดทะเบียน"
           onChange={handleChange}
           type="number"
           value={formInput.VehicleManufactureYear}
@@ -147,42 +154,36 @@ function Form() {
         <TextField
           required
           name="VehicleBody"
-          label="VehicleBody"
+          label="แบบตัวถัง"
           onChange={handleChange}
           value={formInput.VehicleBody}
         />
         <TextField
           required
           name="VehicleType"
-          label="VehicleType"
+          label="เลขตัวถัง"
           onChange={handleChange}
           value={formInput.VehicleType}
         />
         <TextField
           required
           name="VehicleCode"
-          label="VehicleCode"
+          label="รหัสยานพาหนะ"
           onChange={handleChange}
           value={formInput.VehicleCode}
         />
         <TextField
           required
           name="CustomerName"
-          label="CustomerName"
+          label="ชื่อลูกค้า"
           onChange={handleChange}
           value={formInput.CustomerName}
         />
-        <TextField
-          required
-          name="Brand"
-          label="Brand"
-          onChange={handleChange}
-          value={formInput.Brand}
-        />
+       
         <TextField
           required
           name="EngineCapacity"
-          label="EngineCapacity (CC.)"
+          label="จำนวน CC."
           onChange={handleChange}
           type="number"
           value={formInput.EngineCapacity}
@@ -190,7 +191,7 @@ function Form() {
         <TextField
           required
           name="CustomerAddress"
-          label="CustomerAddress"
+          label="ที่อยู่ลูกค้า"
           onChange={handleChange}
           className="address"
           value={formInput.CustomerAddress}
@@ -198,14 +199,14 @@ function Form() {
         <TextField
           required
           name="InsuranceCompany"
-          label="InsuranceCompany"
+          label="ชื่อบริษัทประกัน"
           onChange={handleChange}
           value={formInput.InsuranceCompany}
         />
         <TextField
           required
           name="CoverageType"
-          label="CoverageType"
+          label="ประเภทประกัน"
           onChange={handleChange}
           // type="number"
           value={formInput.CoverageType}
@@ -214,18 +215,20 @@ function Form() {
           formInput={formInput}
           setFormInput={setFormInput}
           CoverageDate={"CoverageStartDate"}
+          name="CoverageStartDate"
           value={formInput.CoverageStartDate}
         />
         <Calendar
           formInput={formInput}
           setFormInput={setFormInput}
+          name="CoverageEndDate"
           CoverageDate={"CoverageEndDate"}
           value={formInput.CoverageEndDate}
         />
 
         <TextField
           name="Remark"
-          label="Remark"
+          label="หมายเหตุ"
           onChange={handleChange}
           className="remark"
           value={formInput.Remark}
@@ -233,7 +236,7 @@ function Form() {
         <TextField
           required
           name="PolicyValue"
-          label="PolicyValue"
+          label="มูลค่ากรมธรรม์"
           onChange={handleChange}
           type="number"
           value={formInput.PolicyValue}
@@ -241,7 +244,7 @@ function Form() {
         <TextField
           required
           name="Mail"
-          label="Mail"
+          label="Email"
           onChange={handleChange}
           value={formInput.Mail}
         />
