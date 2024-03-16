@@ -110,6 +110,8 @@ function Form() {
     // Call the form submission logic here
     await OnSubmitCreateForm(formInput, setFormInput,  setDuplicate);
   };
+
+  
   return (
     <form className="overlay" id="overlay" onSubmit={handleSubmit}>
       <div className="grid-popup">
@@ -238,7 +240,6 @@ function Form() {
           name="PolicyValue"
           label="มูลค่ากรมธรรม์"
           onChange={handleChange}
-          type="number"
           value={formInput.PolicyValue}
         />
         <TextField
