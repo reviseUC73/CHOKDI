@@ -11,7 +11,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 1234
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "ec2-3-1-103-104.ap-southeast-1.compute.amazonaws.com"]   #YOOOO localhost -> not full aws url chokdi
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]   #YOOOO localhost -> not full aws url chokdi
       interval: 15s
       timeout: 5s
       retries: 3
