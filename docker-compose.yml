@@ -30,6 +30,7 @@ services:
 
   chokdi-backend:
     image: rew1234/chokdi-backend:V1.0
+    platform: linux/amd64
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://ec2-3-1-103-104.ap-southeast-1.compute.amazonaws.com:5004/healthcheck || exit 1"]      #YOOOO localhost:5004 -> full+port (http://chokdi:5004/healthcheck))
       interval: 30s
@@ -53,6 +54,7 @@ services:
 
   chokdi-frontend:
     image: rew1234/chokdi-frontend:V1.0
+    platform: linux/amd64
     ports:
       - "5005:5005"
     environment:
