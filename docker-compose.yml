@@ -32,7 +32,7 @@ services:
     image: rew1234/chokdi-backend:V1.0
 
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://ec2-54-255-18-174.ap-southeast-1.compute.amazonaws.com:5004/healthcheck || exit 1"]      #YOOOO localhost:5004 -> full+port (http://chokdi:5004/healthcheck))
+      test: ["CMD-SHELL", "curl -f http://ec2-52-221-254-52.ap-southeast-1.compute.amazonaws.com:5004/healthcheck || exit 1"]      #YOOOO localhost:5004 -> full+port (http://chokdi:5004/healthcheck))
       interval: 30s
       timeout: 10s
       retries: 5
@@ -46,7 +46,7 @@ services:
       DB_PORT: 3306 
       SERVER_PORT: 5004
       JWT_SECRET: JWT_SECRET
-      ALLOW_REQUEST_IP: "http://ec2-54-255-18-174.ap-southeast-1.compute.amazonaws.com:5005" #YOOOO full+port (http://chokdi:5005)
+      ALLOW_REQUEST_IP: "http://ec2-52-221-254-52.ap-southeast-1.compute.amazonaws.com:5005" #YOOOO full+port (http://chokdi:5005)
     depends_on:
       mysql-chokdi:
         condition: service_healthy
@@ -61,7 +61,7 @@ services:
       SERVER_PORT: 5005
       SERVER_HOST: "0.0.0.0"
       VITE_API_PORT: 5004
-      VITE_API_HOST_IP: "ec2-54-255-18-174.ap-southeast-1.compute.amazonaws.com"     #YOOOO localhost -> not full aws url (chokdi)
+      VITE_API_HOST_IP: "ec2-52-221-254-52.ap-southeast-1.compute.amazonaws.com"     #YOOOO localhost -> not full aws url (chokdi)
       VITE_GOOGLE_CLIENT_ID: 658254688251-57jm5pokhi21fcs72ecqo0e05u1dohku.apps.googleusercontent.com
     depends_on:
       - chokdi-backend
