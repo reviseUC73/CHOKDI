@@ -4,7 +4,8 @@ services:
   mysql-chokdi:
     image: mysql
     volumes:
-      - mysql_data:/var/lib/mysql
+      - /path/to/empty/directory:/var/lib/mysql
+      # - mysql_data:/var/lib/mysql
       - ./CustomerInsurance.sql:/docker-entrypoint-initdb.d/CustomerInsurance.sql
     ports:
       - "3406:3306"
