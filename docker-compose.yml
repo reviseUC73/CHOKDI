@@ -4,14 +4,14 @@ services:
   mysql-chokdi:
     image: mysql
     volumes:
-      - mysql_data:/var/lib/mysql
       - ./CustomerInsurance.sql:/docker-entrypoint-initdb.d/CustomerInsurance.sql
+      - mysql_data:/var/lib/mysql
     ports:
       - "3406:3306"
     environment:
       MYSQL_ROOT_PASSWORD: 1234
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "ec2-13-250-40-24.ap-southeast-1.compute.amazonaws.com"]   #YOOOO localhost -> not full aws url chokdi
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]   #YOOOO localhost -> not full aws url chokdi
       interval: 15s
       timeout: 5s
       retries: 3
