@@ -106,10 +106,17 @@ exports.register = async (req, res) => {
             res
               .status(201)
               .cookie("authToken", token, {
-                // httpOnly: true,
+                // // httpOnly: true,
+                // maxAge: threeDays,
+                // secure: false, // Ensure this is true if you are using HTTPS
+                // // sameSite: 'None',
+
+
+                domain: ".chokdi.xyz", // Set the correct domain
+                // httpOnly: true, // Recommended for security
                 maxAge: threeDays,
-                secure: false, // Ensure this is true if you are using HTTPS
-                // sameSite: 'None',
+                secure: false, // Set to false since you're using HTTP
+                sameSite: 'Lax', // Set the appropriate SameSite attribute
               })
               .json({
                 affectedRows: result.affectedRows,
@@ -167,11 +174,18 @@ exports.login = async (req, res) => {
               res
                 .status(201)
                 .cookie("authToken", token, {
-                  // httpOnly: true,
+                  // // httpOnly: true,
+                  // maxAge: threeDays,
+                  // secure: false, // Ensure this is true if you are using HTTPS
+                  // // sameSite: none,
+
+
+                  domain: ".chokdi.xyz", // Set the correct domain
+                  // httpOnly: true, // Recommended for security
                   maxAge: threeDays,
-                  secure: false, // Ensure this is true if you are using HTTPS
-                  // sameSite: none,
-                }) // set cookie; // sent to fontend and add it to header
+                  secure: false, // Set to false since you're using HTTP
+                  sameSite: 'Lax', // Set the appropriate SameSite attribute
+                })
                 .json({ message: "Login success" });
             }
           );
@@ -220,10 +234,17 @@ exports.login_google = async (req, res) => {
               res
                 .status(201)
                 .cookie("authToken", token, {
-                  // httpOnly: true,
+                  // // httpOnly: true,
+                  // maxAge: threeDays,
+                  // secure: false, // Ensure this is true if you are using HTTPS
+                  // // sameSite: none,
+
+
+                  domain: ".chokdi.xyz", // Set the correct domain
+                  // httpOnly: true, // Recommended for security
                   maxAge: threeDays,
-                  secure: false, // Ensure this is true if you are using HTTPS
-                  // sameSite: none,
+                  secure: false, // Set to false since you're using HTTP
+                  sameSite: 'Lax', // Set the appropriate SameSite attribute
                 }) // set cookie; // sent to fontend and add it to header
                 .json({ message: "Login success" });
             }
