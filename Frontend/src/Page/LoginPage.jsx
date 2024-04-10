@@ -7,7 +7,6 @@ import {
   login_api,
 } from "../Services/Api";
 import Divider from "@mui/material/Divider";
-import axios from "axios";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";

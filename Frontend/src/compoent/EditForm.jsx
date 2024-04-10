@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Form.css";
-import { IconButton, TextField, colors } from "@mui/material";
+import { IconButton, TextField } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleXmark,
-  faCircleMinus,
+
   faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import Calendar from "./Calendar";
