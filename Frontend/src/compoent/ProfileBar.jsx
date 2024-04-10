@@ -20,7 +20,7 @@ export default function ProfileBar({ user_email }) {
   const handleLogout = () => {
     setAnchorEl(null);
     localStorage.removeItem("accessToken");
-    Cookies.remove("authToken");
+    Cookies.remove("authToken", { path: '/', domain: '.'+import.meta.env.VITE_API_HOST_IP });
     navigate("/");
     window.location.reload();
   };

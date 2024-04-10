@@ -2,7 +2,6 @@ import "./App.css";
 import React, { createContext, useEffect, useState } from "react";
 
 import { Route, Routes } from "react-router-dom";
-// import jwt_decode from "jwt-decode";
 import VerticalNavbar from "./compoent/VerticalNavbar";
 import SearchBar from "./compoent/SearchBar";
 import TableDataContent from "./compoent/TableDataContent";
@@ -18,6 +17,12 @@ const UserStateContext = createContext();
 
 function App() {
   const [userState, setUserState] = useState(null); // login?
+  // let myRole = "";
+  // if (userState) {
+  //   console.log(userState.Role);
+  //   myRole = userState.Role;
+  //   console.log(userState.Role);
+  // }
 
   const [result, setResult] = useState([]);
 
@@ -32,9 +37,13 @@ function App() {
         // use api login user by sent mail and google token for verify
         const authToken = Cookies.get("authToken");
         const decodedToken = jwt_decode(authToken);
-
+          
         if (decodedToken) {
+          console.log(decodedToken)
           setUserState(decodedToken);
+    
+
+
         } else {
           console.log("Token expired or Token not found or Token invalid");
           const googleToken = localStorage.getItem("accessToken");
@@ -61,11 +70,11 @@ function App() {
     <UserStateContext.Provider value={{ userState, setUserState }}>
       {userState ? (
         <div>
-          <VerticalNavbar />
+          { userState.Role == "admin" ? <VerticalNavbar /> : console.log("Usedwr")}
           <Form />
           <div className="content">
             <div className="top_container">
-              <SearchBar setResult={setResult}  />
+              <SearchBar setResult={setResult} />
               <ProfileBar user_email={userState.Mail} />
             </div>
             <Routes>

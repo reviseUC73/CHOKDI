@@ -112,7 +112,7 @@ exports.register = async (req, res) => {
                 // // sameSite: 'None',
 
 
-                domain: ".chokdi.xyz", // Set the correct domain
+                domain: process.env.DOMAIN, // Set the correct domain
                 // httpOnly: true, // Recommended for security
                 maxAge: threeDays,
                 secure: false, // Set to false since you're using HTTP
@@ -180,7 +180,8 @@ exports.login = async (req, res) => {
                   // // sameSite: none,
 
 
-                  domain: ".chokdi.xyz", // Set the correct domain
+                  // domain: ".chokdi.xyz", // Set the correct domain
+                  domain: process.env.DOMAIN, // Set the correct domain
                   // httpOnly: true, // Recommended for security
                   maxAge: threeDays,
                   secure: false, // Set to false since you're using HTTP
@@ -239,8 +240,9 @@ exports.login_google = async (req, res) => {
                   // secure: false, // Ensure this is true if you are using HTTPS
                   // // sameSite: none,
 
-
-                  domain: ".chokdi.xyz", // Set the correct domain
+                  
+                  domain: process.env.DOMAIN, // Set the correct domain
+                  // domain: ".chokdi.xyz", // Set the correct domain
                   // httpOnly: true, // Recommended for security
                   maxAge: threeDays,
                   secure: false, // Set to false since you're using HTTP
