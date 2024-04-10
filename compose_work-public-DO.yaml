@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   chokdi-backend:
-    image: rew1234/chokdi-backend:V6.0
+    image: rew1234/chokdi-backend:V6.0AMD
     
     ports:
       - "5004:5004"
@@ -16,12 +16,11 @@ services:
       SERVER_PORT: 5004
       JWT_SECRET: JWT_SECRET
       DOMAIN: .chokdi.xyz
-      ALLOW_REQUEST_IP: "http://www.chokdi.xyz:5005" 
-      
+      ALLOW_REQUEST_IP: "http://www.chokdi.xyz:5005"
     restart: always
 
   chokdi-frontend:
-    image: rew1234/chokdi-frontend:V6.0
+    image: rew1234/chokdi-frontend:V6.0AMD
     ports:
       - "5005:5005"
     environment:
