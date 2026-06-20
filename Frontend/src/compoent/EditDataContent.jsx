@@ -1,38 +1,20 @@
 import React, { Fragment } from "react";
-import { useState} from "react";
+import { useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+import "./Table.css";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-
 import moment from "moment";
-
-// import EditForm from "./EditForm";
-
-import "./Table.css";
-
-// import EditForm from "./EditForm"; // Make sure the path is correct
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Box,
-  Collapse,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Delete_data } from "../Services/DeteleData";
 import { EditForm } from "./EditForm";
-function EditDataContent({ result }) {
+
+function EditDataContent({ result = [] }) {
   const [sortedColumn, setSortedColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
   const [buttonActive, setButtonActive] = useState(false);
@@ -56,6 +38,7 @@ function EditDataContent({ result }) {
     Remark: "",
     Mail: "",
   });
+
   const tableCellStyle = {
     fontFamily: "Kanit, sans-serif",
     fontSize: "0.9rem",
@@ -67,6 +50,7 @@ function EditDataContent({ result }) {
     textOverflow: "ellipsis",
     borderStyle: "border-box",
   };
+
   const tableCellStyleHead = {
     fontFamily: "Kanit, sans-serif",
     fontSize: "0.9rem",
@@ -124,7 +108,8 @@ function EditDataContent({ result }) {
       setSortDirection("asc");
     }
   };
-  const sortedResult = [...result]; // Create a copy of the original result array
+
+  const sortedResult = Array.isArray(result) ? [...result] : [];  // Create a copy of the original result array
   sortedResult.sort((a, b) => {
     const valueA = a[sortedColumn];
     const valueB = b[sortedColumn];
@@ -166,7 +151,6 @@ function EditDataContent({ result }) {
       edit_button.style.display = "none ";
       setButtonActive(false);
       nav.style.zIndex = "1";
-
     }
   };
 

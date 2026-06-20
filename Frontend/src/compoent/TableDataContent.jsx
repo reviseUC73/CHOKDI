@@ -20,7 +20,7 @@ import {
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
-function TableDataContent({ result }) {
+function TableDataContent({ result = [] }) {
   const [expandedRow, setExpandedRow] = useState(null);
   const [sortedColumn, setSortedColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
@@ -107,7 +107,7 @@ function TableDataContent({ result }) {
       setSortDirection("asc");
     }
   };
-  const sortedResult = [...result]; // Create a copy of the original result array
+  const sortedResult = Array.isArray(result) ? [...result] : []; // Create a copy of the original result array
   sortedResult.sort((a, b) => {
     const valueA = a[sortedColumn];
     const valueB = b[sortedColumn];

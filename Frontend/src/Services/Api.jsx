@@ -1,5 +1,4 @@
 import axios from "axios";
-// require("dotenv").config(); // Load environment variables from .env file
 
 const port = import.meta.env.VITE_API_PORT;
 const host_ip = import.meta.env.VITE_API_HOST_IP;
@@ -90,8 +89,9 @@ export const CreateInformation = async (data) => {
   }
 };
 
-export const EditInformation = async (user_id, data) => {
-  const baseURL = `http://${host_ip}:${port}/infoIns/edit/${user_id}`;
+export const EditInformation = async (vehicleNumber, data) => {
+  const baseURL = `http://${host_ip}:${port}/infoIns/edit/${vehicleNumber}`;
+  console.log(baseURL)
   var data_format = JSON.stringify(data);
   try {
     // Send the PUT request
@@ -112,8 +112,6 @@ export const EditInformation = async (user_id, data) => {
   }
 };
 export const GetDataByEmail = async (email) => {
-  // const jsonMail = { Mail: email}
-  // console.log("email", email);
   const baseURL = `http://${host_ip}:${port}/infoIns/getDataByEmail/${email}`;
 
   try {

@@ -4,7 +4,6 @@ import { IconButton, TextField } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleXmark,
-
   faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import Calendar from "./Calendar";
@@ -25,7 +24,7 @@ export const EditForm = ({ formInput, setFormInput, setButtonActive }) => {
   const ClosePopup = () => {
     const currentDate = moment().format("YYYY-MM-DD");
 
-    const overlayEdit = document.getElementById("overlayEditform");
+    const overlayEdit = document.getEleAmentById("overlayEditform");
     const nav = document.getElementsByClassName("nav_container_mui")[0];
     setButtonActive(false);
     // console.log(overlayEdit);
@@ -140,7 +139,7 @@ export const EditForm = ({ formInput, setFormInput, setButtonActive }) => {
           type="number"
           value={formInput.EngineCapacity}
         />
-         <TextField
+        <TextField
           required
           name="CustomerAddress"
           label="ที่อยู่ลูกค้า"

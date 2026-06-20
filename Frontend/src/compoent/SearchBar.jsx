@@ -23,7 +23,6 @@ function SearchBar({ setResult }) {
   }, [keySearch]);
 
   const SearchInData = (data, keySearch) => {
-
     const filteredData = data.filter(
       (val_item) =>
         val_item.VehicleNumber.toLowerCase().includes(keySearch) ||

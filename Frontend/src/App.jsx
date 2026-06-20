@@ -37,13 +37,10 @@ function App() {
         // use api login user by sent mail and google token for verify
         const authToken = Cookies.get("authToken");
         const decodedToken = jwt_decode(authToken);
-          
+
         if (decodedToken) {
-          console.log(decodedToken)
+          console.log(decodedToken);
           setUserState(decodedToken);
-    
-
-
         } else {
           console.log("Token expired or Token not found or Token invalid");
           const googleToken = localStorage.getItem("accessToken");
@@ -70,7 +67,11 @@ function App() {
     <UserStateContext.Provider value={{ userState, setUserState }}>
       {userState ? (
         <div>
-          { userState.Role == "admin" ? <VerticalNavbar /> : console.log("Usedwr")}
+          {userState.Role == "admin" ? (
+            <VerticalNavbar />
+          ) : (
+            console.log("Usedwr")
+          )}
           <Form />
           <div className="content">
             <div className="top_container">
