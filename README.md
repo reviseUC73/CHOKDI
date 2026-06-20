@@ -35,6 +35,7 @@ CHOKDI is a state-of-the-art web application tailored for car insurance companie
 4. Run the application using Docker Compose:
    - In foreground: `docker-compose up`
    - In detached mode: `docker-compose up -d`
+   - If you want to start docker container single `docker-compose up -d mysql-chokdi`
 
 ## Usage
 - **Admin Users**: Log in with an admin Gmail account to access the admin dashboard.

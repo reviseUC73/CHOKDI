@@ -1,20 +1,55 @@
-const mysql = require('mysql2');
-require('dotenv').config();
+const mysql = require("mysql2");
+require("dotenv").config();
 
-const db = mysql.createConnection({
-  host: process.env.DB_HOST ,
-  user: process.env.DB_USER ,
-  password: process.env.DB_PASSWORD ,
-  database: process.env.DB_DATABASE ,
-  port: process.env.DB_PORT ,
+const db = mysql.createPool({
+  
+  // ==========================================
+  // 1. ส่วนข้อมูลพื้นฐานสำหรับเชื่อมต่อฐานข้อมูล
+  // ==========================================
+  host: process.env.DB_HOST,         // โฮสต์หรือที่อยู่ของ Database (เช่น gateway01.xxx.tidbcloud.com)
+  user: process.env.DB_USER,         // ชื่อผู้ใช้งาน (เช่น 3gSwGPUh2ren3ax.root)
+  password: process.env.DB_PASSWORD, // รหัสผ่านของฐานข้อมูล
+  database: process.env.DB_DATABASE, // ชื่อฐานข้อมูลที่ต้องการเข้าไปใช้ (เช่น Chokdi)
+  port: process.env.DB_PORT,         // พอร์ตที่เปิดรับการเชื่อมต่อ (ของ TiDB ปกติจะเป็น 4000)
+
+  // ==========================================
+  // 2. ส่วนการเข้ารหัสความปลอดภัย (SSL/TLS)
+  // ==========================================
+  ssl: {
+    minVersion: 'TLSv1.2',           // กำหนดว่าต้องใช้มาตรฐานการเข้ารหัส TLS เวอร์ชัน 1.2 ขึ้นไปเท่านั้น (TiDB บังคับใช้)
+    rejectUnauthorized: true         // บังคับให้ตรวจสอบใบรับรอง (Certificate) ของเซิร์ฟเวอร์ว่าน่าเชื่อถือจริงๆ เท่านั้น
+  },
+
+  // ==========================================
+  // 3. ส่วนการตั้งค่าประสิทธิภาพและการรองรับคิว
+  // ==========================================
+  waitForConnections: true,          // true = หากคนใช้เว็บเยอะจนสายเชื่อมต่อเต็ม ให้รอคิวจนกว่าจะมีสายว่าง (false = พ่น Error ทันทีถ้าสายเต็ม)
+  connectionLimit: 10,               // จำนวนสายเชื่อมต่อ (Connection) สูงสุดที่จะเปิดทิ้งไว้ (10 เส้นถือว่ากำลังดีสำหรับเว็บขนาดกลาง)
+  queueLimit: 0,                     // จำนวนคิวที่สามารถต่อแถวรอได้ (0 หมายถึง ให้ต่อแถวรอได้ไม่จำกัดจำนวน)
+
+  // ==========================================
+  // 4. ส่วนป้องกันการตัดสาย (แก้ Error: ECONNRESET)
+  // ==========================================
+  enableKeepAlive: true,             // true = ให้ระบบส่งสัญญาณเต้นของหัวใจ (Ping) ไปหา TiDB เป็นระยะๆ เพื่อบอกว่า "ฉันยังอยู่นะ อย่าเพิ่งตัดสาย"
+  keepAliveInitialDelay: 0           // ระยะเวลา (มิลลิวินาที) ที่จะเริ่มส่ง Ping ครั้งแรก (0 คือส่งทันทีที่เชื่อมต่อเสร็จ)
 });
 
-db.connect((err) => {
+// ==========================================
+// 5. ส่วนทดสอบการเชื่อมต่อ
+// ==========================================
+db.getConnection((err, connection) => {
   if (err) {
-    console.log("Connecting error to my sql database", err);
+    // ถ้ามีปัญหา (เช่น รหัสผิด, ลืมใส่ prefix, เน็ตหลุด) จะเข้าเงื่อนไขนี้
+    console.log("Connecting error to my sql database", err); 
     return;
   }
-  console.log("Connecting successfully");
+  
+  // ถ้าตั้งค่าถูกต้อง จะแสดงข้อความนี้ตอนรัน npm run dev หรือ node server.js
+  console.log("Connecting successfully (Pool Created)"); 
+  
+  // **สำคัญมาก**: เมื่อตรวจสอบเสร็จต้อง "ปล่อย" (release) สายคืนกลับไปที่ Pool ทันที
+  // เพื่อให้ระบบตรงหน้า Controllers ของคุณ (เช่น auth.js) เอาสายนี้ไปดึงข้อมูล User ต่อได้
+  connection.release(); 
 });
 
-module.exports = db;
+module.exports = db; // ส่งออกตั้งค่านี้ เพื่อให้หน้าอื่นๆ (Controllers) สามารถดึง db ไปใช้ query ข้อมูลได้

@@ -67,7 +67,7 @@ exports.create = async (req, res) => {
 };
 
 // Read data from database
-exports.read = async (req, res) => {
+exports.read = async (_, res) => {
   const sql_command = "SELECT * FROM CustomerInsurance ;";
   try {
     db.query(sql_command, (err, result) => {

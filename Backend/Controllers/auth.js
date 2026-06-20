@@ -1,5 +1,6 @@
 const db = require("../Config/db.js");
 const bcrypt = require("bcryptjs");
+
 var jwt = require("jsonwebtoken");
 require("dotenv").config(); // Load environment variables from .env file
 
@@ -82,10 +83,6 @@ exports.register = async (req, res) => {
 
         // Generate JWT
         // const tokenPayload = { Mail: result.Mail, Role: result.Role };
-        console.log("result: ", result);
-        console.log("user: ", result[0]);
-
-        console.log("role: " , result.Role);
 
         jwt.sign(
           { Mail: Mail, Role: "User" },
@@ -210,18 +207,21 @@ exports.login_google = async (req, res) => {
       "SELECT * FROM UserAccount WHERE Mail = ?",
       [Mail],
       async (err, result) => {
+        
         if (err) {
-          res.status(400).json({ error: " Sql_commnad_fail" });
+          console.log(err)
+          res.status(400).json({ error: " Sql_commnad_fail" , message:err });
         } else {
           if (result.length === 0) {
             console.log("Email not found");
             res.status(401).json({ error: "Email not found" });
-            //-> con create new user
+
             return;
           }
           // have mail in db
           var user = result[0];
           const threeDays = 3 * 24 * 60 * 60 * 1000;
+          
           jwt.sign(
             { Mail: Mail, Role: user.Role },
             process.env.JWT_SECRET,

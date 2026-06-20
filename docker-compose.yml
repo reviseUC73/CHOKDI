@@ -29,43 +29,42 @@ services:
       - "8082:80"
     restart: always
 
-  chokdi-backend:
-    image: rew1234/chokdi-backend:V6.0ARM
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:5004/healthcheck || exit 1"]      #YOOOO localhost:5004 -> full+port (http://chokdi:5004/healthcheck))
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    ports:
-      - "5004:5004"
-    environment:
-      DB_HOST: mysql-chokdi
-      DB_USER: root
-      DB_PASSWORD: 1234
-      DB_DATABASE: Chokdi2
-      DB_PORT: 3306 
-      SERVER_PORT: 5004
-      JWT_SECRET: JWT_SECRET
-      DOMAIN: "localhost"
-      ALLOW_REQUEST_IP: "http://localhost:5005" #YOOOO full+port (http://chokdi:5005)
-    depends_on:
-      mysql-chokdi:
-        condition: service_healthy
-    restart: always
+  # chokdi-backend:
+  #   image: rew1234/chokdi-backend:V6.0ARM
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "curl -f http://localhost:5004/healthcheck || exit 1"]      #YOOOO localhost:5004 -> full+port (http://chokdi:5004/healthcheck))
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 5
+  #   ports:
+  #     - "5004:5004"
+  #   environment:
+  #     DB_HOST: mysql-chokdi
+  #     DB_USER: root
+  #     DB_PASSWORD: 1234
+  #     DB_DATABASE: Chokdi2
+  #     DB_PORT: 3306 
+  #     SERVER_PORT: 5004
+  #     JWT_SECRET: JWT_SECRET
+  #     DOMAIN: "localhost"
+  #     ALLOW_REQUEST_IP: "http://localhost:5005" #YOOOO full+port (http://chokdi:5005)
+  #   depends_on:
+  #     mysql-chokdi:
+  #       condition: service_healthy
+  #   restart: always
 
-  chokdi-frontend:
-    image: rew1234/chokdi-frontend:V6.0ARM
-    ports:
-      - "5005:5005"
-    environment:
-      SERVER_PORT: 5005
-      SERVER_HOST: "0.0.0.0"
-      VITE_API_PORT: 5004
-      VITE_API_HOST_IP: "localhost"     #YOOOO localhost -> not full aws url (chokdi)
-      VITE_GOOGLE_CLIENT_ID: 658254688251-57jm5pokhi21fcs72ecqo0e05u1dohku.apps.googleusercontent.com
-    depends_on:
-      - chokdi-backend
-# http://ec2-3-1-103-104.ap-southeast-1.compute.amazonaws.com/
+  # chokdi-frontend:
+  #   image: rew1234/chokdi-frontend:V6.0ARM
+  #   ports:
+  #     - "5005:5005"
+  #   environment:
+  #     SERVER_PORT: 5005
+  #     SERVER_HOST: "0.0.0.0"
+  #     VITE_API_PORT: 5004
+  #     VITE_API_HOST_IP: "localhost"     #YOOOO localhost -> not full aws url (chokdi)
+  #     VITE_GOOGLE_CLIENT_ID: 658254688251-57jm5pokhi21fcs72ecqo0e05u1dohku.apps.googleusercontent.com
+  #   depends_on:
+  #     - chokdi-backend
 volumes:
   mysql_data:
   

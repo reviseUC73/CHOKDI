@@ -182,9 +182,6 @@ exports.authVerifyToken = async (req, res, next) => {
   }
 };
 
-
-
-
 exports.verifyRoleAdmin = async (req, res, next) => {
   try {
     const token = req.cookies.authToken;
@@ -200,7 +197,6 @@ exports.verifyRoleAdmin = async (req, res, next) => {
     return res.status(400).json({ message: "Error in token decode" });
   }
 };
-
 
 exports.verifiedPermissionsUser = async (req, res, next) => {
   try {

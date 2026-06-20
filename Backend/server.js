@@ -24,14 +24,14 @@ app.use(cookieParser());
 app.use("/infoIns", dataRouter); // use and set prefix path of Insurance
 app.use("/auth", authRouter);
 // Health Check Endpoint
-app.get('/healthcheck', (req, res) => {
+app.get("/healthcheck", (req, res) => {
   db.ping((err) => {
-      if (err) {
-          console.error('Database ping failed:', err);
-          res.status(500).json({ status: 'fail', db_status: 'unreachable' });
-      } else {
-          res.json({ status: 'success', db_status: 'healthy' });
-      }
+    if (err) {
+      console.error("Database ping failed:", err);
+      res.status(500).json({ status: "fail", db_status: "unreachable" });
+    } else {
+      res.json({ status: "success", db_status: "healthy" });
+    }
   });
 });
 // Listen server
