@@ -1,10 +1,10 @@
 const db = require("../Config/db.js");
 const bcrypt = require("bcryptjs");
-
 var jwt = require("jsonwebtoken");
+
 require("dotenv").config(); // Load environment variables from .env file
 
-// use when user auth by oauth / check Mail of user has db ?
+const isProduction = process.env.NODE_ENV === 'production'; // development
 
 exports.checkEmailUsed = async (req, res) => {
   const userData = req.body;
@@ -103,17 +103,15 @@ exports.register = async (req, res) => {
             res
               .status(201)
               .cookie("authToken", token, {
-                // // httpOnly: true,
-                // maxAge: threeDays,
-                // secure: false, // Ensure this is true if you are using HTTPS
-                // // sameSite: 'None',
-
-
                 domain: process.env.DOMAIN, // Set the correct domain
-                // httpOnly: true, // Recommended for security
+                httpOnly: true, // Frontend can access or read this cookie value. -> ป้องกันไม่ให้ JavaScript ฝั่ง Frontend (XSS) เข้าถึง Cookie ได้
                 maxAge: threeDays,
-                secure: false, // Set to false since you're using HTTP
-                sameSite: 'Lax', // Set the appropriate SameSite attribute
+                secure: isProduction, // true/false บังคับส่งผ่าน HTTPS/HTTP (ทั้ง Render และ Vercel เป็น HTTPS อยู่แล้ว จึงใช้ได้)
+                sameSite: isProduction ? 'None' : 'Lax',
+                // sameSite - ป้องกันการโจมตีแบบ CSRF โดยกำหนดว่า Browser จะยอมส่ง Cookie นี้ไปกับ Request ข้ามโดเมน (Cross-Site) หรือไม่ :
+                  // - 'lax'    : (ค่าเริ่มต้น) ป้องกันการยิง API ข้ามโดเมน แต่อนุโลมให้ส่ง Cookie ได้เมื่อผู้ใช้คลิกลิงก์เปลี่ยนหน้าเว็บเข้ามา
+                  // - 'strict' : ปลอดภัยสูงสุด อนุญาตให้ส่ง Cookie เฉพาะตอนที่ผู้ใช้อยู่บนโดเมนเดียวกันเป๊ะๆ เท่านั้น
+                  // - 'none'   : ยอมให้ Browser ส่ง Cookie แนบไปกับทุก Request (รวมถึง API ข้ามโดเมน) **บังคับใช้คู่กับ secure: true เสมอ**
               })
               .json({
                 affectedRows: result.affectedRows,
@@ -171,18 +169,15 @@ exports.login = async (req, res) => {
               res
                 .status(201)
                 .cookie("authToken", token, {
-                  // // httpOnly: true,
-                  // maxAge: threeDays,
-                  // secure: false, // Ensure this is true if you are using HTTPS
-                  // // sameSite: none,
-
-
-                  // domain: ".chokdi.xyz", // Set the correct domain
-                  domain: process.env.DOMAIN, // Set the correct domain
-                  // httpOnly: true, // Recommended for security
-                  maxAge: threeDays,
-                  secure: false, // Set to false since you're using HTTP
-                  sameSite: 'Lax', // Set the appropriate SameSite attribute
+                domain: process.env.DOMAIN, // Set the correct domain
+                httpOnly: true, // Frontend can access or read this cookie value. -> ป้องกันไม่ให้ JavaScript ฝั่ง Frontend (XSS) เข้าถึง Cookie ได้
+                maxAge: threeDays,
+                secure: isProduction, // true/false บังคับส่งผ่าน HTTPS/HTTP (ทั้ง Render และ Vercel เป็น HTTPS อยู่แล้ว จึงใช้ได้)
+                sameSite: isProduction ? 'None' : 'Lax',
+                // sameSite - ป้องกันการโจมตีแบบ CSRF โดยกำหนดว่า Browser จะยอมส่ง Cookie นี้ไปกับ Request ข้ามโดเมน (Cross-Site) หรือไม่ :
+                  // - 'lax'    : (ค่าเริ่มต้น) ป้องกันการยิง API ข้ามโดเมน แต่อนุโลมให้ส่ง Cookie ได้เมื่อผู้ใช้คลิกลิงก์เปลี่ยนหน้าเว็บเข้ามา
+                  // - 'strict' : ปลอดภัยสูงสุด อนุญาตให้ส่ง Cookie เฉพาะตอนที่ผู้ใช้อยู่บนโดเมนเดียวกันเป๊ะๆ เท่านั้น
+                  // - 'none'   : ยอมให้ Browser ส่ง Cookie แนบไปกับทุก Request (รวมถึง API ข้ามโดเมน) **บังคับใช้คู่กับ secure: true เสมอ**
                 })
                 .json({ message: "Login success" });
             }
@@ -234,20 +229,17 @@ exports.login_google = async (req, res) => {
               }
               res
                 .status(201)
-                .cookie("authToken", token, {
-                  // // httpOnly: true,
-                  // maxAge: threeDays,
-                  // secure: false, // Ensure this is true if you are using HTTPS
-                  // // sameSite: none,
-
-                  
-                  domain: process.env.DOMAIN, // Set the correct domain
-                  // domain: ".chokdi.xyz", // Set the correct domain
-                  // httpOnly: true, // Recommended for security
-                  maxAge: threeDays,
-                  secure: false, // Set to false since you're using HTTP
-                  sameSite: 'Lax', // Set the appropriate SameSite attribute
-                }) // set cookie; // sent to fontend and add it to header
+                .cookie("authToken", token, {                  
+                domain: process.env.DOMAIN, // Set the correct domain
+                httpOnly: true, // Frontend can access or read this cookie value. -> ป้องกันไม่ให้ JavaScript ฝั่ง Frontend (XSS) เข้าถึง Cookie ได้
+                maxAge: threeDays,
+                secure: isProduction, // true/false บังคับส่งผ่าน HTTPS/HTTP (ทั้ง Render และ Vercel เป็น HTTPS อยู่แล้ว จึงใช้ได้)
+                sameSite: isProduction ? 'None' : 'Lax',
+                // sameSite - ป้องกันการโจมตีแบบ CSRF โดยกำหนดว่า Browser จะยอมส่ง Cookie นี้ไปกับ Request ข้ามโดเมน (Cross-Site) หรือไม่ :
+                  // - 'lax'    : (ค่าเริ่มต้น) ป้องกันการยิง API ข้ามโดเมน แต่อนุโลมให้ส่ง Cookie ได้เมื่อผู้ใช้คลิกลิงก์เปลี่ยนหน้าเว็บเข้ามา
+                  // - 'strict' : ปลอดภัยสูงสุด อนุญาตให้ส่ง Cookie เฉพาะตอนที่ผู้ใช้อยู่บนโดเมนเดียวกันเป๊ะๆ เท่านั้น
+                  // - 'none'   : ยอมให้ Browser ส่ง Cookie แนบไปกับทุก Request (รวมถึง API ข้ามโดเมน) **บังคับใช้คู่กับ secure: true เสมอ**
+                })
                 .json({ message: "Login success" });
             }
           );
