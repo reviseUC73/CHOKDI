@@ -2,9 +2,14 @@ import axios from "axios";
 
 const port = import.meta.env.VITE_API_PORT;
 const host_ip = import.meta.env.VITE_API_HOST_IP;
+const prod_url = import.meta.env.VITE_API_BASE_URL;
+
+const API_URL = prod_url;        
+// const API_URL = http://${host_ip}:${port}
+// const API_URL = import.meta.env.DEV ? `${API_URL}` : prod_url;
 
 export const AllInformation = async () => {
-  const baseURL = `http://${host_ip}:${port}/infoIns/read`;
+  const baseURL = `${API_URL}/infoIns/read`;
 
   try {
     const response = await axios.get(baseURL, {
@@ -17,7 +22,7 @@ export const AllInformation = async () => {
 };
 
 export const DeleteInformation = async (CarNumber) => {
-  const baseURL = `http://${host_ip}:${port}/infoIns/delete/${CarNumber}`;
+  const baseURL = `${API_URL}/infoIns/delete/${CarNumber}`;
   try {
     const response = await axios.delete(baseURL, {
       withCredentials: true,
@@ -40,7 +45,7 @@ export const DeleteInformation = async (CarNumber) => {
 
 // Function to check for duplicate data
 export const CheckDuplicateData = async (data) => {
-  const duplicateURL = `http://${host_ip}:${port}/infoIns/check-duplicate`;
+  const duplicateURL = `${API_URL}/infoIns/check-duplicate`;
   const dataFormat = JSON.stringify(data);
 
   try {
@@ -60,7 +65,7 @@ export const CheckDuplicateData = async (data) => {
 export const CreateInformation = async (data) => {
   // Define the data to be sent in the request body
 
-  const baseURL = `http://${host_ip}:${port}/infoIns/create`;
+  const baseURL = `${API_URL}/infoIns/create`;
   var data_format = JSON.stringify(data);
 
   if (!data.VehicleNumber || !data.CustomerName || !data.InsuranceCompany) {
@@ -90,7 +95,7 @@ export const CreateInformation = async (data) => {
 };
 
 export const EditInformation = async (vehicleNumber, data) => {
-  const baseURL = `http://${host_ip}:${port}/infoIns/edit/${vehicleNumber}`;
+  const baseURL = `${API_URL}/infoIns/edit/${vehicleNumber}`;
   console.log(baseURL)
   var data_format = JSON.stringify(data);
   try {
@@ -112,7 +117,7 @@ export const EditInformation = async (vehicleNumber, data) => {
   }
 };
 export const GetDataByEmail = async (email) => {
-  const baseURL = `http://${host_ip}:${port}/infoIns/getDataByEmail/${email}`;
+  const baseURL = `${API_URL}/infoIns/getDataByEmail/${email}`;
 
   try {
     const response = await axios.get(baseURL, {
@@ -167,7 +172,7 @@ export const TokenDecodeGOOGLE = async (token) => {
 };
 
 export const login_api = async (data) => {
-  const baseURL = `http://${host_ip}:${port}/auth/login`;
+  const baseURL = `${API_URL}/auth/login`;
 
   if (!data) {
     console.log("Missing required field(s)");
@@ -195,7 +200,7 @@ export const login_api = async (data) => {
 // -> font call this api -> by sent user id password
 
 export const Login_api_google = async (data) => {
-  const baseURL = `http://${host_ip}:${port}/auth/login-google`;
+  const baseURL = `${API_URL}/auth/login-google`;
   if (!data) {
     console.log("Missing required field(s)");
     return false;
@@ -238,7 +243,7 @@ export const CreateAuthUser = async (userData) => {
 
   try {
     // Send the POST request
-    const BASE_URL = `http://${host_ip}:${port}/auth/register`;
+    const BASE_URL = `${API_URL}/auth/register`;
 
     const response = await axios.post(BASE_URL, userData, {
       headers: {
