@@ -12,17 +12,19 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import "./ProfileBar.css";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { logout_api } from "../Services/Api";
 
 export default function ProfileBar({ user_email }) {
   const navigate = useNavigate();
-  const handleLogout = () => {
-    setAnchorEl(null);
-    localStorage.removeItem("accessToken");
-    Cookies.remove("authToken", { path: '/', domain: '.'+ import.meta.env.VITE_API_HOST_IP });
-    navigate("/");
-    window.location.reload();
+  const handleLogout = async () => {
+    try {
+      await logout_api(); // เรียก API logout ที่ Backend
+    } catch (error) {
+      console.error("Logout failed", error);
+    } finally {
+      window.location.href = "/"; // Redirect ไปหน้าแรกและ reload
+    }
   };
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);

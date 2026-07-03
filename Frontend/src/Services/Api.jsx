@@ -2,19 +2,34 @@ import axios from "axios";
 
 const port = import.meta.env.VITE_API_PORT;
 const host_ip = import.meta.env.VITE_API_HOST_IP;
-const prod_url = import.meta.env.VITE_API_BASE_URL;
+const API_URL = `http://${host_ip}:${port}`
 
-const API_URL = prod_url;        
-// const API_URL = http://${host_ip}:${port}
-// const API_URL = import.meta.env.DEV ? `${API_URL}` : prod_url;
+// สร้าง Axios instance พร้อมตั้งค่าพื้นฐาน Dev
+// const API = axios.create({
+//   baseURL: API_URL,
+//   withCredentials: true, // <-- สำคัญมาก! สำหรับการส่ง cookie ข้าม domain
+// });
+
+
+// สร้าง Axios instance พร้อมตั้งค่าพื้นฐาน Production
+const API = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+  withCredentials: true, // <-- สำคัญมาก! สำหรับการส่ง cookie ข้าม domain
+});
+
+// ฟังก์ชันสำหรับเรียก API /check-auth ที่เราสร้างขึ้นใน Backend
+export const checkAuth = () => API.get("/auth/check-auth");
+
+// ฟังก์ชันสำหรับเรียก API /logout
+export const logout_api = () => API.post("/auth/logout");
 
 export const AllInformation = async () => {
-  const baseURL = `${API_URL}/infoIns/read`;
+  // เปลี่ยนจากการใช้ axios.get โดยตรง มาใช้ API instance ที่เราสร้าง
+  // ไม่ต้องกำหนด baseURL และ withCredentials: true ซ้ำอีก
+  const baseURL = `/infoIns/read`;
 
   try {
-    const response = await axios.get(baseURL, {
-      withCredentials: true,
-    });
+    const response = await API.get(baseURL);
     return response.data;
   } catch (err) {
     return null;
@@ -22,11 +37,9 @@ export const AllInformation = async () => {
 };
 
 export const DeleteInformation = async (CarNumber) => {
-  const baseURL = `${API_URL}/infoIns/delete/${CarNumber}`;
+  const baseURL = `/infoIns/delete/${CarNumber}`;
   try {
-    const response = await axios.delete(baseURL, {
-      withCredentials: true,
-    });
+    const response = await API.delete(baseURL);
     console.log("API response:", response.status, response.data);
 
     if (response.status === 204) {
@@ -45,16 +58,12 @@ export const DeleteInformation = async (CarNumber) => {
 
 // Function to check for duplicate data
 export const CheckDuplicateData = async (data) => {
-  const duplicateURL = `${API_URL}/infoIns/check-duplicate`;
+  const duplicateURL = `/infoIns/check-duplicate`;
   const dataFormat = JSON.stringify(data);
 
   try {
-    const response = await axios.post(duplicateURL, dataFormat, {
-      headers: {
-        // Overwrite Axios's automatically set Content-Type
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
+    const response = await API.post(duplicateURL, dataFormat, {
+      headers: { "Content-Type": "application/json" },
     });
     return response.data.duplicate;
   } catch (error) {
@@ -65,7 +74,7 @@ export const CheckDuplicateData = async (data) => {
 export const CreateInformation = async (data) => {
   // Define the data to be sent in the request body
 
-  const baseURL = `${API_URL}/infoIns/create`;
+  const baseURL = `/infoIns/create`;
   var data_format = JSON.stringify(data);
 
   if (!data.VehicleNumber || !data.CustomerName || !data.InsuranceCompany) {
@@ -74,13 +83,8 @@ export const CreateInformation = async (data) => {
   }
 
   try {
-    // Send the PUT request
-    const response = await axios.post(baseURL, data_format, {
-      headers: {
-        // Overwrite Axios's automatically set Content-Type
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
+    const response = await API.post(baseURL, data_format, {
+      headers: { "Content-Type": "application/json" },
     });
 
     if (response.status === 201) {
@@ -95,17 +99,12 @@ export const CreateInformation = async (data) => {
 };
 
 export const EditInformation = async (vehicleNumber, data) => {
-  const baseURL = `${API_URL}/infoIns/edit/${vehicleNumber}`;
+  const baseURL = `/infoIns/edit/${vehicleNumber}`;
   console.log(baseURL)
   var data_format = JSON.stringify(data);
   try {
-    // Send the PUT request
-    const response = await axios.post(baseURL, data_format, {
-      headers: {
-        // Overwrite Axios's automatically set Content-Type
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
+    const response = await API.post(baseURL, data_format, {
+      headers: { "Content-Type": "application/json" },
     });
     if (response.status === 201) {
       return true;
@@ -117,12 +116,10 @@ export const EditInformation = async (vehicleNumber, data) => {
   }
 };
 export const GetDataByEmail = async (email) => {
-  const baseURL = `${API_URL}/infoIns/getDataByEmail/${email}`;
+  const baseURL = `/infoIns/getDataByEmail/${email}`;
 
   try {
-    const response = await axios.get(baseURL, {
-      withCredentials: true,
-    });
+    const response = await API.get(baseURL);
     console.log("API response:", response);
     if (response.status === 200) {
       console.log("Data retrieval successful!");
@@ -172,7 +169,7 @@ export const TokenDecodeGOOGLE = async (token) => {
 };
 
 export const login_api = async (data) => {
-  const baseURL = `${API_URL}/auth/login`;
+  const baseURL = `/auth/login`;
 
   if (!data) {
     console.log("Missing required field(s)");
@@ -181,11 +178,8 @@ export const login_api = async (data) => {
   var data_format = JSON.stringify(data);
 
   try {
-    const response = await axios.post(baseURL, data_format, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
+    const response = await API.post(baseURL, data_format, {
+      headers: { "Content-Type": "application/json" },
       validateStatus: function (status) {
         return status >= 200 && status < 500; // ยอมรับ status codes ระหว่าง 200-499
       },
@@ -200,18 +194,15 @@ export const login_api = async (data) => {
 // -> font call this api -> by sent user id password
 
 export const Login_api_google = async (data) => {
-  const baseURL = `${API_URL}/auth/login-google`;
+  const baseURL = `/auth/login-google`;
   if (!data) {
     console.log("Missing required field(s)");
     return false;
   }
   var data_format = JSON.stringify(data);
   try {
-    const response = await axios.post(baseURL, data_format, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
+    const response = await API.post(baseURL, data_format, {
+      headers: { "Content-Type": "application/json" },
       validateStatus: function (status) {
         return status >= 200 && status < 500; // ยอมรับ status codes ระหว่าง 200-499
       },
@@ -243,13 +234,9 @@ export const CreateAuthUser = async (userData) => {
 
   try {
     // Send the POST request
-    const BASE_URL = `${API_URL}/auth/register`;
-
-    const response = await axios.post(BASE_URL, userData, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
+    const BASE_URL = `/auth/register`;
+    const response = await API.post(BASE_URL, userData, {
+      headers: { "Content-Type": "application/json" },
     });
 
     console.log("Response Status:", response.status);

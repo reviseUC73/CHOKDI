@@ -103,7 +103,6 @@ exports.register = async (req, res) => {
             res
               .status(201)
               .cookie("authToken", token, {
-                domain: process.env.DOMAIN, // Set the correct domain
                 httpOnly: true, // Frontend can access or read this cookie value. -> ป้องกันไม่ให้ JavaScript ฝั่ง Frontend (XSS) เข้าถึง Cookie ได้
                 maxAge: threeDays,
                 secure: isProduction, // true/false บังคับส่งผ่าน HTTPS/HTTP (ทั้ง Render และ Vercel เป็น HTTPS อยู่แล้ว จึงใช้ได้)
@@ -169,7 +168,6 @@ exports.login = async (req, res) => {
               res
                 .status(201)
                 .cookie("authToken", token, {
-                domain: process.env.DOMAIN, // Set the correct domain
                 httpOnly: true, // Frontend can access or read this cookie value. -> ป้องกันไม่ให้ JavaScript ฝั่ง Frontend (XSS) เข้าถึง Cookie ได้
                 maxAge: threeDays,
                 secure: isProduction, // true/false บังคับส่งผ่าน HTTPS/HTTP (ทั้ง Render และ Vercel เป็น HTTPS อยู่แล้ว จึงใช้ได้)
@@ -230,7 +228,6 @@ exports.login_google = async (req, res) => {
               res
                 .status(201)
                 .cookie("authToken", token, {                  
-                domain: process.env.DOMAIN, // Set the correct domain
                 httpOnly: true, // Frontend can access or read this cookie value. -> ป้องกันไม่ให้ JavaScript ฝั่ง Frontend (XSS) เข้าถึง Cookie ได้
                 maxAge: threeDays,
                 secure: isProduction, // true/false บังคับส่งผ่าน HTTPS/HTTP (ทั้ง Render และ Vercel เป็น HTTPS อยู่แล้ว จึงใช้ได้)
@@ -251,4 +248,31 @@ exports.login_google = async (req, res) => {
     console.log(err);
     res.status(500).json({ error: "Internal server error (1)" });
   }
+};
+
+exports.checkAuth = async (req, res) => {
+  // Middleware `verifyCookieToken` ได้ทำการตรวจสอบ token ใน cookie ให้แล้ว
+  // ถ้ามาถึงตรงนี้ได้ แสดงว่า token ถูกต้อง
+  // เราจะ decode token อีกครั้งเพื่อส่งข้อมูล user กลับไปให้ frontend
+  try {
+    const token = req.cookies.authToken;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    res.status(200).json({
+      Mail: decoded.Mail,
+      Role: decoded.Role,
+    });
+  } catch (err) {
+    // โดยปกติจะไม่เกิด error นี้ถ้า middleware ทำงานถูกต้อง
+    res.status(401).json({ message: "Invalid session" });
+  }
+};
+
+exports.logout = (req, res) => {
+  // ในการ logout เราจะล้าง httpOnly cookie โดยการตั้งให้ cookie หมดอายุ
+  res.cookie("authToken", "", {
+    httpOnly: true,
+    expires: new Date(0), // ตั้งวันหมดอายุเป็นอดีต
+    secure: isProduction,
+    sameSite: isProduction ? 'None' : 'Lax',
+  }).status(200).json({ message: "Logout successful" });
 };

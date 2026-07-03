@@ -4,7 +4,7 @@ const router = express.Router();
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 
-const { login, register, login_google } = require("../Controllers/auth");
+const { login, register, login_google, checkAuth, logout } = require("../Controllers/auth");
 const {
   checkMailUsed_Middle,
   checkTokenG_Middle,
@@ -18,5 +18,8 @@ router.post("/register", jsonParser, checkTokenG_Middle, checkMailUsed_Middle, r
 
 router.post("/login", jsonParser, login);
 router.post("/login-google", jsonParser, checkTokenG_Middle, login_google);
+
+router.get("/check-auth", jsonParser, checkAuth);
+router.post("/logout", jsonParser, logout);
 
 module.exports = router;

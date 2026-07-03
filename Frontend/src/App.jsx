@@ -12,6 +12,7 @@ import ProfileBar from "./compoent/ProfileBar";
 import PasswordSetPage from "./Page/PasswordSetPage"; // Load environment variables from .env file
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
+import { checkAuth } from "./Services/Api"; // สมมติว่าคุณสร้างฟังก์ชันนี้ใน Api.js
 
 const UserStateContext = createContext();
 
@@ -28,40 +29,32 @@ function App() {
 
   const [userInfo, setUserInfo] = useState(null);
   const [enableAssignPage, setEnableAssignPage] = useState(false); // login?
-  useEffect(() => {
-    try {
-      const authToken = Cookies.get("authToken");
-      if (!authToken) {
-        console.log("Cookie_token not found");
-      } else {
-        // use api login user by sent mail and google token for verify
-        const authToken = Cookies.get("authToken");
-        const decodedToken = jwt_decode(authToken);
+  const [loading, setLoading] = useState(true);
 
-        if (decodedToken) {
-          console.log(decodedToken);
-          setUserState(decodedToken);
-        } else {
-          console.log("Token expired or Token not found or Token invalid");
-          const googleToken = localStorage.getItem("accessToken");
-          if (googleToken) {
-            localStorage.removeItem("accessToken");
-          }
-          Cookies.remove("authToken");
-        }
-      }
-    } catch (e) {
-      console.log(e);
-      const authToken = Cookies.get("authToken");
-      const googleToken = localStorage.getItem("accessToken");
-      if (authToken) {
-        Cookies.remove("authToken");
-      }
-      if (googleToken) {
+  useEffect(() => {
+    const verifySession = async () => {
+      try {
+        // API call นี้จะแนบ httpOnly cookie ไปโดยอัตโนมัติ
+        // (ถ้าตั้งค่า withCredentials: true ใน axios)
+        const response = await checkAuth(); // เรียก API ที่เราสร้างขึ้นใหม่
+        setUserState(response.data);
+        console.log("Session valid:", response.data);
+      } catch (error) {
+        console.log("No active session found.");
+        setUserState(null);
+        // อาจจะเคลียร์ token ที่ไม่เกี่ยวข้องอื่นๆ ออกไป
         localStorage.removeItem("accessToken");
+      } finally {
+        setLoading(false);
       }
-    }
+    };
+
+    verifySession();
   }, []);
+
+  if (loading) {
+    return <div>Loading...</div>; // หรือแสดง Spinner สวยๆ
+  }
 
   return (
     <UserStateContext.Provider value={{ userState, setUserState }}>
