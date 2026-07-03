@@ -11,6 +11,8 @@ import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import loginImg from "../../image/login_img.png";
+import googleIcon from "../../image/google_icon.png";
 
 function LoginPage({ setUserInfo, userInfo, setEnableAssignPage }) {
   const [tokenOfUser, setTokenOfUser] = useState(null); //
@@ -119,11 +121,7 @@ function LoginPage({ setUserInfo, userInfo, setEnableAssignPage }) {
       <div>
         <div className="form-container_auth " id="login-form">
           <div id="auth_topic">CHOKDI</div>
-          <img
-            id="img_auth"
-            src="../../image/login_img.png"
-            alt="Italian Trulli"
-          />
+          <img id="img_auth" src={loginImg} alt="Chokdi Login" />
           {/* <button id="button_auth" type="submit" onClick={test}>
             Cookies
           </button> */}
@@ -165,7 +163,7 @@ function LoginPage({ setUserInfo, userInfo, setEnableAssignPage }) {
           <div id="container_auth_button">
             <div className="g-signin-button" onClick={login}>
               <div className="g-icon">
-                <img src="../../image/google_icon.png" alt="Google Icon" />
+                <img src={googleIcon} alt="Google Icon" />
               </div>
               <span className="g-text"></span>
             </div>

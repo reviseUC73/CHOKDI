@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./PasswordSetPage.css";
 import Swal from "sweetalert2";
 import { CreateAuthUser } from "../Services/Api";
+import setPassImg from "../../image/setPass_img.jpeg";
 
 function PasswordSetPage({ userInfo }) {
   const token_g = localStorage.getItem("accessToken");
@@ -85,7 +86,7 @@ function PasswordSetPage({ userInfo }) {
       <div>
         <div className="form_set_pass" id="login-form">
           <div id="reset_password_topic">Assign Information </div>
-          <img id="img_auth" src="../../image/setPass_img.jpeg" />
+          <img id="img_auth" src={setPassImg} alt="Set Password" />
           <form id="form_auth" onSubmit={onSubmit}>
             <label id="label_setInfo">Email</label>
             <input
