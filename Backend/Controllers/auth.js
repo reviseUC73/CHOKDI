@@ -106,6 +106,7 @@ exports.register = async (req, res) => {
                 httpOnly: true, // Frontend can access or read this cookie value. -> ป้องกันไม่ให้ JavaScript ฝั่ง Frontend (XSS) เข้าถึง Cookie ได้
                 maxAge: threeDays,
                 secure: isProduction, // true/false บังคับส่งผ่าน HTTPS/HTTP (ทั้ง Render และ Vercel เป็น HTTPS อยู่แล้ว จึงใช้ได้)
+                path: '/', // ทำให้ cookie ใช้ได้กับทุก path ใน domain
                 sameSite: isProduction ? 'None' : 'Lax',
                 // sameSite - ป้องกันการโจมตีแบบ CSRF โดยกำหนดว่า Browser จะยอมส่ง Cookie นี้ไปกับ Request ข้ามโดเมน (Cross-Site) หรือไม่ :
                   // - 'lax'    : (ค่าเริ่มต้น) ป้องกันการยิง API ข้ามโดเมน แต่อนุโลมให้ส่ง Cookie ได้เมื่อผู้ใช้คลิกลิงก์เปลี่ยนหน้าเว็บเข้ามา
@@ -171,6 +172,7 @@ exports.login = async (req, res) => {
                 httpOnly: true, // Frontend can access or read this cookie value. -> ป้องกันไม่ให้ JavaScript ฝั่ง Frontend (XSS) เข้าถึง Cookie ได้
                 maxAge: threeDays,
                 secure: isProduction, // true/false บังคับส่งผ่าน HTTPS/HTTP (ทั้ง Render และ Vercel เป็น HTTPS อยู่แล้ว จึงใช้ได้)
+                path: '/', // ทำให้ cookie ใช้ได้กับทุก path ใน domain
                 sameSite: isProduction ? 'None' : 'Lax',
                 // sameSite - ป้องกันการโจมตีแบบ CSRF โดยกำหนดว่า Browser จะยอมส่ง Cookie นี้ไปกับ Request ข้ามโดเมน (Cross-Site) หรือไม่ :
                   // - 'lax'    : (ค่าเริ่มต้น) ป้องกันการยิง API ข้ามโดเมน แต่อนุโลมให้ส่ง Cookie ได้เมื่อผู้ใช้คลิกลิงก์เปลี่ยนหน้าเว็บเข้ามา
@@ -231,6 +233,7 @@ exports.login_google = async (req, res) => {
                 httpOnly: true, // Frontend can access or read this cookie value. -> ป้องกันไม่ให้ JavaScript ฝั่ง Frontend (XSS) เข้าถึง Cookie ได้
                 maxAge: threeDays,
                 secure: isProduction, // true/false บังคับส่งผ่าน HTTPS/HTTP (ทั้ง Render และ Vercel เป็น HTTPS อยู่แล้ว จึงใช้ได้)
+                path: '/', // ทำให้ cookie ใช้ได้กับทุก path ใน domain
                 sameSite: isProduction ? 'None' : 'Lax',
                 // sameSite - ป้องกันการโจมตีแบบ CSRF โดยกำหนดว่า Browser จะยอมส่ง Cookie นี้ไปกับ Request ข้ามโดเมน (Cross-Site) หรือไม่ :
                   // - 'lax'    : (ค่าเริ่มต้น) ป้องกันการยิง API ข้ามโดเมน แต่อนุโลมให้ส่ง Cookie ได้เมื่อผู้ใช้คลิกลิงก์เปลี่ยนหน้าเว็บเข้ามา
@@ -272,6 +275,7 @@ exports.logout = (req, res) => {
   res.cookie("authToken", "", {
     httpOnly: true,
     expires: new Date(0), // ตั้งวันหมดอายุเป็นอดีต
+    path: '/', // สำคัญมาก: ต้องระบุ path ให้ตรงกับตอนที่ตั้งค่า cookie
     secure: isProduction,
     sameSite: isProduction ? 'None' : 'Lax',
   }).status(200).json({ message: "Logout successful" });
